@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="test-classes" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtbootstrap3-0.9.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtbootstrap3-extras-0.9.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-bundle-1.18.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-core-1.18.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dnd-3.3.4.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

@@ -1,0 +1,12 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+
+.panel_clickable{
+	cursor: pointer;
+}
+
+.panel_border{
+	border: 1px solid #BBBBBB;
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	.center {
+		text-align: center;
+	}
+	.labelError {
+  		color: #B22222;
+	}
+	
+	
+	</ui:style>
+	<g:HTMLPanel>
+				<h:Br/><h:Br/>
+				<b:Heading ui:field="authLabel" addStyleNames="{style.center}" size="H4" text=""></b:Heading>
+				<h:Br/><h:Br/>
+
+					<b:Row>
+
+						<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-5 col-lg-3 col-md-offset-5 col-md-3 col-sm-offset-4 col-sm-4 col-xs-offset-3 col-xs-6"
+							ui:field="formLogin">
+							<b:FieldSet>
+								<!--b:Legend>Log In</b:Legend-->
+								<g:Label ui:field="labelLoginError" styleName="{style.labelError}"></g:Label>
+								<b:FormGroup>
+									<!--g:FlowPanel-->
+										<b:TextBox b:id="formName" ui:field="textLoginEmail"
+											maxLength="30" placeholder="Email" addStyleNames="input-lg"/>
+										<g:Label ui:field="labelLoginEmailFormatError"
+											styleName="{style.labelError}"></g:Label>
+									<!-- /g:FlowPanel-->
+								</b:FormGroup>
+								<b:FormGroup>
+									<!--g:FlowPanel-->
+										<b:Input type="PASSWORD" b:id="formName" ui:field="textLoginPassword"
+											maxLength="30" placeholder="Password" addStyleNames="input-lg"/>
+										<g:Label ui:field="labelLoginPasswordError"
+											styleName="{style.labelError}"></g:Label>
+									<!--/g:FlowPanel-->
+								</b:FormGroup>
+								<b:FormGroup>
+										<b:Button ui:field="buttonLoginAction" type="PRIMARY" pull="RIGHT" size="LARGE">Log In</b:Button>
+								</b:FormGroup>
+
+								<b:FormGroup>
+									<b:Button type="LINK" 
+										ui:field="buttonForgotPass" size="LARGE">Forgot Password</b:Button>
+									<h:Span>|</h:Span>
+									<b:Button type="LINK" ui:field="buttonCreateAccount" size="LARGE">Register</b:Button>
+								</b:FormGroup>
+							</b:FieldSet>
+						</b:Form>
+						<b:Form type="HORIZONTAL" addStyleNames="col-lg-offset-5 col-lg-3 col-md-offset-5 col-md-3 col-sm-offset-3 col-sm-5 col-xs-offset-3 col-xs-6"
+							ui:field="formSignup">
+							<b:FieldSet>
+								<!--b:Legend>Signup Form</b:Legend-->
+								<g:Label ui:field="labelSignupError" styleName="{style.labelError}"></g:Label>
+								<b:FormGroup>
+									<g:FlowPanel>
+										<b:TextBox b:id="formName" ui:field="textSignupEmail"
+											maxLength="30" placeholder="Email" addStyleNames="input-lg"/>
+										<g:Label ui:field="labelSignupEmailFormatError"
+											styleName="{style.labelError}"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<g:FlowPanel >
+										<b:Input type="PASSWORD" b:id="formName" ui:field="textSignupPassword"
+											maxLength="30" placeholder="Password"  addStyleNames="input-lg"/>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+									<g:FlowPanel>
+										<b:Input type="PASSWORD" b:id="formName" ui:field="textConfirmPassword"
+											maxLength="30" placeholder="Confirm Password" addStyleNames="input-lg"/>
+										<g:Label ui:field="labelPasswordMatchError"
+											styleName="{style.labelError}"></g:Label>
+									</g:FlowPanel>
+								</b:FormGroup>
+								<b:FormGroup>
+										<b:Button ui:field="buttonSignupAction" type="PRIMARY" size="LARGE" pull="RIGHT">Signup</b:Button>
+								</b:FormGroup>
+								<b:Button type="LINK" ui:field="buttonAlreadyAccount" size="LARGE">Already have an
+									account</b:Button>
+							</b:FieldSet>
+						</b:Form>
+					</b:Row>
+	</g:HTMLPanel>
+</ui:UiBinder> 
