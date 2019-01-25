@@ -15,5 +15,10 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-bundle-1.18.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-core-1.18.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dnd-3.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-dbcp2-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-pool2-2.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/mail-1.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-visualization-1.0.2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

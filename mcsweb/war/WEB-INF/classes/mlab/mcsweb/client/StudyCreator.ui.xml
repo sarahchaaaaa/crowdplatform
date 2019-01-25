@@ -24,7 +24,18 @@
 			<b:TextBox placeholder="Name of the Study" maxLength="80"
 				ui:field="nameText"></b:TextBox>
 			<h:Br></h:Br>
-			<b:TextArea placeholder="Description" maxLength="400" visibleLines="5" ui:field="descriptionArea"></b:TextArea>
+			<b:TextArea placeholder="Description" maxLength="400" visibleLines="3" ui:field="descriptionArea"></b:TextArea>
+			<h:Br></h:Br>
+			<b:TextArea placeholder="Instruction" maxLength="400" visibleLines="5" ui:field="instructionArea"></b:TextArea>
+			<h:Br></h:Br>
+			<b:Row>
+				<b:Column size="MD_1 LG_1"></b:Column>
+				<b:Column size="MD_5 LG_5">
+					<b:InlineRadio name="radio1" formValue="value1" text="Public" ui:field="radioPublic" value="true"/>
+	    	    	<b:InlineRadio name="radio1" formValue="value2" text="Private" ui:field="radioPrivate"/>
+				</b:Column>
+			</b:Row>
+			<h:Br></h:Br>
 			<h:Br></h:Br>
 			<b:Row>
 				<b:Column size="MD_2">

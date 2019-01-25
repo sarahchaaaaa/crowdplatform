@@ -26,6 +26,8 @@ import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.MainPage;
 import mlab.mcsweb.client.Mcsweb;
+import mlab.mcsweb.client.StudyConfigurationService;
+import mlab.mcsweb.client.StudyConfigurationServiceAsync;
 import mlab.mcsweb.client.events.SurveyEvent;
 import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
@@ -55,7 +57,8 @@ public class SurveyEditor extends Composite {
 	private SurveyConfigView surveyConfigView;
 	private SurveyTaskEditor surveyTaskEditor;
 	
-	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
+	private final GreetingServiceAsync studyService = GWT.create(GreetingService.class);
 
 
 	private static SurveyEditorUiBinder uiBinder = GWT.create(SurveyEditorUiBinder.class);
@@ -117,7 +120,7 @@ public class SurveyEditor extends Composite {
 			finalSurveySummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
 			SurveyConfiguration surveyConfiguration = new SurveyConfiguration(finalSurveySummary, surveyTaskEditor.getAllSurveyTask());
 			
-			greetingService.saveSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
+			studyService.saveSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
 				
 				@Override
 				public void onSuccess(Response result) {
@@ -178,7 +181,7 @@ public class SurveyEditor extends Composite {
 		//Window.alert("save clicked "+ JSUtil.getUnixtime());
 		SurveyConfiguration surveyConfiguration = new SurveyConfiguration(finalSurveySummary, surveyTaskEditor.getAllSurveyTask());
 		
-		greetingService.publishSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
+		studyService.publishSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
 			@Override
 			public void onSuccess(Response result) {
 				Notify.notify("Survey will be pushed", NotifyType.SUCCESS);

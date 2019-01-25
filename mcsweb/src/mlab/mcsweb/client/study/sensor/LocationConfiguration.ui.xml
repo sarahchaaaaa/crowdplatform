@@ -11,27 +11,52 @@
 		background-color: #FFFFFA;
 	}
 	</ui:style>
-	<g:HTMLPanel>
-		<b:Row addStyleNames="panel_border" ui:field="headerRow">
-			<b:Column size="MD_1 LG_1"></b:Column>
-			<b:Column size="MD_5">
-				<b:Heading size="H4" text="Location"></b:Heading>
-			</b:Column>
-			<b:Column size="MD_1 LG_1">
-				<b:Button size="LARGE" ui:field="timeButton"></b:Button>
-			</b:Column>
-			<b:Column size="MD_1 LG_1">
-				<b:Button size="LARGE" ui:field="batteryButton"></b:Button>
-			</b:Column>
-			<b:Column size="MD_3 LG_3"></b:Column>
-			
-			<b:Column size="MD_1 LG_1">
-				<b:Button type="LINK" ui:field="collapseButton" size="LARGE">Edit</b:Button>
-			</b:Column>
-		</b:Row>
+	<b:Row addStyleNames="panel_border">
+		<g:HTMLPanel addStyleNames="panel_border">
+			<b:Row ui:field="headerRow">
+				<b:Column size="MD_1 LG_1"></b:Column>
+				<b:Column size="MD_5">
+					<b:Heading size="H5" text="Location"></b:Heading>
+					<!--g:Label>Location</g:Label -->
+				</b:Column>
+				<b:Column size="MD_2 LG_2"></b:Column>
+				<b:Column size="MD_1 LG_1">
+					<b:Popover content="Add time constraint">
+						<b:Button type="LINK" ui:field="timeButton"></b:Button>
+					</b:Popover>
+				</b:Column>
+				<b:Column size="MD_1 LG_1">
+					<b:Popover content="Add energy constraint">
+						<b:Button type="LINK" ui:field="batteryButton"></b:Button>
+					</b:Popover>
+				</b:Column>
+				<b:Column size="MD_1 LG_1">
+					<b:Popover title="data" content="x, y, z">
+						<b:Button type="LINK" ui:field="infoButton"></b:Button>
+					</b:Popover>
 
-		<g:HTMLPanel styleName="panel_border" ui:field="configDetailsPanel">
-
+				</b:Column>
+				<b:Column size="MD_1 LG_1">
+					<b:Button type="LINK" ui:field="collapseButton"></b:Button>
+				</b:Column>
+			</b:Row>
 		</g:HTMLPanel>
-	</g:HTMLPanel>
+		<g:HTMLPanel ui:field="configDetailsPanel">
+			<h:Br></h:Br>
+			<g:HTMLPanel>
+				<b:Row>
+					<b:Column size="MD_1 LG_1"></b:Column>
+					<!--b:Column size="MD_1 LG_1">
+						<b:InlineRadio name="radio1" formValue="value1" ui:field="radioLoc" value="true"/>
+					</b:Column-->
+					<b:Column size="MD_5 LG_5">
+						<b:TextBox placeholder="sampling interval (seconds)"></b:TextBox>
+					</b:Column>
+
+				</b:Row>
+			</g:HTMLPanel>
+			<h:Br></h:Br>
+			<g:HTMLPanel ui:field="constraintPanel"></g:HTMLPanel>
+		</g:HTMLPanel>
+	</b:Row>
 </ui:UiBinder> 

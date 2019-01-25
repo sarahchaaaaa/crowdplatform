@@ -3,6 +3,7 @@ package mlab.mcsweb.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -14,7 +15,7 @@ public class UserHomePage extends Composite {
 	
 	private final String userId;
 	
-	private static boolean loaded = false;
+	private boolean loaded = false;
 	
 	
 	private StudyCreator studyCreator = null;
@@ -41,6 +42,8 @@ public class UserHomePage extends Composite {
 		
 		
 		if(!loaded){
+			//Window.alert("loading user home page");
+			
 			studyCreator = new StudyCreator(this.userId, this);
 			studyListManager = new StudyListManager(this.userId);
 			
@@ -51,6 +54,9 @@ public class UserHomePage extends Composite {
 			studyListPanel.add(studyListManager);
 			
 			loaded = true;
+		}else {
+			//Window.alert("already loaded user home page, that's the problem...");
+
 		}
 	}
 

@@ -3,22 +3,12 @@ package mlab.mcsweb.client.study;
 import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.Column;
-import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.ImageAnchor;
-import org.gwtbootstrap3.client.ui.Row;
-import org.gwtbootstrap3.client.ui.constants.HeadingSize;
 import org.gwtbootstrap3.client.ui.html.Br;
-import org.gwtbootstrap3.client.ui.html.Paragraph;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Cursor;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -52,7 +42,9 @@ public class SurveyManagement extends Composite {
 	
 	private Study study;
 
-	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
+	private final GreetingServiceAsync surveyService = GWT.create(GreetingService.class);
+
 
 	private static SurveyUiBinder uiBinder = GWT.create(SurveyUiBinder.class);
 
@@ -93,14 +85,14 @@ public class SurveyManagement extends Composite {
 			leftColumn.add(new Br());
 			leftColumn.add(imageAnchor);
 			
-			greetingService.getSurveyList(study.getId(), new AsyncCallback<ArrayList<SurveySummary>>() {
+			surveyService.getSurveyList(study.getId(), new AsyncCallback<ArrayList<SurveySummary>>() {
 				
 				@Override
 				public void onSuccess(ArrayList<SurveySummary> result) {
 					// TODO Auto-generated method stub
 					for(int i=0;i<result.size();i++){
 						surveyList.add(new SurveyOverview(result.get(i)));
-						Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());
+						//Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());
 
 					}
 					
@@ -126,14 +118,14 @@ public class SurveyManagement extends Composite {
 }
 
 
-class SurveyOverview extends Composite{
-	Heading heading;
-	Paragraph paragraph;
-	HTMLPanel htmlPanel;
-	
+class SurveyOverview extends BaseOverview{
+
+	SurveySummary surveySummary;
 	
 	public SurveyOverview(final SurveySummary surveySummary) {
-
+		
+		this.surveySummary = surveySummary;
+		
 		String name = surveySummary.getName();
 		String modificationTime = surveySummary.getModificationTime();
 		String modificationTimeZone = surveySummary.getModificationTimeZone();
@@ -145,8 +137,11 @@ class SurveyOverview extends Composite{
 			// TODO: handle exception
 		}
 		String description = "Saved at  "+ lastSaveTime;
+	
+		super.setOverviewPanel(name, description);
+		addClickAction();
 		
-		
+		/*
 		heading = new Heading(HeadingSize.H3, name);
 		paragraph = new Paragraph(description);
 		htmlPanel = new HTMLPanel("");
@@ -192,7 +187,22 @@ class SurveyOverview extends Composite{
 			}
 		}, MouseOutEvent.getType());
 		
-		initWidget(htmlPanel);
+		initWidget(htmlPanel);*/
+	}
+	
+	@Override
+	void addClickAction() {
+		// TODO Auto-generated method stub
+		HTMLPanel htmlPanel = super.getOverviewPanel();
+		htmlPanel.addDomHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				Mcsweb.getEventBus().fireEvent(new SurveyEvent(new SurveyState(surveySummary, SurveySpecificState.NEW)));
+			}
+		}, ClickEvent.getType());
+
 	}
 
 }

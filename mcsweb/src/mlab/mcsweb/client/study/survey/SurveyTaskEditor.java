@@ -37,7 +37,9 @@ public class SurveyTaskEditor extends Composite {
 	private AbsolutePanel boundaryPanel = new AbsolutePanel();
 	private final VerticalPanel targetPanel = new VerticalPanel();
 
-	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
+	private final GreetingServiceAsync surveyService = GWT.create(GreetingService.class);
+
 
 	private static SurveyTaskEditorUiBinder uiBinder = GWT.create(SurveyTaskEditorUiBinder.class);
 
@@ -78,7 +80,7 @@ public class SurveyTaskEditor extends Composite {
 			});
 
 		} else{
-			greetingService.getSurveyTaskList(surveySummary.getStudyId(), surveySummary.getId(), new AsyncCallback<ArrayList<SurveyTask>>() {
+			surveyService.getSurveyTaskList(surveySummary.getStudyId(), surveySummary.getId(), new AsyncCallback<ArrayList<SurveyTask>>() {
 				
 				@Override
 				public void onSuccess(ArrayList<SurveyTask> result) {

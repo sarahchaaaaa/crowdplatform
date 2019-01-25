@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @XmlRootElement
-public class SurveyTask implements Serializable{
+public class SurveyTask implements Serializable, IsSerializable{
 	
 	/**
 	 * 

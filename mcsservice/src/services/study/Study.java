@@ -14,13 +14,17 @@ public class Study {
 	private int state;
 	private String modificationTime = "";
 	private String modificationTimeZone = "";
-	
+	private int isPublic;
+	private String instruction = "";
+	private String iconUrl = "";
+
 	public Study() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Study(long id, String name, String description, String createdBy, String creationTime,
-			String creationTimeZone, int state, String modificationTime, String modificationTimeZone) {
+			String creationTimeZone, int state, String modificationTime, String modificationTimeZone, int isPublic,
+			String instruction, String iconUrl) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -31,8 +35,10 @@ public class Study {
 		this.state = state;
 		this.modificationTime = modificationTime;
 		this.modificationTimeZone = modificationTimeZone;
+		this.isPublic = isPublic;
+		this.instruction = instruction;
+		this.iconUrl = iconUrl;
 	}
-
 
 	public long getId() {
 		return id;
@@ -68,6 +74,18 @@ public class Study {
 
 	public String getModificationTimeZone() {
 		return modificationTimeZone;
+	}
+
+	public int getIsPublic() {
+		return isPublic;
+	}
+
+	public String getInstruction() {
+		return instruction;
+	}
+
+	public String getIconUrl() {
+		return iconUrl;
 	}
 
 	public void setId(long id) {
@@ -106,6 +124,16 @@ public class Study {
 		this.modificationTimeZone = modificationTimeZone;
 	}
 
-	
-	
+	public void setIsPublic(int isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public void setInstruction(String instruction) {
+		this.instruction = instruction;
+	}
+
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
+	}
+
 }

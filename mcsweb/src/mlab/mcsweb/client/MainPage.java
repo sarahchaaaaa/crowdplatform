@@ -100,6 +100,7 @@ public class MainPage extends Composite {
 	
 	@UiHandler("logoutAnchor")
 	public void logout(ClickEvent event){
+		userHomePage = null;
 		userId = "";
 		this.application.logout();
 	}

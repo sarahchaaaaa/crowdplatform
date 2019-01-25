@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.Response;
+import mlab.mcsweb.shared.SensorSummary;
 import mlab.mcsweb.shared.Study;
 import mlab.mcsweb.shared.SurveyConfiguration;
 import mlab.mcsweb.shared.SurveySummary;
 import mlab.mcsweb.shared.SurveyTask;
+import mlab.mcsweb.shared.TaskGroupSummary;
 import mlab.mcsweb.shared.User;
 
 /**
@@ -26,10 +29,22 @@ public interface GreetingService extends RemoteService {
 	Response createStudy(Study study);
 	ArrayList<Study> getStudyList(String email);
 	
+	//participant
+	ArrayList<Participant> getAllParticipants(long studyId);
+	Response deleteParticipants(long studyId, String list);
+	
+	
+	//sensor
+	ArrayList<SensorSummary> getSensorConfigList(long studyId);
+	
 	//survey
 	Response saveSurveyConfiguration(SurveyConfiguration surveyConfiguration);
 	Response publishSurveyConfiguration(SurveyConfiguration surveyConfiguration);
 	ArrayList<SurveySummary> getSurveyList(long studyId);
 	ArrayList<SurveyTask> getSurveyTaskList(long studyId, long surveyId);
+	
+	//Task
+	ArrayList<TaskGroupSummary> getTaskGroupList(long studyId);
+	
 	
 }

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @XmlRootElement
-public class SurveyConfiguration implements Serializable{
+public class SurveyConfiguration implements Serializable, IsSerializable{
 	
 	/**
 	 * 

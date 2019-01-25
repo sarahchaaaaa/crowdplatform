@@ -16,11 +16,14 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import mlab.mcsweb.client.GreetingService;
+import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.Response;
+import mlab.mcsweb.shared.SensorSummary;
 import mlab.mcsweb.shared.Study;
 import mlab.mcsweb.shared.SurveyConfiguration;
 import mlab.mcsweb.shared.SurveySummary;
 import mlab.mcsweb.shared.SurveyTask;
+import mlab.mcsweb.shared.TaskGroupSummary;
 import mlab.mcsweb.shared.User;
 
 /**
@@ -59,6 +62,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		return genericPostMethod(url, study);
 	}
 	
+	
 	@Override
 	public Response saveSurveyConfiguration(SurveyConfiguration surveyConfig) {
 		String url = serverRoot + "/survey/save/config";
@@ -72,7 +76,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		System.out.println("publish url:"+ url + ", " + surveyConfiguration.getSurveySummary().getId());
 		return genericPostMethod(url, surveyConfiguration);
 	}
-
+	
+	
 	private Response genericPostMethod(String url, Object genericObject) {
 		long start = Calendar.getInstance().getTimeInMillis();
 		ClientConfig config = new DefaultClientConfig();
@@ -83,7 +88,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 		System.out.println("response code generic post method: " + response.getCode());
 		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff generic post call: " + (end - start));
+		System.out.println("time diff generic post call: "+ url + ", time to complete: " + (end - start) + "\n");
 
 		return response;
 
@@ -96,6 +101,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		ArrayList<Study> studyList = new Gson().fromJson(response, new TypeToken<ArrayList<Study>>(){}.getType());
 		return studyList;
 	}
+	
+	
+	//sensor
+	@Override
+	public ArrayList<SensorSummary> getSensorConfigList(long studyId) {
+		String url = serverRoot + "/study/"+ studyId +"/sensorconfig/list";
+		String response = genericGetMethod(url);
+		ArrayList<SensorSummary> sensorConfigList = new Gson().fromJson(response, new TypeToken<ArrayList<SensorSummary>>(){}.getType());
+		return sensorConfigList;
+	}
+	
+	
+	//survey
 	
 	@Override
 	public ArrayList<SurveySummary> getSurveyList(long studyId) {
@@ -114,6 +132,30 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		return taskList;
 	}
 	
+	@Override
+	public ArrayList<TaskGroupSummary> getTaskGroupList(long studyId) {
+		String url = serverRoot + "/taskgroup/list/" + studyId;
+		String response = genericGetMethod(url);
+		ArrayList<TaskGroupSummary> taskGroupList = new Gson().fromJson(response, new TypeToken<ArrayList<TaskGroupSummary>>(){}.getType());
+		return taskGroupList;
+	}
+	
+	
+	@Override
+	public ArrayList<Participant> getAllParticipants(long studyId) {
+		String url = serverRoot + "/study/"+ studyId +"/participant/all/list";
+		String response = genericGetMethod(url);
+		ArrayList<Participant> list = new Gson().fromJson(response, new TypeToken<ArrayList<Participant>>(){}.getType());
+		return list;
+	}
+	
+	@Override
+	public Response deleteParticipants(long studyId, String list) {
+		String url = serverRoot + "/study/"+ studyId +"/participant/delete/" + list;
+		String result = genericGetMethod(url);
+		Response response = new Gson().fromJson(result, Response.class);
+		return response;
+	}
 	
 	private String genericGetMethod(String url){
 		long start = Calendar.getInstance().getTimeInMillis();
@@ -125,7 +167,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		String response = service.accept(MediaType.APPLICATION_JSON).get(String.class);
 		System.out.println(url+ ",  response :"+response);
 		long end = Calendar.getInstance().getTimeInMillis();
-		System.out.println("time diff generic post call: " + (end - start));
+		System.out.println("time diff generic get call: "+ url + ", time to execute:" + (end - start) + "\n");
 		return response;
 
 	}

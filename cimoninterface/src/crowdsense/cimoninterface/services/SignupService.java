@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -137,6 +140,53 @@ public class SignupService {
 				}
 
 		}
+		return response;
+	}
+	
+	@POST
+	@Path("/push_register")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response registerPushToken(final PushRegistry registry){
+		Response response = new Response();
+		if(ServiceUtil.isEmptyString(registry.getUserEmail()) || ServiceUtil.isEmptyString(registry.getDeviceUuid()) || ServiceUtil.isEmptyString(registry.getPuskToken())){
+			response.setMessage("Invalid Input");
+			return response;
+		}
+		try {
+			connection = DatabaseUtil.connectToDatabase();
+			
+			//System.out.println("");
+
+			String query = "insert into mcs.push_register (participant_email, device_uuid, push_token, last_register_time, last_register_time_zone, active)"
+					+ " values (?,?,?,?,?, 1) on duplicate key update push_token=?, last_register_time=?, last_register_time_zone=?, active=1";
+			
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, registry.getUserEmail());
+			preparedStatement.setString(2, registry.getDeviceUuid());
+			preparedStatement.setString(3, registry.getPuskToken());
+			preparedStatement.setString(4, registry.getLastRegisterTime());
+			preparedStatement.setString(5, registry.getLastRegisterTimeZone());
+			
+			//on duplicate
+			preparedStatement.setString(6, registry.getPuskToken());
+			preparedStatement.setString(7, registry.getLastRegisterTime());
+			preparedStatement.setString(8, registry.getLastRegisterTimeZone());
+			
+			preparedStatement.execute();
+			response.setCode(0);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+		
 		return response;
 	}
 

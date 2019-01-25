@@ -59,7 +59,7 @@ public class StudyListManager extends Composite {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+				Window.alert("fail to get study " + caught.getMessage());
 			}
 		});
 	}
@@ -119,7 +119,6 @@ public class StudyListManager extends Composite {
 	}
 	
 	void populateStudies(ArrayList<Study> studyList){
-		
 		
 		for(int i=0;i<studyList.size();i++){
 			

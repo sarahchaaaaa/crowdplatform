@@ -3,12 +3,15 @@ crowdsense/cimoninterface/services/TestService.class
 crowdsense/cimoninterface/services/SignupService.class
 crowdsense/cimoninterface/services/Study.class
 crowdsense/cimoninterface/services/SurveyTask.class
+crowdsense/cimoninterface/util/FileUpload.class
 crowdsense/cimoninterface/util/Response.class
 crowdsense/cimoninterface/services/StudyService.class
 crowdsense/cimoninterface/services/SurveySummary.class
 crowdsense/cimoninterface/services/SurveyResponse.class
 crowdsense/cimoninterface/util/ServiceUtil.class
 crowdsense/cimoninterface/services/DataService.class
+crowdsense/cimoninterface/services/PushRegistry.class
+crowdsense/cimoninterface/util/CORSFilter.class
 crowdsense/cimoninterface/util/MyConnectionPool.class
 crowdsense/cimoninterface/util/ServiceUtil$1.class
 crowdsense/cimoninterface/util/DatabaseUtil.class

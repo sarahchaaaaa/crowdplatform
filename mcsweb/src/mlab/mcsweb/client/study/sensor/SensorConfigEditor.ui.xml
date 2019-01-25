@@ -21,10 +21,54 @@
 		<b:Row>
 			<b:Column size="MD_1 LG_1"></b:Column>
 			<b:Column size="MD_1 LG_1">
-				<b:CheckBox></b:CheckBox>
+				<b:CheckBox ui:field="locationCheckBox"></b:CheckBox>
 			</b:Column>
 			<b:Column size="MD_9 LG_9">
 				<g:HTMLPanel ui:field="locationConfigPanel"></g:HTMLPanel>
+			</b:Column>
+			<b:Column size="MD_1 LG_1"></b:Column>
+		</b:Row>
+		<h:Br></h:Br>
+		<b:Row>
+			<b:Column size="MD_1 LG_1"></b:Column>
+			<b:Column size="MD_1 LG_1">
+				<b:CheckBox></b:CheckBox>
+			</b:Column>
+			<b:Column size="MD_9 LG_9">
+				<g:HTMLPanel ui:field="accelConfigPanel"></g:HTMLPanel>
+			</b:Column>
+			<b:Column size="MD_1 LG_1"></b:Column>
+		</b:Row>
+		<h:Br></h:Br>
+		<b:Row>
+			<b:Column size="MD_1 LG_1"></b:Column>
+			<b:Column size="MD_1 LG_1">
+				<b:CheckBox></b:CheckBox>
+			</b:Column>
+			<b:Column size="MD_9 LG_9">
+				<g:HTMLPanel ui:field="gyroConfigPanel"></g:HTMLPanel>
+			</b:Column>
+			<b:Column size="MD_1 LG_1"></b:Column>
+		</b:Row>
+		<h:Br></h:Br>
+		<b:Row>
+			<b:Column size="MD_1 LG_1"></b:Column>
+			<b:Column size="MD_1 LG_1">
+				<b:CheckBox></b:CheckBox>
+			</b:Column>
+			<b:Column size="MD_9 LG_9">
+				<g:HTMLPanel ui:field="magnetConfigPanel"></g:HTMLPanel>
+			</b:Column>
+			<b:Column size="MD_1 LG_1"></b:Column>
+		</b:Row>
+		<h:Br></h:Br>
+		<b:Row>
+			<b:Column size="MD_1 LG_1"></b:Column>
+			<b:Column size="MD_1 LG_1">
+				<b:CheckBox></b:CheckBox>
+			</b:Column>
+			<b:Column size="MD_9 LG_9">
+				<g:HTMLPanel ui:field="deviceMotionConfigPanel"></g:HTMLPanel>
 			</b:Column>
 			<b:Column size="MD_1 LG_1"></b:Column>
 		</b:Row>

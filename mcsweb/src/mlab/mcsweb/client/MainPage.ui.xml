@@ -10,7 +10,7 @@
 	}
 	
 	.navbar-custom {
-    	background-color: #D4F1EC;
+    	background-color: #0D1F36;
 	}
 	
 	.navbar-center{
@@ -24,13 +24,13 @@
 	<g:HTMLPanel>
 		<b:Navbar addStyleNames="{style.navbar-custom}">
 			<b:NavbarHeader addStyleNames="col-lg-offset-1 col-md-offset-1">
-				<b:NavbarBrand>MLab CrowdSensing Platform</b:NavbarBrand>
+				<b:NavbarBrand color="white">Koios</b:NavbarBrand>
 				<b:NavbarCollapseButton dataTarget="#navbar-collapse"/>
 			</b:NavbarHeader>
 			<b:NavbarCollapse b:id="navbar-collapse">
 				<b:NavbarNav pull="RIGHT">
 					<!--b:AnchorListItem active="true" ui:field="globalHomeAnchor">Home</b:AnchorListItem-->
-					<b:AnchorListItem ui:field="logoutAnchor" >Logout</b:AnchorListItem>
+					<b:AnchorListItem ui:field="logoutAnchor">Logout</b:AnchorListItem>
 				</b:NavbarNav>
 			</b:NavbarCollapse>
 		</b:Navbar>

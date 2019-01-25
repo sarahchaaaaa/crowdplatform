@@ -30,14 +30,14 @@
 				</b:Row>
 				<h:Br></h:Br>
 				<h:Br></h:Br>
-				<b:Heading size="H4" text="Question / Task" ui:field="taskEditorHeading"></b:Heading>
+				<b:Heading size="H4" text="Question" ui:field="taskEditorHeading"></b:Heading>
 				<b:Row>
 					<g:HTMLPanel ui:field="taskPanel"></g:HTMLPanel>
 				</b:Row>
 			</b:Column>
 			<b:Column size="MD_3" ui:field="rightPanel">
 				<g:VerticalPanel addStyleNames="panel_border">
-					<b:Button text="Add Question or Task" size="LARGE" type="PRIMARY" ui:field="addTaskButton"></b:Button>					
+					<b:Button text="Add Question" size="LARGE" type="PRIMARY" ui:field="addTaskButton"></b:Button>					
 				</g:VerticalPanel>
 			</b:Column>
 		

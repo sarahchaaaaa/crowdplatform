@@ -32,24 +32,30 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import mlab.mcsweb.shared.Response;
 
 public class VerifyEmailImpl extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static String serverRoot = "";
-	static String signupPath = "";
+	//static String signupPath = "";
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		super.init(config);
 		serverRoot = config.getServletContext().getInitParameter("serverRoot");
-		signupPath = config.getServletContext().getInitParameter("signupPath");
+		//signupPath = config.getServletContext().getInitParameter("signupPath");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String baseUrl = "https://speechmarker.com/hvr/";
+		String baseUrl = "https://koiosplatform.com/mcsweb/";
+		System.out.println("base url:"+ baseUrl);
 		try {
 //			String toWrite = "";
 			Response response = verifyEmail(req);
+			System.out.println("response from verify email "+ response.getMessage());
 //			boolean forward = false;
 			resp.setContentType("text/html");
 			if (response.getCode() == 0) {
@@ -83,8 +89,9 @@ public class VerifyEmailImpl extends HttpServlet {
 
 		ClientConfig config = new DefaultClientConfig();
 		Client client = Client.create(config);
+		System.out.println("token in the param "+ token);
 		String url = serverRoot
-				+ signupPath + "verification/" + token;
+				+ "/auth/verification/" + token;
 		System.out.println("verification url:" + url);
 
 		WebResource service = client.resource(url);

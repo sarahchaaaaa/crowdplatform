@@ -42,7 +42,8 @@ public class ServiceUtil {
 	}
 	
 	public static String getEmailVerificationRoot(){
-		return "http://129.74.247.110/mcsweb/";
+		//return "http://129.74.247.110/mcsweb/";
+		return "https://koiosplatform.com/mcsweb/";
 	}
 
 	

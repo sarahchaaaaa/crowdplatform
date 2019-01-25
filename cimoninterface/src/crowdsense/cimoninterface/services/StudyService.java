@@ -28,19 +28,22 @@ public class StudyService {
 	private PreparedStatement preparedStatement = null;
 
 	@GET
-	@Path("list")
+	@Path("list/enrolled/active")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Study> getStudyList(@QueryParam("uuid") String uuid, @QueryParam("email") String email) {
+	public ArrayList<Study> getStudyList(@QueryParam("email") String email) {
 		ArrayList<Study> studyList = new ArrayList<>();
 
-		if (ServiceUtil.isEmptyString(uuid) || ServiceUtil.isEmptyString(email)) {
+		if (ServiceUtil.isEmptyString(email)) {
 			return studyList;
 		}
 
 		try {
 			connection = DatabaseUtil.connectToDatabase();
-			String query = "select * from mcs.study where state=1";
+			String query = "select * from mcs.study where state=1 and is_public=1 and id in "
+					+ " (select study_id from mcs.enrollment where participant_email=? and state=1)";
+			
 			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, email);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -51,12 +54,16 @@ public class StudyService {
 				String description = resultSet.getString("description");
 				int state = resultSet.getInt("state");
 				String modificationTime = resultSet.getString("modification_time");
+				String instruction = resultSet.getString("instruction");
+				String iconUrl = resultSet.getString("icon_url");
 
 				study.setId(id);
 				study.setName(name);
 				study.setDescription(description);
 				study.setState(state);
 				study.setModificationTime(modificationTime);
+				study.setInstruction(instruction);
+				study.setIconUrl(iconUrl);
 
 				studyList.add(study);
 			}
@@ -74,6 +81,162 @@ public class StudyService {
 
 	}
 
+
+	@GET
+	@Path("list/open/public")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Study> getAvailablePublicStudyList(@QueryParam("email") String email) {
+		ArrayList<Study> studyList = new ArrayList<>();
+
+		if (ServiceUtil.isEmptyString(email)) {
+			return studyList;
+		}
+
+		try {
+			connection = DatabaseUtil.connectToDatabase();
+			String query = "select * from mcs.study where state=1 and is_public=1 and id not in "
+					+ " (select study_id from mcs.enrollment where participant_email=? and state=1)";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, email);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				Study study = new Study();
+
+				long id = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				int state = resultSet.getInt("state");
+				String modificationTime = resultSet.getString("modification_time");
+				String instruction = resultSet.getString("instruction");
+				String iconUrl = resultSet.getString("icon_url");
+
+				study.setId(id);
+				study.setName(name);
+				study.setDescription(description);
+				study.setState(state);
+				study.setModificationTime(modificationTime);
+				study.setInstruction(instruction);
+				study.setIconUrl(iconUrl);
+
+
+				studyList.add(study);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return studyList;
+
+	}
+
+	@GET
+	@Path("list/open/private")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Study> getAvailablePrivateStudyList(@QueryParam("email") String email) {
+		ArrayList<Study> studyList = new ArrayList<>();
+
+		if (ServiceUtil.isEmptyString(email)) {
+			return studyList;
+		}
+
+		try {
+			connection = DatabaseUtil.connectToDatabase();
+			String query = "select * from mcs.study where state=1 and is_public=0 and id not in "
+					+ " (select study_id from mcs.enrollment where participant_email=? and state=1)";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, email);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				Study study = new Study();
+
+				long id = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				int state = resultSet.getInt("state");
+				String modificationTime = resultSet.getString("modification_time");
+				String instruction = resultSet.getString("instruction");
+				String iconUrl = resultSet.getString("icon_url");
+
+				study.setId(id);
+				study.setName(name);
+				study.setDescription(description);
+				study.setState(state);
+				study.setModificationTime(modificationTime);
+				study.setInstruction(instruction);
+				study.setIconUrl(iconUrl);
+
+				studyList.add(study);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return studyList;
+
+	}
+	
+	
+	@GET
+	@Path("enroll")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response verifyToken(@QueryParam("id") int studyId, @QueryParam("uuid") String uuid, @QueryParam("email") String email, @QueryParam("jointime") String joinTime, @QueryParam("jointimezone") String joinTimeZone){
+		Response response = new Response();
+		
+		//TODO: update later
+		//if study id exist, type of study (public or private), is email allowed to join, then join
+		//for the time being, just insert into enrollment table 
+		
+		
+		try {
+			connection = DatabaseUtil.connectToDatabase();
+			
+			
+
+			String query = "insert into mcs.enrollment (study_id, participant_email, device_uuid, join_time, join_time_zone) values "
+					+ " (?,?,?,?,?)";
+
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, studyId);
+			preparedStatement.setString(2, email);
+			preparedStatement.setString(3, uuid);
+			preparedStatement.setString(4, joinTime);
+			preparedStatement.setString(5, joinTimeZone);
+
+			preparedStatement.execute();
+			response.setCode(0);
+			
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			response.setCode(-9);
+			response.setMessage("Service not available");
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return response;
+	}
+
+	
+	
 	@GET
 	@Path("{studyId}/surveys/published")
 	@Produces(MediaType.APPLICATION_JSON)

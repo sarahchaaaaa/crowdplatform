@@ -4,11 +4,17 @@ services/auth/AuthService.class
 commons/DatabaseUtil.class
 services/study/SurveyTask.class
 commons/MyConnectionPool.class
+services/study/LabelSummary.class
+services/study/LabelManagementService.class
 services/auth/User.class
+services/study/SensorSummary.class
 commons/Response.class
+services/study/ParticipantManagementService.class
 services/study/SurveyManagementService.class
 services/study/SurveySummary.class
+services/study/Participant.class
 commons/ServiceUtil$1.class
 services/study/StudyManagementService.class
 services/study/Study.class
 services/auth/TestService.class
+services/study/SensorManagementService.class

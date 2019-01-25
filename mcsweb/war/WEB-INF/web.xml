@@ -23,6 +23,28 @@
     <url-pattern>/mcsweb/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>studyconfig</servlet-name>
+    <servlet-class>mlab.mcsweb.server.StudyConfigServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>studyconfig</servlet-name>
+    <url-pattern>/mcsweb/study</url-pattern>
+  </servlet-mapping>
+  
+  	<servlet>
+		<servlet-name>verifyEmail</servlet-name>
+		<servlet-class>mlab.mcsweb.server.VerifyEmailImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>verifyEmail</servlet-name>
+		<url-pattern>/verifyemail</url-pattern>
+	</servlet-mapping>
+  
+  
+  
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Mcsweb.jsp</welcome-file>

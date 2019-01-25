@@ -1,3 +1,3 @@
 # Module mcsweb
 # RPC service class, partial path of RPC policy file
-mlab.mcsweb.client.GreetingService, 12D85123EF4AA9E876B7477B535529FC.gwt.rpc
+mlab.mcsweb.client.GreetingService, B6AD1538D1D856ABE9E7CA9E41A273B2.gwt.rpc

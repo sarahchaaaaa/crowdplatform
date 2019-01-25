@@ -5,6 +5,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -59,6 +60,10 @@ public class Mcsweb implements EntryPoint {
 		
 	}
 	
+	protected boolean isLoggedIn() {
+		return loggedIn;
+	}
+	
 	public static EventBus getEventBus() {
 		return eventBus;
 	}
@@ -66,7 +71,8 @@ public class Mcsweb implements EntryPoint {
 	protected void logout() {
 		RootPanel.get().clear();
 		loggedIn = false;
-		onModuleLoad();
+		//onModuleLoad();
+		Window.Location.replace("https://koiosplatform.com/");
 	}
 	
 	public native void getBrowser()/*-{

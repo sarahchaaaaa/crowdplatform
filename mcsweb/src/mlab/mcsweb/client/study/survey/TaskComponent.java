@@ -85,12 +85,12 @@ public class TaskComponent extends Composite {
 							dynamicPanel.add(new MultipleChoiceView(surveyTask.getPossibleInput(), false));							
 						}else if(option.equals("date")){
 							optionSelect.setValue("date", true);
-						}else if(option.startsWith("mt0")){
+						}/*else if(option.startsWith("mt0")){
 							
 							optionSelect.setValue("motortask", false);
 							questionBox.setVisible(false);
 							dynamicPanel.add(new MotorTaskView(surveyTask.getType()));
-						}
+						}*/
 						optionSelect.render();
 					}
 				});
@@ -132,11 +132,11 @@ public class TaskComponent extends Composite {
 			}
 		}else if(selection.equals("date")){
 			type = "date";
-		}else if(selection.equals("motortask")){
+		}/*else if(selection.equals("motortask")){
 			if(dynamicPanel.getWidgetCount()>0 && dynamicPanel.getWidget(0) instanceof MotorTaskView){
 				type = ((MotorTaskView)dynamicPanel.getWidget(0)).getMotorTaskCode();
 			}			
-		}
+		}*/
 		surveyTask.setType(type);
 		
 		taskList.add(surveyTask);
@@ -163,10 +163,10 @@ public class TaskComponent extends Composite {
 			dynamicPanel.add(new MultipleChoiceView());
 		}else if(value.contains("date")){
 			dynamicPanel.add(new DateView());
-		}else if(value.contains("motortask")){
+		}/*else if(value.contains("motortask")){
 			questionBox.setVisible(false);
 			dynamicPanel.add(new MotorTaskView());
-		}
+		}*/
 
 	}
 	
@@ -186,9 +186,9 @@ public class TaskComponent extends Composite {
 			Widget widget = dynamicPanel.getWidget(0);
 			if(widget instanceof MultipleChoiceView){
 				errorFromView = ((MultipleChoiceView)widget).getError();
-			}else if (widget instanceof MotorTaskView) {
+			}/*else if (widget instanceof MotorTaskView) {
 				errorFromView = ((MotorTaskView) widget).getError();
-			}
+			}*/
 			if(Util.isEmptyString(errorFromView)){
 				//do nothing
 			}else {

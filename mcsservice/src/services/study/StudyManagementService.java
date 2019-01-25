@@ -45,13 +45,17 @@ public class StudyManagementService {
 				response.setCode(1);
 				response.setMessage("Name already exist");
 			} else {
-				query = "insert into mcs.study (name, description, created_by, creation_time, creation_time_zone) values (?,?,?,?,?)";
+				query = "insert into mcs.study (name, description, created_by, creation_time, creation_time_zone, is_public, instruction, icon_url) "
+						+ " values (?,?,?,?,?,?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, study.getName());
 				preparedStatement.setString(2, study.getDescription());
 				preparedStatement.setString(3, study.getCreatedBy());
 				preparedStatement.setString(4, study.getCreationTime());
 				preparedStatement.setString(5, study.getCreationTimeZone());
+				preparedStatement.setInt(6, study.getIsPublic());
+				preparedStatement.setString(7, study.getInstruction());
+				preparedStatement.setString(8, study.getIconUrl());
 				
 				preparedStatement.execute();
 				
@@ -121,6 +125,14 @@ public class StudyManagementService {
 		return studyList;
 		
 		
+	}
+	
+	@Path("{studyId}/participant")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTestMessage(@PathParam("studyId") String studyId) {
+		System.out.println("receive the path test "+ studyId);
+		return new Response(0, "Test Message");
 	}
 	
 

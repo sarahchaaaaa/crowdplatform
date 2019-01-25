@@ -1,6 +1,7 @@
 package mlab.mcsweb.client;
 
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.InlineRadio;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
 
@@ -9,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -26,13 +28,16 @@ public class StudyCreator extends Composite {
 	TextBox nameText;
 	
 	@UiField
-	TextArea descriptionArea;
+	TextArea descriptionArea, instructionArea;
 	
 	@UiField
 	HTMLPanel studyFormPanel;
 	
 	@UiField
 	Label serviceErrorLabel;
+	
+	@UiField
+	InlineRadio radioPublic, radioPrivate;
 	
 	private String userId;
 	private UserHomePage userHomePage;
@@ -87,10 +92,12 @@ public class StudyCreator extends Composite {
 		if(validateStudyForm()){
 			final Study study = new Study();
 			study.setName(nameText.getText().trim());
-			study.setDescription(descriptionArea.getText().trim());
+			study.setDescription(descriptionArea.getText());
 			study.setCreationTime(JSUtil.getUnixtime());
 			study.setCreationTimeZone(JSUtil.getTimezoneOffset());
 			study.setCreatedBy(this.userId);
+			study.setInstruction(instructionArea.getText());
+			study.setIsPublic(getStudyType());
 			greetingService.createStudy(study, new AsyncCallback<Response>() {
 				
 				@Override
@@ -113,6 +120,7 @@ public class StudyCreator extends Composite {
 				@Override
 				public void onFailure(Throwable caught) {
 					// TODO Auto-generated method stub
+					Window.alert("error cause "+ caught.getMessage());
 					serviceErrorLabel.setVisible(true);
 					serviceErrorLabel.setText("Service not available, please try later.");
 					
@@ -130,6 +138,15 @@ public class StudyCreator extends Composite {
 		newStudyButton.setVisible(false);
 		studyFormPanel.setVisible(true);
 		serviceErrorLabel.setVisible(false);
+	}
+	
+	private int getStudyType(){
+		//0 - private
+		//1 - public
+		if(radioPublic.getValue()){
+			return 1;
+		}
+		return 0;
 	}
 
 }

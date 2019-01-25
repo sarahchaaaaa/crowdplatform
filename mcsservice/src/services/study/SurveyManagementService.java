@@ -120,6 +120,17 @@ public class SurveyManagementService {
 					preparedStatement.execute();
 				}
 			}
+			
+			try {
+				query = "update mcs.study set modification_time = ? where id=?";
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, survey.getModificationTime());
+				preparedStatement.setString(2, survey.getStudyId()+"");
+				
+				preparedStatement.execute();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 
 			response.setCode(0);
 		} catch (Exception e) {

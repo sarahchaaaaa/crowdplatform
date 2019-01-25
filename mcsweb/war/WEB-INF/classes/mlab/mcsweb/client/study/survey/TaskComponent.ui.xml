@@ -37,9 +37,9 @@
 						<ex:OptGroup>
 							<ex:Option text="Date" value="date"></ex:Option>
 						</ex:OptGroup>
-						<ex:OptGroup>
+						<!--ex:OptGroup>
 							<ex:Option text="Motor Task" value="motortask"></ex:Option>
-						</ex:OptGroup>
+						</ex:OptGroup-->
 					</ex:Select>
 				</b:Column>
 			</b:Row>
