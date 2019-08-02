@@ -14,10 +14,14 @@
 	<g:HTMLPanel>
 		<!--b:Container fluid="true"-->
 			<b:Column size="MD_3" >
-				<g:HTMLPanel ui:field="leftColumn">
-				</g:HTMLPanel>
+				<!--g:HTMLPanel ui:field="leftColumn">
+				</g:HTMLPanel-->
 				<!--g:Label>Create New Survey</g:Label-->
 				<!--b:ImageAnchor url="images/create_new.png" responsive="true" addStyleNames="{style.fit_image}" ></b:ImageAnchor-->
+				<h:Br></h:Br>
+				<h:Br></h:Br>
+				<b:Button size="LARGE" text="Create New Survey" ui:field="buttonCreate"></b:Button>
+				
 			</b:Column>
 
 			<b:Column size="MD_9" ui:field="listColumn">

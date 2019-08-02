@@ -11,6 +11,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import mlab.mcsweb.client.events.SensorEvent;
+import mlab.mcsweb.client.events.SensorEventHandler;
+import mlab.mcsweb.client.events.SensorState.SensorSpecificState;
 import mlab.mcsweb.client.events.StudyEvent;
 import mlab.mcsweb.client.events.StudyEventHandler;
 import mlab.mcsweb.client.events.StudyState.StudySpecificState;
@@ -18,7 +21,9 @@ import mlab.mcsweb.client.events.SurveyEvent;
 import mlab.mcsweb.client.events.SurveyEventHandler;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
 import mlab.mcsweb.client.study.StudyDetails;
+import mlab.mcsweb.client.study.sensor.SensorEditor;
 import mlab.mcsweb.client.study.survey.SurveyEditor;
+import mlab.mcsweb.shared.SensorSummary;
 import mlab.mcsweb.shared.Study;
 import mlab.mcsweb.shared.SurveySummary;
 
@@ -60,6 +65,21 @@ public class MainPage extends Composite {
 			}
 		});
 		
+		Mcsweb.getEventBus().addHandler(SensorEvent.TYPE, new SensorEventHandler() {
+			
+			@Override
+			public void actionAfterSensorEvent(SensorEvent sensorEvent) {
+				// TODO Auto-generated method stub
+				if(sensorEvent.getState().getSensorSpecificState() == SensorSpecificState.NEW){
+					loadSensorEditor(sensorEvent.getState().getSensorSummary());
+				}else if(sensorEvent.getState().getSensorSpecificState() == SensorSpecificState.EXIT){
+					Study study = new Study();
+					study.setId(sensorEvent.getState().getSensorSummary().getStudyId());
+					loadStudyDetails(study);					
+				}
+			}
+		});
+		
 		
 		Mcsweb.getEventBus().addHandler(SurveyEvent.TYPE, new SurveyEventHandler() {
 			
@@ -92,6 +112,10 @@ public class MainPage extends Composite {
 		mainPageContentPanel.add(new StudyDetails(study));
 	}
 	
+	protected void loadSensorEditor(SensorSummary sensorSummary) {
+		mainPageContentPanel.clear();
+		mainPageContentPanel.add(new SensorEditor(sensorSummary));
+	}
 	
 	protected void loadSurveyEditor(SurveySummary surveySummary) {
 		mainPageContentPanel.clear();

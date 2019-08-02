@@ -93,7 +93,9 @@ public class StudyManagementService {
 			try {
 				
 				connection = DatabaseUtil.connectToDatabase();
-				String query = "select * from mcs.study where created_by='"+ email +"'  order by creation_time desc";
+				String query = "select * from mcs.study where created_by='"+ email 
+						+ "' or id in (select study_id from mcs.collaborators where collaborator_email='"+ email + "')" 
+						+" order by creation_time desc";
 				preparedStatement = connection.prepareStatement(query);
 				ResultSet resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
@@ -102,12 +104,13 @@ public class StudyManagementService {
 						int id = resultSet.getInt("id");
 						String name = resultSet.getString("name");
 						String description = resultSet.getString("description");
+						String createdBy = resultSet.getString("created_by");
 						int state = resultSet.getInt("state");
 						
 						study.setId(id);
 						study.setName(name);
 						study.setDescription(description);
-						study.setCreatedBy(email);
+						study.setCreatedBy(createdBy);
 						study.setState(state);
 						
 						studyList.add(study);

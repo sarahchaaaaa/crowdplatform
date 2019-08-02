@@ -1,21 +1,31 @@
 package mlab.mcsweb.client.study.sensor;
 
-import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Row;
-import org.gwtbootstrap3.client.ui.constants.IconType;
+import org.gwtbootstrap3.client.ui.TextBox;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import mlab.mcsweb.shared.SensorAction;
+
 public class AccelerometerConfiguration extends Composite {
+	
 	@UiField
-	Button collapseButton, timeButton, batteryButton, infoButton;
+	TextBox frequencyText;
+	
+	@UiField
+	Label errorLabel;
+
+	//@UiField
+	//Button collapseButton, infoButton;
+	
+	//@UiField
+	//Button timeButton, batteryButton;
 	
 	@UiField
 	Row headerRow;
@@ -30,37 +40,72 @@ public class AccelerometerConfiguration extends Composite {
 	interface AccelerometerConfigurationUiBinder extends UiBinder<Widget, AccelerometerConfiguration> {
 	}
 
-	public AccelerometerConfiguration() {
+	public AccelerometerConfiguration(SensorAction sensorAction) {
 		initWidget(uiBinder.createAndBindUi(this));
+		if(sensorAction != null){
+			frequencyText.setText(String.valueOf(sensorAction.getFrequency()));
+		}
+
 		
-		timeButton.setIcon(IconType.CLOCK_O);
-		batteryButton.setIcon(IconType.BATTERY_3);
-		infoButton.setIcon(IconType.INFO);
-		//collapse();
-		expand();
+		//timeButton.setIcon(IconType.CLOCK_O);
+		//batteryButton.setIcon(IconType.BATTERY_3);
+		//infoButton.setIcon(IconType.INFO);
+		//expand();
+	}
+	boolean isValid(boolean checked){
+		if(checked){
+			try {
+				float frequency = Float.parseFloat(frequencyText.getText().trim());
+				if(frequency <= 0){
+					errorLabel.setText("Must be greater than 0");
+				}else if(frequency > 100){
+					errorLabel.setText("Must be less than 100");
+				}else{
+					errorLabel.setText("");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				errorLabel.setText("Invalid value");
+			}
+			if(errorLabel.getText().isEmpty()){
+				return true;
+			}
+			return false;
+			
+		}else{
+			return true;
+		}
 	}
 	
-	@UiHandler("timeButton")
+	SensorAction getSensorAction(){
+		SensorAction action = new SensorAction();
+		action.setSensorActionCode("accel");
+		action.setIsEnabled(1);
+		action.setFrequency(Float.parseFloat(frequencyText.getText().trim()));
+		return action;
+	}
+	
+	/*@UiHandler("timeButton")
 	void addTimeConstraint(ClickEvent event){
 		constraintPanel.add(new TimeConstraintView());
-	}
+	}*/
 	
-	@UiHandler("batteryButton")
+	/*@UiHandler("batteryButton")
 	void addEnergyConstraint(ClickEvent event){
 		constraintPanel.add(new EnergyConstraintView());
 	}
 	
 	void collapse(){
-		timeButton.setVisible(false);
-		batteryButton.setVisible(false);
+		//timeButton.setVisible(false);
+		//batteryButton.setVisible(false);
 		infoButton.setVisible(false);
 		configDetailsPanel.setVisible(false);
 		collapseButton.setIcon(IconType.ANGLE_DOWN);
 		isCollapsed = true;		
 	}
 	void expand(){
-		timeButton.setVisible(true);
-		batteryButton.setVisible(true);
+		//timeButton.setVisible(true);
+		//batteryButton.setVisible(true);
 		infoButton.setVisible(true);
 		configDetailsPanel.setVisible(true);
 		collapseButton.setIcon(IconType.ANGLE_UP);
@@ -78,6 +123,6 @@ public class AccelerometerConfiguration extends Composite {
 	@UiHandler("collapseButton")
 	void collapseButtonClicked(ClickEvent event){
 		collapseAction();
-	}
+	}*/
 
 }

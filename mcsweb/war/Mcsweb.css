@@ -10,3 +10,7 @@
 .panel_border{
 	border: 1px solid #BBBBBB;
 }
+
+.label_error {
+  color: #B22222;
+}

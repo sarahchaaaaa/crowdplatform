@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.Heading;
+import org.gwtbootstrap3.client.ui.Row;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.client.ui.constants.HeadingSize;
 import org.gwtbootstrap3.client.ui.constants.Pull;
 import org.gwtbootstrap3.client.ui.html.Br;
@@ -99,7 +101,14 @@ public class StudyListManager extends Composite {
 		//studyPanel.add(new Br());
 		Label descriptionLabel = new Label(study.getDescription());
 		studyPanel.add(descriptionLabel);
-		//studyPanel.add(new Br());
+		studyPanel.add(new Br());
+		Row r1 = new Row();
+		Column c1 = new Column(ColumnSize.MD_8);
+		Column c2 = new Column(ColumnSize.MD_4);
+		
+		Label ownerLabel = new Label("Admin: "+ study.getCreatedBy());
+		c1.add(ownerLabel);
+		
 		Button detailsButton = new Button("View Details");
 		detailsButton.setPull(Pull.RIGHT);
 		detailsButton.setType(ButtonType.INFO);
@@ -112,8 +121,10 @@ public class StudyListManager extends Composite {
 				Mcsweb.getEventBus().fireEvent(new StudyEvent(new StudyState(myStudy, StudySpecificState.GETDETAILS)));
 			}
 		});
-		studyPanel.add(detailsButton);
-		studyPanel.add(new Br());
+		c2.add(detailsButton);
+		r1.add(c1);
+		r1.add(c2);		
+		studyPanel.add(r1);
 		studyPanel.add(new Hr());
 		return studyPanel;
 	}
@@ -124,7 +135,7 @@ public class StudyListManager extends Composite {
 			
 			try {
 				listPanel.add(getStudyPanel(studyList.get(i)));
-				listPanel.add(new Br());
+				//listPanel.add(new Br());
 				listPanel.add(new Br());			
 				
 			} catch (Exception e) {

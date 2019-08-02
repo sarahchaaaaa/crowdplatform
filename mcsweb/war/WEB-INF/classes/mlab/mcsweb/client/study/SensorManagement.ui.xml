@@ -11,7 +11,7 @@
 		<b:Column size="MD_3" >
 			<h:Br></h:Br>
 			<h:Br></h:Br>
-			<b:Button size="LARGE" text="Add Configuration"></b:Button>
+			<b:Button size="LARGE" text="Add Sensor Configuration" ui:field="buttonAdd"></b:Button>
 		</b:Column>
 
 		<b:Column size="MD_9" ui:field="listColumn">

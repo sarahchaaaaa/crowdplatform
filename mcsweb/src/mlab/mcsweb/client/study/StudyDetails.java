@@ -20,7 +20,6 @@ import mlab.mcsweb.client.Mcsweb;
 import mlab.mcsweb.client.events.StudyEvent;
 import mlab.mcsweb.client.events.StudyState;
 import mlab.mcsweb.client.events.StudyState.StudySpecificState;
-import mlab.mcsweb.client.study.sensor.SensorEditor;
 import mlab.mcsweb.shared.Study;
 
 public class StudyDetails extends Composite {
@@ -37,13 +36,14 @@ public class StudyDetails extends Composite {
 	private TabContent tabContent;
 
 	private TabListItem dashboardTab, participantTab, phoneSensingTab, surveyTab, taskTab, labelingTab, settingsTab;
-	private TabPane dashboadPane, participantPane, phoneSensingPane, surveyPane, taskPane, labelingPane, settingsPane;
+	private TabPane dashboardPane, participantPane, phoneSensingPane, surveyPane, taskPane, labelingPane, settingsPane;
 
+	private Dashboard dashboard;
 	private ParticipantManagement participantManagement;
 	private SensorManagement sensorManagement;
 	private SurveyManagement surveyManagement;
 	private LabelingManagement labelManagement;
-	private SensorEditor sensorEditor;
+	private Settings settings; 
 
 	// private boolean isParticipantClicked = false, isSurveyClicked = false,
 	// isSensingClicked = false, isTaskClicked = false, isLabellingClicked =
@@ -64,20 +64,24 @@ public class StudyDetails extends Composite {
 		tabNavigation = new NavTabs();
 		tabContent = new TabContent();
 
+		
+		dashboard = new Dashboard(study);
 		participantManagement = new ParticipantManagement(study);
 		sensorManagement = new SensorManagement(study);
 		surveyManagement = new SurveyManagement(study);
 		labelManagement = new LabelingManagement(study);
+		settings = new Settings(study);
 
 		dashboardTab = new TabListItem("Dashboard");
-		dashboadPane = new TabPane();
-		dashboardTab.setDataTargetWidget(dashboadPane);
-		dashboardTab.setActive(true);
+		dashboardPane = new TabPane();
+		dashboardTab.setDataTargetWidget(dashboardPane);
 		dashboardTab.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				dashboardPane.clear();
+				dashboardPane.add(dashboard);
 			}
 		});
 
@@ -148,12 +152,13 @@ public class StudyDetails extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				settingsPane.clear();
+				settingsPane.add(settings);
 			}
 		});
 
 		tabNavigation.add(dashboardTab);
-		tabContent.add(dashboadPane);
+		tabContent.add(dashboardPane);
 		
 		tabNavigation.add(participantTab);
 		tabContent.add(participantPane);
@@ -175,7 +180,8 @@ public class StudyDetails extends Composite {
 
 		detailsContentPanel.add(tabNavigation);
 		detailsContentPanel.add(tabContent);
-
+		
+		
 		// tabContent.add(new Settings());
 		homeAnchor.addClickHandler(new ClickHandler() {
 
@@ -185,6 +191,20 @@ public class StudyDetails extends Composite {
 				Mcsweb.getEventBus().fireEvent(new StudyEvent(new StudyState(null, StudySpecificState.HOME)));
 			}
 		});
+
+	}
+	
+	@Override
+	protected void onLoad() {
+		// TODO Auto-generated method stub
+		super.onLoad();
+		if (dashboardTab!=null && dashboardPane != null && dashboard != null) {
+			dashboardTab.setActive(true);
+			dashboardPane.setActive(true);
+			dashboardPane.clear();
+			dashboardPane.add(dashboard);
+			
+		}
 
 	}
 

@@ -2,9 +2,8 @@ package mlab.mcsweb.client.study;
 
 import java.util.ArrayList;
 
+import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
-import org.gwtbootstrap3.client.ui.ImageAnchor;
-import org.gwtbootstrap3.client.ui.html.Br;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,11 +30,13 @@ public class SurveyManagement extends Composite {
 	
 	@UiField
 	Column listColumn;
-	
 	@UiField
-	HTMLPanel leftColumn;
+	Button buttonCreate;
 	
-	ImageAnchor imageAnchor = new ImageAnchor();
+	//@UiField
+	//HTMLPanel leftColumn;
+	
+	//ImageAnchor imageAnchor = new ImageAnchor();
 	
 	private boolean isLoaded = false;
 	private ArrayList<SurveyOverview> surveyList = new ArrayList<>();
@@ -65,7 +66,7 @@ public class SurveyManagement extends Composite {
 			//do nothing
 		}else {
 			// TODO load survey for the first time
-			imageAnchor.setUrl("images/create_new_256.png");
+			/*imageAnchor.setUrl("images/create_new_256.png");
 			imageAnchor.setResponsive(true);
 			imageAnchor.setAsMediaObject(true);
 			imageAnchor.setAlt("Create New Survey");
@@ -83,7 +84,17 @@ public class SurveyManagement extends Composite {
 			
 			leftColumn.add(new Br());
 			leftColumn.add(new Br());
-			leftColumn.add(imageAnchor);
+			leftColumn.add(imageAnchor);*/
+			
+			buttonCreate.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					SurveySummary surveySummary = new SurveySummary();
+					surveySummary.setStudyId(study.getId());
+					Mcsweb.getEventBus().fireEvent(new SurveyEvent(new SurveyState(surveySummary, SurveySpecificState.NEW)));
+				}
+			});
 			
 			surveyService.getSurveyList(study.getId(), new AsyncCallback<ArrayList<SurveySummary>>() {
 				

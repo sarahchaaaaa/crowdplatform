@@ -4,6 +4,8 @@
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/TestService.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/SurveySummary.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/SurveyResponse.java
+/Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/SensorSummary.java
+/Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/SensorAction.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/util/Response.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/util/DatabaseUtil.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/StudyService.java
@@ -11,6 +13,7 @@
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/util/MyConnectionPool.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/util/CORSFilter.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/util/FileUpload.java
+/Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/DeviceService.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/util/ServiceUtil.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/DataService.java
 /Users/afzalhossain/development/research/crowdplatform/cimoninterface/src/crowdsense/cimoninterface/services/PushRegistry.java

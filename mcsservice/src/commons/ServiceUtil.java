@@ -36,10 +36,7 @@ public class ServiceUtil {
 	}
 	
 	
-	public static void main(String[] args) {
-		String str = ServiceUtil.randomString(5);
-		System.out.println(str);
-	}
+
 	
 	public static String getEmailVerificationRoot(){
 		//return "http://129.74.247.110/mcsweb/";
@@ -145,5 +142,15 @@ public class ServiceUtil {
 		return sb.toString();
 	}
 
-
+	
+	public static void main(String[] args) {
+		String str;
+		try {
+			str = ServiceUtil.getMD5String("dodtest001");
+			System.out.println(str);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

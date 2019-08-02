@@ -8,8 +8,32 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<h:Br></h:Br>
-		<h:Br></h:Br>
-		<b:Heading size="H3" text="Settings"></b:Heading>
+		<b:Row>
+		<b:Column size="MD_3">
+			<h:Br />
+			<h:Br />
+			<g:HTMLPanel addStyleNames="col-lg-10">
+				<b:Panel>
+					<!--b:PanelHeader>
+						<b:Heading size="H4" text="Manage Participation" />
+					</b:PanelHeader-->
+					<b:LinkedGroup>
+						<b:LinkedGroupItem text="Cloud Storage" ui:field="cloudStorageLink" active="true"/>
+						<b:LinkedGroupItem text="Mobile Storage" ui:field="mobileStorageLink" />
+						<b:LinkedGroupItem text="Auto Notification" ui:field="autoNotifLink"></b:LinkedGroupItem>
+						<b:LinkedGroupItem text="Collaborators" ui:field="collaboratorsLink"></b:LinkedGroupItem>
+					</b:LinkedGroup>
+
+				</b:Panel>
+
+			</g:HTMLPanel>
+
+		</b:Column>
+		<b:Column size="MD_9">
+			<g:HTMLPanel ui:field="contentPanel">
+
+			</g:HTMLPanel>
+		</b:Column>
+		</b:Row>
 	</g:HTMLPanel>
 </ui:UiBinder> 

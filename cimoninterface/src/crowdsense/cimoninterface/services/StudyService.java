@@ -15,8 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.json.JSONObject;
-
 import crowdsense.cimoninterface.util.DatabaseUtil;
 import crowdsense.cimoninterface.util.Response;
 import crowdsense.cimoninterface.util.ServiceUtil;
@@ -234,6 +232,141 @@ public class StudyService {
 		}
 		return response;
 	}
+	
+	@GET
+	@Path("{studyId}/sensorconfigs/published")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<SensorSummary> getPublishedSensorConfigs(@PathParam("studyId") long studyId) {
+		ArrayList<SensorSummary> configList = new ArrayList<>();
+
+		try {
+			connection = DatabaseUtil.connectToDatabase();
+			String query = "select * from mcs.sensor_summary where study_id=" + studyId + " and state=2";
+			preparedStatement = connection.prepareStatement(query);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				SensorSummary config = new SensorSummary();
+
+				long surveyId = resultSet.getLong("id");
+				String name = resultSet.getString("name");
+				String description = resultSet.getString("description");
+				String publishTime = resultSet.getString("publish_time");
+				String publishTimezone = resultSet.getString("publish_time_zone");
+				int publishedVersion = resultSet.getInt("published_version");
+				int state = resultSet.getInt("state");
+				String modificationTime = resultSet.getString("modification_time");
+				String startTime = resultSet.getString("start_time");
+				String startTimezone = resultSet.getString("start_time_zone");
+				String endTime = resultSet.getString("end_time");
+				String endTimezone = resultSet.getString("end_time_zone");
+				String schedule = resultSet.getString("schedule");
+
+				config.setId(surveyId);
+				config.setStudyId(studyId);
+				config.setName(name);
+				config.setDescription(description);
+				config.setPublishTime(publishTime);
+				config.setPublishTimeZone(publishTimezone);
+				config.setPublishedVersion(publishedVersion);
+				config.setState(state);
+				config.setModificationTime(modificationTime);
+				config.setStartTime(startTime);
+				config.setStartTimeZone(startTimezone);
+				config.setEndTime(endTime);
+				config.setEndTimeZone(endTimezone);
+				config.setSchedule(schedule);
+
+				configList.add(config);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return configList;
+
+	}
+	
+	
+	@GET
+	@Path("{studyId}/sensorconfig/{configId}/actionlist")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<SensorAction> getSensorActionList(@PathParam("studyId") long studyId, @PathParam("configId") long configId) {
+		ArrayList<SensorAction> actionList = new ArrayList<>();
+
+		try {
+			connection = DatabaseUtil.connectToDatabase();
+			String query = "select published_version from mcs.sensor_summary where id=" + configId + " and study_id="
+					+ studyId +" and state=2";
+			System.out.println("query for published version :" + query);
+			preparedStatement = connection.prepareStatement(query);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				int version = resultSet.getInt("published_version");
+				System.out.println("published version "+ version);
+				if (version > 0) {
+					query = "select * from mcs.sensor_action where study_id=" + studyId + " and sensor_config_id=" + configId
+							+ " and version=" + version + " and is_enabled=1";
+					System.out.println("query to get action list "+ query);
+					preparedStatement = connection.prepareStatement(query);
+					resultSet = preparedStatement.executeQuery();
+					while (resultSet.next()) {
+						SensorAction action = new SensorAction();
+						String actionCode = resultSet.getString("sensor_action_code");
+						String type = resultSet.getString("type");
+						int isEnabled = resultSet.getInt("is_enabled");
+						float frequency = 0;
+						try {
+							frequency = resultSet.getFloat("frequency");
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+						String timeBound = resultSet.getString("time_bound");
+						String batteryBound = resultSet.getString("battery_bound");
+						String param1 = resultSet.getString("param_1");
+						String param2 = resultSet.getString("param_2");
+						String param3 = resultSet.getString("param_3");
+
+
+						action.setStudyId(studyId);
+						action.setSensorConfigId(configId);
+						action.setSensorActionCode(actionCode);
+						action.setType(type);
+						action.setIsEnabled(isEnabled);
+						action.setFrequency(frequency);
+						action.setTimeBound(timeBound);
+						action.setBatteryBound(batteryBound);
+						action.setParam1(param1);
+						action.setParam1(param2);
+						action.setParam1(param3);
+
+
+						actionList.add(action);
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return actionList;
+
+	}
+
+
 
 	
 	

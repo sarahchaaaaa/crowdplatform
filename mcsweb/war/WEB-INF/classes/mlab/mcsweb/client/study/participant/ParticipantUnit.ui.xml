@@ -22,7 +22,8 @@
 				<b:TextBox placeholder="Email" ui:field="textEmail"></b:TextBox>
 			</b:Column>
 			<b:Column size="MD_6">
-				<b:TextBox placeholder="Organization" ui:field="textOrg"></b:TextBox>
+				<!--b:TextBox placeholder="Organization" ui:field="textOrg"></b:TextBox-->
+				<g:Label ui:field="errorLabel"></g:Label>
 			</b:Column>
 		</b:Row>
 		<h:Br></h:Br>

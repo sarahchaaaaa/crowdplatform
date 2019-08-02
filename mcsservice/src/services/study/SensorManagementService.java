@@ -24,61 +24,63 @@ public class SensorManagementService {
 	private Connection connection;
 	private PreparedStatement preparedStatement;
 
-	private Response updateSurvey(SurveyConfiguration surveyConfig, int workingVersion) {
+	private Response updateSensorConfig(SensorConfiguration sensorConfig, int workingVersion) {
 		Response response = new Response();
 		try {
-			SurveySummary survey = surveyConfig.getSurveySummary();
-			ArrayList<SurveyTask> taskList = surveyConfig.getTaskList();
+			SensorSummary sensorSummary = sensorConfig.getSensorSummary();
+			ArrayList<SensorAction> actionList = sensorConfig.getActionList();
 
 			connection = DatabaseUtil.connectToDatabase();
 
 			String query = "";
-			if (survey.getId() > 0) {
-				query = "update mcs.survey_summary set name=?, description=?, modification_time=?, modification_time_zone=?, "
+			if (sensorSummary.getId() > 0) {
+				query = "update mcs.sensor_summary set name=?, description=?, modification_time=?, modification_time_zone=?, "
 						+ " publish_time=?, publish_time_zone=?, published_version=?, state=?, start_time=?, start_time_zone=?, end_time=?, end_time_zone=?, "
 						+ " schedule=? where id=? and study_id=?";
 				preparedStatement = connection.prepareStatement(query);
-				preparedStatement.setString(1, survey.getName());
-				preparedStatement.setString(2, survey.getDescription());
-				preparedStatement.setString(3, survey.getModificationTime());
-				preparedStatement.setString(4, survey.getModificationTimeZone());
-				preparedStatement.setString(5, survey.getPublishTime());
-				preparedStatement.setString(6, survey.getPublishTimeZone());
-				preparedStatement.setInt(7, survey.getPublishedVersion());
-				preparedStatement.setInt(8, survey.getState());
-				preparedStatement.setString(9, survey.getStartTime());
-				preparedStatement.setString(10, survey.getStartTimeZone());
-				preparedStatement.setString(11, survey.getEndTime());
-				preparedStatement.setString(12, survey.getEndTimeZone());
-				preparedStatement.setString(13, survey.getSchedule());
+				preparedStatement.setString(1, sensorSummary.getName());
+				preparedStatement.setString(2, sensorSummary.getDescription());
+				preparedStatement.setString(3, sensorSummary.getModificationTime());
+				preparedStatement.setString(4, sensorSummary.getModificationTimeZone());
+				preparedStatement.setString(5, sensorSummary.getPublishTime());
+				preparedStatement.setString(6, sensorSummary.getPublishTimeZone());
+				preparedStatement.setInt(7, sensorSummary.getPublishedVersion());
+				preparedStatement.setInt(8, sensorSummary.getState());
+				preparedStatement.setString(9, sensorSummary.getStartTime());
+				preparedStatement.setString(10, sensorSummary.getStartTimeZone());
+				preparedStatement.setString(11, sensorSummary.getEndTime());
+				preparedStatement.setString(12, sensorSummary.getEndTimeZone());
+				preparedStatement.setString(13, sensorSummary.getSchedule());
 
-				preparedStatement.setLong(14, survey.getId());
-				preparedStatement.setLong(15, survey.getStudyId());
+				preparedStatement.setLong(14, sensorSummary.getId());
+				preparedStatement.setLong(15, sensorSummary.getStudyId());
 
 				preparedStatement.execute();
 
 			} else {
-				query = "insert into mcs.survey_summary (study_id, name, description, created_by, creation_time, creation_time_zone,"
+				query = "insert into mcs.sensor_summary (study_id, name, description, created_by, creation_time, creation_time_zone,"
 						+ " modification_time, modification_time_zone, publish_time, publish_time_zone, published_version, state, start_time, start_time_zone,"
 						+ " end_time, end_time_zone, schedule) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
-				preparedStatement.setLong(1, survey.getStudyId());
-				preparedStatement.setString(2, survey.getName());
-				preparedStatement.setString(3, survey.getDescription());
-				preparedStatement.setString(4, survey.getCreatedBy());
-				preparedStatement.setString(5, survey.getCreationTime());
-				preparedStatement.setString(6, survey.getCreationTimeZone());
-				preparedStatement.setString(7, survey.getModificationTime());
-				preparedStatement.setString(8, survey.getModificationTimeZone());
-				preparedStatement.setString(9, survey.getPublishTime());
-				preparedStatement.setString(10, survey.getPublishTimeZone());
-				preparedStatement.setInt(11, survey.getPublishedVersion());
-				preparedStatement.setInt(12, survey.getState());
-				preparedStatement.setString(13, survey.getStartTime());
-				preparedStatement.setString(14, survey.getStartTimeZone());
-				preparedStatement.setString(15, survey.getEndTime());
-				preparedStatement.setString(16, survey.getEndTimeZone());
-				preparedStatement.setString(17, survey.getSchedule());
+				preparedStatement.setLong(1, sensorSummary.getStudyId());
+				//TODO:temporary hard coding name
+				//String name = "Sensor Config " + new Date();
+				preparedStatement.setString(2, sensorSummary.getName());
+				preparedStatement.setString(3, sensorSummary.getDescription());
+				preparedStatement.setString(4, sensorSummary.getCreatedBy());
+				preparedStatement.setString(5, sensorSummary.getCreationTime());
+				preparedStatement.setString(6, sensorSummary.getCreationTimeZone());
+				preparedStatement.setString(7, sensorSummary.getModificationTime());
+				preparedStatement.setString(8, sensorSummary.getModificationTimeZone());
+				preparedStatement.setString(9, sensorSummary.getPublishTime());
+				preparedStatement.setString(10, sensorSummary.getPublishTimeZone());
+				preparedStatement.setInt(11, sensorSummary.getPublishedVersion());
+				preparedStatement.setInt(12, sensorSummary.getState());
+				preparedStatement.setString(13, sensorSummary.getStartTime());
+				preparedStatement.setString(14, sensorSummary.getStartTimeZone());
+				preparedStatement.setString(15, sensorSummary.getEndTime());
+				preparedStatement.setString(16, sensorSummary.getEndTimeZone());
+				preparedStatement.setString(17, sensorSummary.getSchedule());
 
 				preparedStatement.execute();
 
@@ -87,35 +89,34 @@ public class SensorManagementService {
 				ResultSet resultSet = preparedStatement.executeQuery();
 				if (resultSet.next()) {
 					String id = resultSet.getString("id");
-					survey.setId(Integer.parseInt(id));
+					sensorSummary.setId(Integer.parseInt(id));
 				}
 
 			}
 
-			if (survey.getId() > 0) {
-				query = "delete from mcs.survey_task where study_id=? and survey_id=? and version=?";
+			if (sensorSummary.getId() > 0) {
+				query = "delete from mcs.sensor_action where study_id=? and sensor_config_id=? and version=?";
 				preparedStatement = connection.prepareStatement(query);
-				preparedStatement.setLong(1, survey.getStudyId());
-				preparedStatement.setLong(2, survey.getId());
+				preparedStatement.setLong(1, sensorSummary.getStudyId());
+				preparedStatement.setLong(2, sensorSummary.getId());
 				preparedStatement.setInt(3, workingVersion);
 				preparedStatement.executeUpdate();
 			}
 
-			if (taskList.size() > 0) {
-				query = "insert into mcs.survey_task (study_id, survey_id, version, task_id, task_text, type, possible_input, order_id)"
-						+ " values(?,?,?,?,?,?,?,?)";
+			if (actionList.size() > 0) {
+				query = "insert into mcs.sensor_action (study_id, sensor_config_id, version, sensor_action_code, type,  is_enabled, frequency)"
+						+ " values(?,?,?,?,?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
-				for (int i = 0; i < taskList.size(); i++) {
-					System.out.println("insert a task " + i + ", task id:" + taskList.get(i).getTaskId() + ", type:"
-							+ taskList.get(i).getType());
-					preparedStatement.setLong(1, survey.getStudyId());
-					preparedStatement.setLong(2, survey.getId());
+				for (int i = 0; i < actionList.size(); i++) {
+					System.out.println("insert a sensor action " + i + ", action code:" + actionList.get(i).getSensorActionCode() + ", type:"
+							+ actionList.get(i).getType());
+					preparedStatement.setLong(1, sensorSummary.getStudyId());
+					preparedStatement.setLong(2, sensorSummary.getId());
 					preparedStatement.setInt(3, workingVersion);
-					preparedStatement.setInt(4, taskList.get(i).getTaskId());
-					preparedStatement.setString(5, taskList.get(i).getTaskText());
-					preparedStatement.setString(6, taskList.get(i).getType());
-					preparedStatement.setString(7, taskList.get(i).getPossibleInput());
-					preparedStatement.setInt(8, taskList.get(i).getOrderId());
+					preparedStatement.setString(4, actionList.get(i).getSensorActionCode());
+					preparedStatement.setString(5, actionList.get(i).getType());
+					preparedStatement.setInt(6, actionList.get(i).getIsEnabled());
+					preparedStatement.setFloat(7, actionList.get(i).getFrequency());
 
 					preparedStatement.execute();
 				}
@@ -124,8 +125,8 @@ public class SensorManagementService {
 			try {
 				query = "update mcs.study set modification_time = ? where id=?";
 				preparedStatement = connection.prepareStatement(query);
-				preparedStatement.setString(1, survey.getModificationTime());
-				preparedStatement.setString(2, survey.getStudyId()+"");
+				preparedStatement.setString(1, sensorSummary.getModificationTime());
+				preparedStatement.setString(2, sensorSummary.getStudyId()+"");
 				
 				preparedStatement.execute();
 			} catch (Exception e) {
@@ -149,72 +150,84 @@ public class SensorManagementService {
 
 	}
 
-	@Path("save/config")
+	@Path("save")
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response saveSurvey(JAXBElement<SurveyConfiguration> jaxbElement) {
-		SurveyConfiguration surveyConfig = jaxbElement.getValue();
-		int workingVersion = surveyConfig.getSurveySummary().getPublishedVersion() + 1;
+	public Response saveSensorConfig(JAXBElement<SensorConfiguration> jaxbElement) {
+		SensorConfiguration sensorConfig = jaxbElement.getValue();
+		int workingVersion = sensorConfig.getSensorSummary().getPublishedVersion() + 1;
 		System.out.println("working version :" + workingVersion);
-		return updateSurvey(surveyConfig, workingVersion);
+		return updateSensorConfig(sensorConfig, workingVersion);
 	}
 
-	@Path("publish/config")
+	@Path("publish")
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response publishSurvey(JAXBElement<SurveyConfiguration> jaxbElement) {
-		SurveyConfiguration surveyConfig = jaxbElement.getValue();
-		int workingVersion = surveyConfig.getSurveySummary().getPublishedVersion();
+	public Response publishSensorConfig(JAXBElement<SensorConfiguration> jaxbElement) {
+		SensorConfiguration sensorConfig = jaxbElement.getValue();
+		int workingVersion = sensorConfig.getSensorSummary().getPublishedVersion();
 		System.out.println("working version :" + workingVersion);
-		return updateSurvey(surveyConfig, workingVersion);
+		return updateSensorConfig(sensorConfig, workingVersion);
 	}
 
-	@Path("tasklist/{studyId}/{surveyId}")
+	@Path("{configId}/actionlist")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<SurveyTask> getTaskList(@PathParam("studyId") String studyId,
-			@PathParam("surveyId") String surveyId) {
-		ArrayList<SurveyTask> taskList = new ArrayList<>();
+	public ArrayList<SensorAction> getSensorActionList(@PathParam("studyId") String studyId,
+			@PathParam("configId") String configId) {
+		ArrayList<SensorAction> actionList = new ArrayList<>();
 		try {
 			Integer.parseInt(studyId);
-			Integer.parseInt(surveyId);
-			System.out.println("study id:" + studyId + ", survey id:" + surveyId);
+			Integer.parseInt(configId);
+			System.out.println("study id:" + studyId + ", config id:" + configId);
 			connection = DatabaseUtil.connectToDatabase();
 			
-			String query = "select max(version) as max_version from mcs.survey_task where study_id=" + studyId + " and survey_id=" + surveyId;
+			String query = "select max(version) as max_version from mcs.sensor_action where study_id=" + studyId + " and sensor_config_id=" + configId;
 			preparedStatement = connection.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()){
 				System.out.println("current max version "+ resultSet.getString("max_version"));
 				int version  = resultSet.getInt("max_version");
-				query = "select * from mcs.survey_task where study_id=" + studyId + " and survey_id=" + surveyId +" and version="+ version +" order by task_id";
+				query = "select * from mcs.sensor_action where study_id=" + studyId + " and sensor_config_id=" + configId +" and version="+ version;
 				preparedStatement = connection.prepareStatement(query);
 				resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
 
 					try {
-						SurveyTask task = new SurveyTask();
-						task.setStudyId(Integer.parseInt(studyId));
-						task.setSurveyId(Integer.parseInt(surveyId));
-
-						int taskId = resultSet.getInt("task_id");
-						task.setTaskId(taskId);
-
-						String taskText = resultSet.getString("task_text");
-						task.setTaskText(taskText);
-
+						SensorAction action = new SensorAction();
+						action.setStudyId(Integer.parseInt(studyId));
+						action.setSensorConfigId(Integer.parseInt(configId));
+						
+						String actionCode = resultSet.getString("sensor_action_code");
+						action.setSensorActionCode(actionCode);
+						
 						String type = resultSet.getString("type");
-						task.setType(type);
+						action.setType(type);
 
-						String possibleInput = resultSet.getString("possible_input");
-						task.setPossibleInput(possibleInput);
+						int isEnabled = resultSet.getInt("is_enabled");
+						action.setIsEnabled(isEnabled);
+						
+						float frequency = resultSet.getFloat("frequency");
+						action.setFrequency(frequency);					
 
-						int orderId = resultSet.getInt("order_id");
-						task.setOrderId(orderId);
+						String timeBound = resultSet.getString("time_bound");
+						action.setTimeBound(timeBound);
+						
+						String batteryBound = resultSet.getString("battery_bound");
+						action.setBatteryBound(batteryBound);
+						
+						String param1 = resultSet.getString("param_1");
+						action.setParam1(param1);
 
-						taskList.add(task);
+						String param2 = resultSet.getString("param_2");
+						action.setParam2(param2);
+
+						String param3 = resultSet.getString("param_3");
+						action.setParam3(param3);
+
+						actionList.add(action);
 
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -233,7 +246,7 @@ public class SensorManagementService {
 				}
 
 		}
-		return taskList;
+		return actionList;
 	}
 
 	@Path("list")

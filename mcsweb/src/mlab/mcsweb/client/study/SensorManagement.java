@@ -2,6 +2,7 @@ package mlab.mcsweb.client.study;
 
 import java.util.ArrayList;
 
+import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
 
 import com.google.gwt.core.client.GWT;
@@ -21,14 +22,21 @@ import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.Mcsweb;
 import mlab.mcsweb.client.events.SensorEvent;
 import mlab.mcsweb.client.events.SensorState;
+import mlab.mcsweb.client.events.SurveyEvent;
+import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SensorState.SensorSpecificState;
+import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
 import mlab.mcsweb.shared.SensorSummary;
 import mlab.mcsweb.shared.Study;
+import mlab.mcsweb.shared.SurveySummary;
 
 public class SensorManagement extends Composite {
 	
 	@UiField
 	Column listColumn;
+	
+	@UiField
+	Button buttonAdd;
 		
 	
 	private boolean isLoaded = false;
@@ -47,6 +55,8 @@ public class SensorManagement extends Composite {
 
 	public SensorManagement(Study study) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.study = study;
+		
 	}
 	
 	@Override
@@ -57,7 +67,40 @@ public class SensorManagement extends Composite {
 			//do nothing
 		}else {
 			
+			buttonAdd.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					// TODO Auto-generated method stub
+					SensorSummary sensorSummary = new SensorSummary();
+					sensorSummary.setStudyId(study.getId());
+					Mcsweb.getEventBus().fireEvent(new SensorEvent(new SensorState(sensorSummary, SensorSpecificState.NEW)));
+
+				}
+			});
+
+			
 			service.getSensorConfigList(study.getId(), new AsyncCallback<ArrayList<SensorSummary>>() {
+				@Override
+				public void onSuccess(ArrayList<SensorSummary> result) {
+					for(int i=0;i<result.size();i++){
+						sensorConfigList.add(new SensorOverview(result.get(i)));
+						//Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());
+
+					}
+					
+					for(int i=0;i<sensorConfigList.size();i++){
+						listColumn.add(sensorConfigList.get(i));
+					}					
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					Window.alert("service not available");
+				}
+			});
+			
+			/*service.getSensorConfigList(study.getId(), new AsyncCallback<ArrayList<SensorSummary>>() {
 				
 				@Override
 				public void onSuccess(ArrayList<SensorSummary> result) {
@@ -79,7 +122,7 @@ public class SensorManagement extends Composite {
 					// TODO Auto-generated method stub
 					Window.alert("service not available");
 				}
-			});
+			});*/
 						
 			
 			isLoaded = true;
@@ -122,7 +165,6 @@ class SensorOverview extends BaseOverview{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				Mcsweb.getEventBus().fireEvent(new SensorEvent(new SensorState(sensorSummary, SensorSpecificState.NEW)));
 			}
 		}, ClickEvent.getType());

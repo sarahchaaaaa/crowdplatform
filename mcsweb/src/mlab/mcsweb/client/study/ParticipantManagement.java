@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import mlab.mcsweb.client.study.participant.AllParticipants;
-import mlab.mcsweb.client.study.participant.GroupParticipants;
+import mlab.mcsweb.client.study.participant.IndividualParticipant;
 import mlab.mcsweb.shared.Study;
 
 public class ParticipantManagement extends Composite{
@@ -22,12 +22,12 @@ public class ParticipantManagement extends Composite{
 	HTMLPanel contentPanel;
 	
 	@UiField
-	LinkedGroupItem allParticipantLink, groupParticipantLink;
+	LinkedGroupItem allParticipantLink, participantLink;
 
 	
 	private Study study;
 	private AllParticipants allParticipants;
-	private GroupParticipants groupParticipants;
+	private IndividualParticipant participant;
 
 	private static ParticipantManagementUiBinder uiBinder = GWT.create(ParticipantManagementUiBinder.class);
 
@@ -45,7 +45,7 @@ public class ParticipantManagement extends Composite{
 	void allParticipant(ClickEvent event){
 		//Window.alert("load all");
 		allParticipantLink.setActive(true);
-		groupParticipantLink.setActive(false);
+		participantLink.setActive(false);
 		
 		contentPanel.clear();
 		if (allParticipants == null){
@@ -59,16 +59,16 @@ public class ParticipantManagement extends Composite{
 		contentPanel.add(allParticipants);
 	}
 	
-	@UiHandler("groupParticipantLink")
+	@UiHandler("participantLink")
 	void loadGroupParticipant(ClickEvent event){
 		//Window.alert("group participation");
 		allParticipantLink.setActive(false);
-		groupParticipantLink.setActive(true);
+		participantLink.setActive(true);
 		
 		contentPanel.clear();
-		if(groupParticipants == null){
-			groupParticipants = new GroupParticipants();
+		if(participant == null){
+			participant = new IndividualParticipant(this.study.getId());
 		}
-		contentPanel.add(groupParticipants);
+		contentPanel.add(participant);
 	}
 }

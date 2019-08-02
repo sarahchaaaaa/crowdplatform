@@ -94,7 +94,6 @@ public class AllParticipants extends Composite {
 			service.getAllParticipants(this.studyId, new AsyncCallback<ArrayList<Participant>>() {
 				@Override
 				public void onSuccess(ArrayList<Participant> result) {
-					// TODO Auto-generated method stub
 					participantList = result;
 					listDiv.add(participantTable);
 					drawParticipantsTable();
@@ -112,10 +111,29 @@ public class AllParticipants extends Composite {
 
 	}
 	
+	protected void reloadTable() {
+		service.getAllParticipants(this.studyId, new AsyncCallback<ArrayList<Participant>>() {
+			@Override
+			public void onSuccess(ArrayList<Participant> result) {
+				// TODO Auto-generated method stub
+				participantList = result;
+				listDiv.add(participantTable);
+				drawParticipantsTable();
+				tableLoaded = true;
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
 	@UiHandler("buttonAdd")
 	void addParticipant(ClickEvent event){
 		subPanel.clear();
-		subPanel.add(new ParticipantUnit());
+		subPanel.add(new ParticipantUnit(this, this.studyId));
 	}
 	
 	@UiHandler("buttonBatchImport")
@@ -129,12 +147,12 @@ public class AllParticipants extends Composite {
 		subPanel.clear();
 		ArrayList<String> checkedUsers = getCheckedUsers();
 		if (checkedUsers.size() == 0) {
-			Notify.notify("Select a pparticipant to edit", NotifyType.WARNING);
+			Notify.notify("Select a participant to edit", NotifyType.WARNING);
 		} else if(checkedUsers.size() > 1){
-			Notify.notify("Select a pparticipant to edit", NotifyType.WARNING);
+			Notify.notify("Select a participant to edit", NotifyType.WARNING);
 		} else {
 			Participant editParticipant = getCheckedParticipant(checkedUsers.get(0));
-			subPanel.add(new ParticipantUnit(editParticipant));
+			subPanel.add(new ParticipantUnit(this, editParticipant));
 		}
 	}
 	
@@ -153,13 +171,13 @@ public class AllParticipants extends Composite {
 				participantList.remove(toRemove);
 			}
 			list = list.substring(0, list.length() - 1);
-			Window.alert("checked users "+ list);
+//			Window.alert("checked users "+ list);
 			service.deleteParticipants(studyId, list, new AsyncCallback<Response>() {
 				@Override
 				public void onSuccess(Response result) {
 					if(result.getCode() == 0){
 						//drawParticipantsTable();
-						// temporary, need to think what will happen if update fails
+						//TODO: temporary, need to think what will happen if update fails
 					}
 					drawParticipantsTable();
 				}
@@ -233,7 +251,7 @@ public class AllParticipants extends Composite {
 		dataTable.addColumn(ColumnType.STRING, "Email");
 		dataTable.addColumn(ColumnType.STRING, "First Name");
 		dataTable.addColumn(ColumnType.STRING, "Last Name");
-		dataTable.addColumn(ColumnType.STRING, "Organization");
+//		dataTable.addColumn(ColumnType.STRING, "Organization");
 		dataTable.addColumn(ColumnType.STRING, "Status");
 
 		dataTable.addRows(participantList.size());
@@ -248,7 +266,7 @@ public class AllParticipants extends Composite {
 			dataTable.setValue(rowIndex, columnIndex++, participant.getUserEmail());
 			dataTable.setValue(rowIndex, columnIndex++, participant.getFirstName());
 			dataTable.setValue(rowIndex, columnIndex++, participant.getLastName());
-			dataTable.setValue(rowIndex, columnIndex++, participant.getOrganization());
+//			dataTable.setValue(rowIndex, columnIndex++, participant.getOrganization());
 			dataTable.setValue(rowIndex, columnIndex++, participant.getStatus());
 
 			rowIndex += 1;

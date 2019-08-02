@@ -12,14 +12,14 @@
 		<b:Column size="MD_3">
 			<h:Br />
 			<h:Br />
-			<g:HTMLPanel addStyleNames="col-lg-offset-1 col-lg-10">
+			<g:HTMLPanel addStyleNames="col-lg-10">
 				<b:Panel>
-					<b:PanelHeader>
+					<!--b:PanelHeader>
 						<b:Heading size="H4" text="Manage Participation" />
-					</b:PanelHeader>
+					</b:PanelHeader-->
 					<b:LinkedGroup>
-						<b:LinkedGroupItem text="All" ui:field="allParticipantLink" />
-						<b:LinkedGroupItem text="Group" ui:field="groupParticipantLink" />
+						<b:LinkedGroupItem text="All" ui:field="allParticipantLink" active="true"/>
+						<b:LinkedGroupItem text="Individual" ui:field="participantLink" />
 					</b:LinkedGroup>
 
 				</b:Panel>

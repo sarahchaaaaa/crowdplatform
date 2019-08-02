@@ -16,8 +16,8 @@
 			</b:PanelHeader>
 			<b:PanelBody>
 				<g:HTMLPanel ui:field="listPanel">
-					<b:Button ui:field="buttonBatchImport" pull="LEFT">Batch Import</b:Button>
-					<b:Button ui:field="buttonAdd" type="INFO">Add</b:Button>
+					<b:Button ui:field="buttonBatchImport" pull="LEFT" visible="false">Batch Import</b:Button>
+					<b:Button ui:field="buttonAdd">Add</b:Button>
 					<b:Button ui:field="buttonEdit">Edit</b:Button>
 					<b:Button ui:field="buttonDelete">Delete</b:Button>
 					<br />

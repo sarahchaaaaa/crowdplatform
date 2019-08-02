@@ -7,6 +7,8 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.codec.binary.Base64;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -16,8 +18,12 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import mlab.mcsweb.client.GreetingService;
+import mlab.mcsweb.shared.FileIdentifier;
 import mlab.mcsweb.shared.Participant;
+import mlab.mcsweb.shared.PingInfo;
 import mlab.mcsweb.shared.Response;
+import mlab.mcsweb.shared.SensorAction;
+import mlab.mcsweb.shared.SensorConfiguration;
 import mlab.mcsweb.shared.SensorSummary;
 import mlab.mcsweb.shared.Study;
 import mlab.mcsweb.shared.SurveyConfiguration;
@@ -62,7 +68,22 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		return genericPostMethod(url, study);
 	}
 	
+	//sensor
+	@Override
+	public Response saveSensorConfiguration(SensorConfiguration sensorConfiguration) {
+		String url = serverRoot + "/study/0/sensorconfig/save";
+		System.out.println("save url:"+ url + ", " + sensorConfiguration.getSensorSummary().getId());
+		return genericPostMethod(url, sensorConfiguration);
+	}
 	
+	@Override
+	public Response publishSensorConfiguration(SensorConfiguration sensorConfiguration) {
+		String url = serverRoot + "/study/0/sensorconfig/publish";
+		System.out.println("publish url:"+ url + ", " + sensorConfiguration.getSensorSummary().getId());
+		return genericPostMethod(url, sensorConfiguration);
+	}
+	
+	//survey
 	@Override
 	public Response saveSurveyConfiguration(SurveyConfiguration surveyConfig) {
 		String url = serverRoot + "/survey/save/config";
@@ -75,6 +96,21 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		String url = serverRoot + "/survey/publish/config";
 		System.out.println("publish url:"+ url + ", " + surveyConfiguration.getSurveySummary().getId());
 		return genericPostMethod(url, surveyConfiguration);
+	}
+	
+	//participation
+	@Override
+	public Response addParticipant(Participant participant) {
+		String url = serverRoot + "/study/"+ participant.getStudyId() +"/participation/add";
+		System.out.println("publish url:"+ url + ", " + participant.getStudyId() + ", " + participant.getUserEmail());
+		return genericPostMethod(url, participant);
+	}
+	
+	@Override
+	public Response editParticipant(String currentEmail, Participant detailsToUpdate) {
+		String url = serverRoot + "/study/"+ detailsToUpdate.getStudyId() +"/participation/update/" + currentEmail;
+		System.out.println("publish url:"+ url + ", " + detailsToUpdate.getStudyId() + ", " + detailsToUpdate.getUserEmail());
+		return genericPostMethod(url, detailsToUpdate);
 	}
 	
 	
@@ -102,14 +138,33 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		return studyList;
 	}
 	
+	//dashboard
+	@Override
+	public ArrayList<FileIdentifier> getFileIdentifiers(long studyId) {
+		String url = serverRoot + "/study/"+ studyId +"/dashboard/filemapping";
+		String response = genericGetMethod(url);
+		ArrayList<FileIdentifier> list = new Gson().fromJson(response, new TypeToken<ArrayList<FileIdentifier>>(){}.getType());
+		return list;
+	}
+	
 	
 	//sensor
 	@Override
 	public ArrayList<SensorSummary> getSensorConfigList(long studyId) {
 		String url = serverRoot + "/study/"+ studyId +"/sensorconfig/list";
+		System.out.println("going to call get , url:"+ url);
 		String response = genericGetMethod(url);
 		ArrayList<SensorSummary> sensorConfigList = new Gson().fromJson(response, new TypeToken<ArrayList<SensorSummary>>(){}.getType());
 		return sensorConfigList;
+	}
+	
+	@Override
+	public ArrayList<SensorAction> getSensorActionList(long studyId, long sensorConfigId) {
+		String url = serverRoot + "/study/"+ studyId +"/sensorconfig/"+ sensorConfigId + "/actionlist";
+		System.out.println("going to call get , url:"+ url);
+		String response = genericGetMethod(url);
+		ArrayList<SensorAction> actionList = new Gson().fromJson(response, new TypeToken<ArrayList<SensorAction>>(){}.getType());
+		return actionList;
 	}
 	
 	
@@ -143,7 +198,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	
 	@Override
 	public ArrayList<Participant> getAllParticipants(long studyId) {
-		String url = serverRoot + "/study/"+ studyId +"/participant/all/list";
+		String url = serverRoot + "/study/"+ studyId +"/participation/list";
 		String response = genericGetMethod(url);
 		ArrayList<Participant> list = new Gson().fromJson(response, new TypeToken<ArrayList<Participant>>(){}.getType());
 		return list;
@@ -151,10 +206,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	
 	@Override
 	public Response deleteParticipants(long studyId, String list) {
-		String url = serverRoot + "/study/"+ studyId +"/participant/delete/" + list;
+		list = Base64.encodeBase64String(list.getBytes());
+		String url = serverRoot + "/study/"+ studyId +"/participation/delete/" + list;
 		String result = genericGetMethod(url);
 		Response response = new Gson().fromJson(result, Response.class);
 		return response;
+	}
+	
+	@Override
+	public ArrayList<PingInfo> getPingHistory(long studyId, String email, int days) {
+		String url = serverRoot + "/study/"+ studyId +"/participation/pinghistory?email=" + email + "&days=" + days;
+		String response = genericGetMethod(url);
+		ArrayList<PingInfo> list = new Gson().fromJson(response, new TypeToken<ArrayList<PingInfo>>(){}.getType());
+		return list;
 	}
 	
 	private String genericGetMethod(String url){

@@ -26,8 +26,6 @@ import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.MainPage;
 import mlab.mcsweb.client.Mcsweb;
-import mlab.mcsweb.client.StudyConfigurationService;
-import mlab.mcsweb.client.StudyConfigurationServiceAsync;
 import mlab.mcsweb.client.events.SurveyEvent;
 import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
@@ -108,7 +106,7 @@ public class SurveyEditor extends Composite {
 		if(surveyTaskEditor!=null && surveyConfigView.isValidForSaving()){
 			
 			final SurveySummary finalSurveySummary = surveyConfigView.getSurveySummary();
-			Window.alert("publishef version "+ finalSurveySummary.getPublishedVersion());			
+			//Window.alert("published version "+ finalSurveySummary.getPublishedVersion());			
 			if(finalSurveySummary.getId()<=0){
 				//first time
 				finalSurveySummary.setCreatedBy(MainPage.getLoggedinUser());

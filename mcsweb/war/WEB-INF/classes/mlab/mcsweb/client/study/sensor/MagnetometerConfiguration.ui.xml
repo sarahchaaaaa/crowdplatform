@@ -20,7 +20,7 @@
 					<!--g:Label>Location</g:Label -->
 				</b:Column>
 				<b:Column size="MD_2 LG_2"></b:Column>
-				<b:Column size="MD_1 LG_1">
+				<!--b:Column size="MD_1 LG_1">
 					<b:Popover content="Add time constraint">
 						<b:Button type="LINK" ui:field="timeButton"></b:Button>
 					</b:Popover>
@@ -38,7 +38,7 @@
 				</b:Column>
 				<b:Column size="MD_1 LG_1">
 					<b:Button type="LINK" ui:field="collapseButton"></b:Button>
-				</b:Column>
+				</b:Column-->
 			</b:Row>
 		</g:HTMLPanel>
 		<g:HTMLPanel ui:field="configDetailsPanel">
@@ -50,7 +50,11 @@
 						<b:InlineRadio name="radio1" formValue="value1" ui:field="radioLoc" value="true"/>
 					</b:Column-->
 					<b:Column size="MD_5 LG_5">
-						<b:TextBox placeholder="frequency (Hz)"></b:TextBox>
+						<b:TextBox placeholder="frequency (Hz)" ui:field="frequencyText"></b:TextBox>
+					</b:Column>
+					<b:Column size="MD_1 LG_1"></b:Column>
+					<b:Column size="MD_1 LG_4">
+						<g:Label addStyleNames="label_error" ui:field="errorLabel"></g:Label>
 					</b:Column>
 
 				</b:Row>

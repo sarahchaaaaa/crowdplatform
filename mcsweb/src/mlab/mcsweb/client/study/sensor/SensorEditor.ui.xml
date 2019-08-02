@@ -9,7 +9,10 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<b:Row>
-			<b:Column size="MD_9">
+			<b:Column size="MD_2">
+				<b:Button pull="RIGHT" text="Back" ui:field="backButton"></b:Button>
+			</b:Column>
+			<b:Column size="MD_7">
 
 			</b:Column>
 			<b:Column size="MD_3">
@@ -19,32 +22,41 @@
 		</b:Row>
 		<h:Br></h:Br>
 		<b:Row>
+			<b:Column size="MD_6"></b:Column>
+			<b:Column size="MD_6">
+				<b:Heading size="H4" text="Test" ui:field="editorError"></b:Heading>
+			</b:Column>
+			
+		</b:Row>		
+		<b:Row>
+			<b:Column size="MD_2">
+			</b:Column>
+			<b:Column size="MD_2">
+				<h:Br></h:Br>
+				<h:Br></h:Br>
+				<b:Panel>
+					<!--b:PanelHeader>
+						<b:Heading size="H4" text="Manage Participation" />
+					</b:PanelHeader/-->
+					<b:LinkedGroup>
+						<b:LinkedGroupItem text="Action" ui:field="actionLink"/>
+						<b:LinkedGroupItem text="Trigger" ui:field="triggerLink"/>
+					</b:LinkedGroup>
+				</b:Panel>
+
+			</b:Column>
 			<b:Column size="MD_1">
 			</b:Column>
-			<b:Column size="MD_10">
-				<b:Row>
-					<g:HTMLPanel ui:field="globalSettingPanel">
-						<b:Heading text="Global Settings" size="H3"></b:Heading>
-					</g:HTMLPanel>
-				</b:Row>
-				<h:Br></h:Br>
-				<h:Br></h:Br>
-				<b:Row>
-					<g:HTMLPanel ui:field="sensorConfigPanel">
-					</g:HTMLPanel>
-				</b:Row>
-				<h:Br></h:Br>
-				<h:Br></h:Br>
-				<b:Row>
-					<g:HTMLPanel ui:field="sensorEventPanel">
-					</g:HTMLPanel>
-				</b:Row>
+			<b:Column size="MD_6">
+				<g:HTMLPanel ui:field="contentPanel"></g:HTMLPanel>
 			</b:Column>
 			<b:Column size="MD_1">
 			</b:Column>
 		</b:Row>
-		<h:Br></h:Br><h:Br></h:Br><h:Br></h:Br>
-		
+		<h:Br></h:Br>
+		<h:Br></h:Br>
+		<h:Br></h:Br>
+
 
 	</g:HTMLPanel>
 </ui:UiBinder> 
