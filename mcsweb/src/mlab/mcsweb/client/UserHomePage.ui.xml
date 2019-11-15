@@ -1,0 +1,45 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html" >
+	
+	<ui:style>
+	
+	.important {
+		font-weight: bold;
+	}
+	
+	.navbar-custom {
+    	background-color: #0D1F36;
+	}
+	
+	.navbar-center{
+    	position:absolute;
+    	left:70%;
+	}
+	.panel-border{
+		border: 1px solid #BBBBBB;
+	}
+		
+	</ui:style>
+	
+	<g:HTMLPanel>		
+		<g:HTMLPanel ui:field="userHomeContentPanel">
+			<b:Column size="MD_4">
+			</b:Column>
+			<b:Column size="MD_5" ui:field="userHomeMiddle" >
+				<h:Br></h:Br><h:Br></h:Br>
+				<g:HTMLPanel ui:field="createStudyPanel">
+					<g:Label>create study</g:Label>
+				</g:HTMLPanel>
+				<h:Br></h:Br><h:Br></h:Br>
+				<!--g:HTMLPanel ui:field="studyListPanel" addStyleNames="{style.panel_border}"-->
+				<g:HTMLPanel ui:field="studyListPanel">
+				</g:HTMLPanel>
+			</b:Column>
+			
+			
+		</g:HTMLPanel>
+		
+	</g:HTMLPanel>
+</ui:UiBinder> 

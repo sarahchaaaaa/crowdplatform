@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+
+	<context-param>
+		<param-name>serverRoot</param-name>
+		<!--param-value>http://10.32.10.188:8080/mcsservice</param-value -->
+		<param-value>http://129.74.247.110:80/mcsservice</param-value>
+	</context-param>
+
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>greetServlet</servlet-name>
+		<servlet-class>mlab.mcsweb.server.GreetingServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>greetServlet</servlet-name>
+		<url-pattern>/mcsweb/greet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>dashboardServlet</servlet-name>
+		<servlet-class>mlab.mcsweb.server.DashboardServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dashboardServlet</servlet-name>
+		<url-pattern>/mcsweb/dashboard</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>labelingServlet</servlet-name>
+		<servlet-class>mlab.mcsweb.server.LabelingServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>labelingServlet</servlet-name>
+		<url-pattern>/mcsweb/labeling</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>participantServlet</servlet-name>
+		<servlet-class>mlab.mcsweb.server.ParticipantServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>participantServlet</servlet-name>
+		<url-pattern>/mcsweb/participant</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>sensorServlet</servlet-name>
+		<servlet-class>mlab.mcsweb.server.SensorServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>sensorServlet</servlet-name>
+		<url-pattern>/mcsweb/sensor</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>settingsServlet</servlet-name>
+		<servlet-class>mlab.mcsweb.server.SettingsServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>settingsServlet</servlet-name>
+		<url-pattern>/mcsweb/settings</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>surveyServlet</servlet-name>
+		<servlet-class>mlab.mcsweb.server.SurveyServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>surveyServlet</servlet-name>
+		<url-pattern>/mcsweb/survey</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>verifyEmail</servlet-name>
+		<servlet-class>mlab.mcsweb.server.VerifyEmailImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>verifyEmail</servlet-name>
+		<url-pattern>/verifyemail</url-pattern>
+	</servlet-mapping>
+
+
+
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Mcsweb.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>

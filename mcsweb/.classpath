@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="test-classes" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.7.0"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtbootstrap3-0.9.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtbootstrap3-extras-0.9.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-bundle-1.18.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-core-1.18.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dnd-3.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-dbcp2-2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-pool2-2.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-visualization-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.47.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mail-1.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.55.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>
