@@ -21,14 +21,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.MainPage;
 import mlab.mcsweb.client.Mcsweb;
 import mlab.mcsweb.client.events.SurveyEvent;
 import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
+import mlab.mcsweb.client.services.SurveyService;
+import mlab.mcsweb.client.services.SurveyServiceAsync;
 import mlab.mcsweb.client.study.survey.TaskEditorState.EditorSpecificState;
 import mlab.mcsweb.shared.Response;
 import mlab.mcsweb.shared.SurveyConfiguration;
@@ -55,8 +55,8 @@ public class SurveyEditor extends Composite {
 	private SurveyConfigView surveyConfigView;
 	private SurveyTaskEditor surveyTaskEditor;
 	
-	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
-	private final GreetingServiceAsync studyService = GWT.create(GreetingService.class);
+	//private final StudyConfigServiceAsync studyConfigService = GWT.create(StudyConfigService.class);
+	private final SurveyServiceAsync service = GWT.create(SurveyService.class);
 
 
 	private static SurveyEditorUiBinder uiBinder = GWT.create(SurveyEditorUiBinder.class);
@@ -118,7 +118,7 @@ public class SurveyEditor extends Composite {
 			finalSurveySummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
 			SurveyConfiguration surveyConfiguration = new SurveyConfiguration(finalSurveySummary, surveyTaskEditor.getAllSurveyTask());
 			
-			studyService.saveSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
+			service.saveSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
 				
 				@Override
 				public void onSuccess(Response result) {
@@ -179,7 +179,7 @@ public class SurveyEditor extends Composite {
 		//Window.alert("save clicked "+ JSUtil.getUnixtime());
 		SurveyConfiguration surveyConfiguration = new SurveyConfiguration(finalSurveySummary, surveyTaskEditor.getAllSurveyTask());
 		
-		studyService.publishSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
+		service.publishSurveyConfiguration(surveyConfiguration, new AsyncCallback<Response>() {
 			@Override
 			public void onSuccess(Response result) {
 				Notify.notify("Survey will be pushed", NotifyType.SUCCESS);

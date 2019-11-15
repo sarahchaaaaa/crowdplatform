@@ -1,0 +1,2 @@
+serviceClass: mlab.mcsweb.client.services.SensorService
+path: C86B6A3129275425B73C5C2FE8045399.gwt.rpc

@@ -18,8 +18,9 @@
 						<b:Heading size="H4" text="Manage Participation" />
 					</b:PanelHeader-->
 					<b:LinkedGroup>
-						<b:LinkedGroupItem text="Cloud Storage" ui:field="cloudStorageLink" active="true"/>
 						<b:LinkedGroupItem text="Mobile Storage" ui:field="mobileStorageLink" />
+						<b:LinkedGroupItem text="Cloud Storage" ui:field="cloudStorageLink" active="true"/>
+						<b:LinkedGroupItem text="Data Upload" ui:field="uploadLink" />
 						<b:LinkedGroupItem text="Auto Notification" ui:field="autoNotifLink"></b:LinkedGroupItem>
 						<b:LinkedGroupItem text="Collaborators" ui:field="collaboratorsLink"></b:LinkedGroupItem>
 					</b:LinkedGroup>

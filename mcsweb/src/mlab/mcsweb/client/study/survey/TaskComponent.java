@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
-import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.extras.select.client.ui.Select;
 

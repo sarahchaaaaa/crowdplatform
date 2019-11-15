@@ -3,6 +3,9 @@ package mlab.mcsweb.shared;
 import java.security.MessageDigest;
 
 public class Util {
+	
+
+	
 	public static boolean isEmailFOrmatValid(Object value) {
 		if (value == null)
 			return true;
@@ -18,6 +21,17 @@ public class Util {
 		}
 
 		return valid;
+	}
+	
+	public static boolean isURLFormatValid(String url) {
+		
+		if (url == null || url == "")
+			return false;
+		
+		String urlPattern = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$";
+		
+		return (url).matches(urlPattern);
+	
 	}
 	
 	/**
@@ -65,5 +79,7 @@ public class Util {
 			return false;
 		}
 	}
+	
+
 
 }

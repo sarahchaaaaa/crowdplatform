@@ -1,0 +1,2 @@
+serviceClass: mlab.mcsweb.client.services.SettingsService
+path: FE32F53C8E4958B60B6265743A30D203.gwt.rpc

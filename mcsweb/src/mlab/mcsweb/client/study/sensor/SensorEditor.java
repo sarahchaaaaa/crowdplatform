@@ -22,14 +22,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.MainPage;
 import mlab.mcsweb.client.Mcsweb;
 import mlab.mcsweb.client.events.SensorEvent;
 import mlab.mcsweb.client.events.SensorState;
 import mlab.mcsweb.client.events.SensorState.SensorSpecificState;
+import mlab.mcsweb.client.services.SensorService;
+import mlab.mcsweb.client.services.SensorServiceAsync;
 import mlab.mcsweb.shared.Response;
 import mlab.mcsweb.shared.SensorConfiguration;
 import mlab.mcsweb.shared.SensorSummary;
@@ -52,7 +52,7 @@ public class SensorEditor extends Composite {
 	private SensorSummary sensorSummary;
 	private SensorActionEditor actionEditor;
 	
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	private final SensorServiceAsync service = GWT.create(SensorService.class);
 
 
 	private static SensorEditorUiBinder uiBinder = GWT.create(SensorEditorUiBinder.class);

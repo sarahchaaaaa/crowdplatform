@@ -15,6 +15,7 @@
 				<b:Heading size="H3" text="Auto Notification Setting" />
 			</b:PanelHeader>
 			<b:PanelBody>
+				<g:Label>Work in progress. Setting for sending auto notification- 1. Send notification if ping is not recived in x days 2. repeat the check 3. notification msg</g:Label>
 			</b:PanelBody>
 		</b:Panel>
 	</g:HTMLPanel>

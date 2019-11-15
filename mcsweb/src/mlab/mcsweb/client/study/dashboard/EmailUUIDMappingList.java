@@ -26,8 +26,8 @@ import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.Table.Options;
 import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
+import mlab.mcsweb.client.services.DashboardService;
+import mlab.mcsweb.client.services.DashboardServiceAsync;
 import mlab.mcsweb.shared.FileIdentifier;
 
 public class EmailUUIDMappingList extends Composite {
@@ -42,7 +42,8 @@ public class EmailUUIDMappingList extends Composite {
 	private ArrayList<FileIdentifier> list = new ArrayList<>();
 	Table listTable = new Table();
 	DataView dataView  = null;
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	
+	private final DashboardServiceAsync service = GWT.create(DashboardService.class);
 
 
 	private static EmailUUIDMappingListUiBinder uiBinder = GWT.create(EmailUUIDMappingListUiBinder.class);

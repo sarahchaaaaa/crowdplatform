@@ -54,12 +54,13 @@ public class LocationConfiguration extends Composite {
 	boolean isValid(boolean checkd) {
 		if (checkd) {
 			try {
+				
 				float frequency = Float.parseFloat(frequencyText.getText().trim());
 				if (frequency <= 0) {
 					errorLabel.setText("Must be greater than 0");
-				} else if (frequency > 0.033) {
+				}/* else if (frequency > 0.033) {
 					errorLabel.setText("Must be less than 0.033");
-				} else {
+				}*/ else {
 					errorLabel.setText("");
 				}
 			} catch (Exception e) {

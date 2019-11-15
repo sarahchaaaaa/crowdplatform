@@ -18,8 +18,9 @@
 						<b:Heading size="H4" text="Manage Participation" />
 					</b:PanelHeader-->
 					<b:LinkedGroup>
-						<b:LinkedGroupItem text="All" ui:field="allParticipantLink" active="true"/>
-						<b:LinkedGroupItem text="Individual" ui:field="participantLink" />
+						<b:LinkedGroupItem text="Manage" ui:field="allParticipantLink" active="true"/>
+						<b:LinkedGroupItem text="Ping History" ui:field="participantLink" />
+						<b:LinkedGroupItem text="File Object History" ui:field="objectLink" />
 					</b:LinkedGroup>
 
 				</b:Panel>

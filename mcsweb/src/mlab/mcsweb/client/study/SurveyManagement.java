@@ -16,13 +16,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.Mcsweb;
 import mlab.mcsweb.client.events.SurveyEvent;
 import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
+import mlab.mcsweb.client.services.SurveyService;
+import mlab.mcsweb.client.services.SurveyServiceAsync;
 import mlab.mcsweb.shared.Study;
 import mlab.mcsweb.shared.SurveySummary;
 
@@ -43,8 +43,8 @@ public class SurveyManagement extends Composite {
 	
 	private Study study;
 
-	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
-	private final GreetingServiceAsync surveyService = GWT.create(GreetingService.class);
+	//private final StudyConfigServiceAsync studyConfigService = GWT.create(StudyConfigService.class);
+	private final SurveyServiceAsync surveyService = GWT.create(SurveyService.class);
 
 
 	private static SurveyUiBinder uiBinder = GWT.create(SurveyUiBinder.class);

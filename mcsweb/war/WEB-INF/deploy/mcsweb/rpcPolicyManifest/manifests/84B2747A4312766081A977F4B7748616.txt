@@ -1,0 +1,2 @@
+serviceClass: mlab.mcsweb.client.services.DashboardService
+path: 606EA95C35BC8AFA33F290846D43CFEB.gwt.rpc

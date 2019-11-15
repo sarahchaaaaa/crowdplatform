@@ -4,32 +4,25 @@ import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.ImageAnchor;
-import org.gwtbootstrap3.client.ui.html.Br;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.Mcsweb;
 import mlab.mcsweb.client.events.LabelEvent;
 import mlab.mcsweb.client.events.LabelState;
 import mlab.mcsweb.client.events.LabelState.LabelSpecificState;
-import mlab.mcsweb.client.events.SurveyEvent;
-import mlab.mcsweb.client.events.SurveyState;
-import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
+import mlab.mcsweb.client.services.GreetingService;
+import mlab.mcsweb.client.services.GreetingServiceAsync;
 import mlab.mcsweb.shared.LabelSummary;
 import mlab.mcsweb.shared.Study;
-import mlab.mcsweb.shared.SurveySummary;
 
 public class LabelingManagement extends Composite {
 
@@ -46,7 +39,7 @@ public class LabelingManagement extends Composite {
 	
 	private Study study;
 
-	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
+	//private final StudyConfigServiceAsync studyConfigService = GWT.create(StudyConfigService.class);
 	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
 
 	private static LabellingManagementUiBinder uiBinder = GWT.create(LabellingManagementUiBinder.class);

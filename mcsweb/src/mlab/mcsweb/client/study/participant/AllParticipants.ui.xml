@@ -12,7 +12,7 @@
 		<h:Br></h:Br>
 		<b:Panel type="SUCCESS">
 			<b:PanelHeader>
-				<b:Heading size="H3" text="List" />
+				<b:Heading size="H3" text="List of Participants" />
 			</b:PanelHeader>
 			<b:PanelBody>
 				<g:HTMLPanel ui:field="listPanel">

@@ -13,8 +13,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
+import mlab.mcsweb.client.services.SensorService;
+import mlab.mcsweb.client.services.SensorServiceAsync;
 import mlab.mcsweb.shared.SensorAction;
 import mlab.mcsweb.shared.SensorSummary;
 
@@ -29,7 +29,7 @@ public class SensorActionEditor extends Composite {
 	
 	private SensorSummary sensorSummary;
 	
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	private final SensorServiceAsync service = GWT.create(SensorService.class);
 
 
 	private static SensorActionEditorUiBinder uiBinder = GWT.create(SensorActionEditorUiBinder.class);

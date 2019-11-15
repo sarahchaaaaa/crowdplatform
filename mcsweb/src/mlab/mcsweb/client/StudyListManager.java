@@ -28,6 +28,8 @@ import com.google.gwt.user.client.ui.Widget;
 import mlab.mcsweb.client.events.StudyEvent;
 import mlab.mcsweb.client.events.StudyState;
 import mlab.mcsweb.client.events.StudyState.StudySpecificState;
+import mlab.mcsweb.client.services.GreetingService;
+import mlab.mcsweb.client.services.GreetingServiceAsync;
 import mlab.mcsweb.shared.Study;
 
 public class StudyListManager extends Composite {

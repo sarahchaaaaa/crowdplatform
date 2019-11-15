@@ -30,8 +30,8 @@ import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.Table.Options;
 import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
+import mlab.mcsweb.client.services.ParticipantService;
+import mlab.mcsweb.client.services.ParticipantServiceAsync;
 import mlab.mcsweb.shared.PingInfo;
 
 public class IndividualParticipant extends Composite {
@@ -53,7 +53,7 @@ public class IndividualParticipant extends Composite {
 	private ArrayList<PingInfo> pingList = new ArrayList<>();
 	Table pingTable = new Table();
 	DataView dataView  = null;
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	private final ParticipantServiceAsync service = GWT.create(ParticipantService.class);
 
 	private static IndividualParticipantUiBinder uiBinder = GWT.create(IndividualParticipantUiBinder.class);
 

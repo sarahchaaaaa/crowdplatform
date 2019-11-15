@@ -1,0 +1,2 @@
+serviceClass: mlab.mcsweb.client.services.SurveyService
+path: 0B51F796289CFED01DEA4B2C4D6C558B.gwt.rpc

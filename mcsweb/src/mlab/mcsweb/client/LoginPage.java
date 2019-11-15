@@ -18,6 +18,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import mlab.mcsweb.client.services.GreetingService;
+import mlab.mcsweb.client.services.GreetingServiceAsync;
 import mlab.mcsweb.shared.Response;
 import mlab.mcsweb.shared.User;
 import mlab.mcsweb.shared.Util;

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import mlab.mcsweb.client.study.participant.AllParticipants;
+import mlab.mcsweb.client.study.participant.FileObjectHistory;
 import mlab.mcsweb.client.study.participant.IndividualParticipant;
 import mlab.mcsweb.shared.Study;
 
@@ -22,12 +23,13 @@ public class ParticipantManagement extends Composite{
 	HTMLPanel contentPanel;
 	
 	@UiField
-	LinkedGroupItem allParticipantLink, participantLink;
+	LinkedGroupItem allParticipantLink, participantLink, objectLink;
 
 	
 	private Study study;
 	private AllParticipants allParticipants;
 	private IndividualParticipant participant;
+	private FileObjectHistory fileHistory;
 
 	private static ParticipantManagementUiBinder uiBinder = GWT.create(ParticipantManagementUiBinder.class);
 
@@ -46,6 +48,7 @@ public class ParticipantManagement extends Composite{
 		//Window.alert("load all");
 		allParticipantLink.setActive(true);
 		participantLink.setActive(false);
+		objectLink.setActive(false);
 		
 		contentPanel.clear();
 		if (allParticipants == null){
@@ -64,6 +67,7 @@ public class ParticipantManagement extends Composite{
 		//Window.alert("group participation");
 		allParticipantLink.setActive(false);
 		participantLink.setActive(true);
+		objectLink.setActive(false);
 		
 		contentPanel.clear();
 		if(participant == null){
@@ -71,4 +75,19 @@ public class ParticipantManagement extends Composite{
 		}
 		contentPanel.add(participant);
 	}
+	
+	@UiHandler("objectLink")
+	void loadObjectHistory(ClickEvent event){
+		//Window.alert("group participation");
+		allParticipantLink.setActive(false);
+		participantLink.setActive(false);
+		objectLink.setActive(true);
+		
+		contentPanel.clear();
+		if (fileHistory == null) {
+			fileHistory = new FileObjectHistory();
+		}
+		contentPanel.add(fileHistory);
+	}
+	
 }

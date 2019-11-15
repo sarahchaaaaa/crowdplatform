@@ -18,9 +18,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.Mcsweb;
+import mlab.mcsweb.client.services.SurveyService;
+import mlab.mcsweb.client.services.SurveyServiceAsync;
 import mlab.mcsweb.client.study.survey.TaskEditorState.EditorSpecificState;
 import mlab.mcsweb.shared.SurveySummary;
 import mlab.mcsweb.shared.SurveyTask;
@@ -37,9 +37,7 @@ public class SurveyTaskEditor extends Composite {
 	private AbsolutePanel boundaryPanel = new AbsolutePanel();
 	private final VerticalPanel targetPanel = new VerticalPanel();
 
-	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
-	private final GreetingServiceAsync surveyService = GWT.create(GreetingService.class);
-
+	private final SurveyServiceAsync service = GWT.create(SurveyService.class);
 
 	private static SurveyTaskEditorUiBinder uiBinder = GWT.create(SurveyTaskEditorUiBinder.class);
 
@@ -80,7 +78,7 @@ public class SurveyTaskEditor extends Composite {
 			});
 
 		} else{
-			surveyService.getSurveyTaskList(surveySummary.getStudyId(), surveySummary.getId(), new AsyncCallback<ArrayList<SurveyTask>>() {
+			service.getSurveyTaskList(surveySummary.getStudyId(), surveySummary.getId(), new AsyncCallback<ArrayList<SurveyTask>>() {
 				
 				@Override
 				public void onSuccess(ArrayList<SurveyTask> result) {

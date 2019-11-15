@@ -33,8 +33,8 @@ import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.Table.Options;
 import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
+import mlab.mcsweb.client.services.ParticipantService;
+import mlab.mcsweb.client.services.ParticipantServiceAsync;
 import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.Response;
 
@@ -58,7 +58,7 @@ public class AllParticipants extends Composite {
 	Table participantTable = new Table();
 	DataView dataView  = null;
 
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	private final ParticipantServiceAsync service = GWT.create(ParticipantService.class);
 
 	private static AllParticipantsUiBinder uiBinder = GWT.create(AllParticipantsUiBinder.class);
 

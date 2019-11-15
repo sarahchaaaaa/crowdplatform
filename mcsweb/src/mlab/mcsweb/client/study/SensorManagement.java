@@ -16,19 +16,15 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.Mcsweb;
 import mlab.mcsweb.client.events.SensorEvent;
 import mlab.mcsweb.client.events.SensorState;
-import mlab.mcsweb.client.events.SurveyEvent;
-import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SensorState.SensorSpecificState;
-import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
+import mlab.mcsweb.client.services.SensorService;
+import mlab.mcsweb.client.services.SensorServiceAsync;
 import mlab.mcsweb.shared.SensorSummary;
 import mlab.mcsweb.shared.Study;
-import mlab.mcsweb.shared.SurveySummary;
 
 public class SensorManagement extends Composite {
 	
@@ -44,8 +40,8 @@ public class SensorManagement extends Composite {
 	
 	private Study study;
 
-	//private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	//private final StudyConfigServiceAsync studyConfigService = GWT.create(StudyConfigService.class);
+	private final SensorServiceAsync service = GWT.create(SensorService.class);
 
 
 	private static SensorManagementUiBinder uiBinder = GWT.create(SensorManagementUiBinder.class);

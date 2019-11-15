@@ -10,7 +10,6 @@ crowdsense/cimoninterface/services/StudyService.class
 crowdsense/cimoninterface/services/SurveySummary.class
 crowdsense/cimoninterface/services/SurveyResponse.class
 crowdsense/cimoninterface/util/ServiceUtil.class
-crowdsense/cimoninterface/services/DataService.class
 crowdsense/cimoninterface/services/SensorSummary.class
 crowdsense/cimoninterface/services/PushRegistry.class
 crowdsense/cimoninterface/services/SensorAction.class

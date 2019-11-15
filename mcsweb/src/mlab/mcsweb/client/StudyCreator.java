@@ -17,6 +17,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+import mlab.mcsweb.client.services.GreetingService;
+import mlab.mcsweb.client.services.GreetingServiceAsync;
 import mlab.mcsweb.shared.Response;
 import mlab.mcsweb.shared.Study;
 

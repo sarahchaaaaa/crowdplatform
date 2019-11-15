@@ -35,14 +35,15 @@ public class StudyDetails extends Composite {
 	private NavTabs tabNavigation;
 	private TabContent tabContent;
 
-	private TabListItem dashboardTab, participantTab, phoneSensingTab, surveyTab, taskTab, labelingTab, settingsTab;
-	private TabPane dashboardPane, participantPane, phoneSensingPane, surveyPane, taskPane, labelingPane, settingsPane;
+	private TabListItem dashboardTab, participantTab, phoneSensingTab, surveyTab, taskTab, labelingTab, wearableTab, settingsTab;
+	private TabPane dashboardPane, participantPane, phoneSensingPane, surveyPane, taskPane, labelingPane, wearablePane, settingsPane;
 
 	private Dashboard dashboard;
 	private ParticipantManagement participantManagement;
 	private SensorManagement sensorManagement;
 	private SurveyManagement surveyManagement;
 	private LabelingManagement labelManagement;
+	private WearableManagement wearableManagement;
 	private Settings settings; 
 
 	// private boolean isParticipantClicked = false, isSurveyClicked = false,
@@ -70,6 +71,7 @@ public class StudyDetails extends Composite {
 		sensorManagement = new SensorManagement(study);
 		surveyManagement = new SurveyManagement(study);
 		labelManagement = new LabelingManagement(study);
+		wearableManagement = new WearableManagement();
 		settings = new Settings(study);
 
 		dashboardTab = new TabListItem("Dashboard");
@@ -144,6 +146,17 @@ public class StudyDetails extends Composite {
 				labelingPane.add(labelManagement);
 			}
 		});
+		
+		wearableTab = new TabListItem("Wearable");
+		wearablePane = new TabPane();
+		wearableTab.setDataTargetWidget(wearablePane);
+		wearableTab.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				wearablePane.add(wearableManagement);
+			}
+		});
 
 		settingsTab = new TabListItem("Settings");
 		settingsPane = new TabPane();
@@ -174,6 +187,9 @@ public class StudyDetails extends Composite {
 		
 		tabNavigation.add(labelingTab);
 		tabContent.add(labelingPane);
+		
+		tabNavigation.add(wearableTab);
+		tabContent.add(wearablePane);
 		
 		tabNavigation.add(settingsTab);
 		tabContent.add(settingsPane);

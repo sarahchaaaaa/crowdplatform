@@ -8,6 +8,9 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import mlab.mcsweb.client.services.GreetingService;
+import mlab.mcsweb.client.services.GreetingServiceAsync;
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

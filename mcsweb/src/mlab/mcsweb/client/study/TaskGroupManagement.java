@@ -11,18 +11,14 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
 import mlab.mcsweb.client.JSUtil;
 import mlab.mcsweb.client.Mcsweb;
-import mlab.mcsweb.client.StudyConfigurationService;
-import mlab.mcsweb.client.StudyConfigurationServiceAsync;
+import mlab.mcsweb.client.StudyConfigService;
+import mlab.mcsweb.client.StudyConfigServiceAsync;
 import mlab.mcsweb.client.events.SurveyEvent;
 import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
@@ -44,7 +40,7 @@ public class TaskGroupManagement extends Composite {
 	
 	private Study study;
 
-	private final StudyConfigurationServiceAsync studyConfigService = GWT.create(StudyConfigurationService.class);
+	private final StudyConfigServiceAsync studyConfigService = GWT.create(StudyConfigService.class);
 
 	private static TaskGroupManagementUiBinder uiBinder = GWT.create(TaskGroupManagementUiBinder.class);
 

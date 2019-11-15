@@ -10,6 +10,7 @@
 	<g:HTMLPanel>
 		<h:Br></h:Br>
 		<h:Br></h:Br>
+		<g:Label ui:field="globalErrorLabel" addStyleNames="label_error">Service not available, please try later!</g:Label>
 		<b:Panel type="SUCCESS">
 			<b:PanelHeader>
 				<b:Heading size="H3" text="Storage Setting" />
@@ -17,13 +18,13 @@
 			<b:PanelBody>
 				<g:HTMLPanel ui:field="listPanel">
 					<b:Row styleName="col-lg-offset-1">
-						<b:Radio name="cloudStorageRadio">Amazon S3</b:Radio>
+						<b:Radio name="cloudStorageRadio" ui:field="s3Radio">Amazon S3</b:Radio>
 						<b:Row>
 							<b:Column size="MD_6">
-								<b:TextBox placeholder="Access Key" ui:field="textFName"></b:TextBox>
+								<b:TextBox placeholder="Access Key" ui:field="textAccessKey"></b:TextBox>
 							</b:Column>
 							<b:Column size="MD_6">
-								<b:TextBox placeholder="Secret Access" ui:field="textLName"></b:TextBox>
+								<b:TextBox placeholder="Secret Access" ui:field="textSecretAccess"></b:TextBox>
 							</b:Column>
 						</b:Row>
 						<h:Br></h:Br>
@@ -33,28 +34,28 @@
 							</b:Column>
 						</b:Row>
 						<h:Br></h:Br>
-						<g:Label>This is a test</g:Label>
+						<g:Label ui:field="s3ErrorLabel"></g:Label>
 						<h:Hr></h:Hr>
 					</b:Row>
 					<b:Row styleName="col-lg-offset-1">
-						<b:Radio name="cloudStorageRadio">Upload URL</b:Radio>
+						<b:Radio name="cloudStorageRadio" ui:field="urlRadio">Upload URL</b:Radio>
 						<b:Row>
 							<b:Column size="MD_12">
 								<b:TextBox placeholder="URL Path" ui:field="textUrlPath"></b:TextBox>
 							</b:Column>
 						</b:Row>
 						<h:Br></h:Br>
-						<g:Label>This is a test</g:Label>
+						<g:Label ui:field="urlErrorLabel"></g:Label>
 						<h:Hr></h:Hr>
 					</b:Row>
 					<b:Row styleName="col-lg-offset-1">
-						<b:Radio name="cloudStorageRadio">Default</b:Radio>
+						<b:Radio name="cloudStorageRadio" ui:field="defaultRadio">Default</b:Radio>
 						<h:Br></h:Br>
-						<g:Label>This is a test</g:Label>
+						<g:Label>The default cloud storage is located at the University of Notre Dame. It does not ensure that your data will be stored forever. To retrieve data, or any other query please contact ahossain@nd.edu</g:Label>
 						<h:Hr></h:Hr>
 					</b:Row>
 					<b:Row styleName="col-lg-offset-1">
-						<b:Button>Update</b:Button>
+						<b:Button ui:field="updateButton">Update</b:Button>
 					</b:Row>
 				</g:HTMLPanel>
 			</b:PanelBody>

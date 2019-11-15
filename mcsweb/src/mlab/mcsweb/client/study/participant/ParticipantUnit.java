@@ -8,14 +8,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-import mlab.mcsweb.client.GreetingService;
-import mlab.mcsweb.client.GreetingServiceAsync;
+import mlab.mcsweb.client.services.ParticipantService;
+import mlab.mcsweb.client.services.ParticipantServiceAsync;
 import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.Response;
 import mlab.mcsweb.shared.Util;
@@ -35,7 +34,7 @@ public class ParticipantUnit extends Composite {
 	private long studyId;
 	private String currentEmail;
 	private boolean fromEdit = false;
-	private final GreetingServiceAsync service = GWT.create(GreetingService.class);
+	private final ParticipantServiceAsync service = GWT.create(ParticipantService.class);
 
 	private static ParticipantUnitUiBinder uiBinder = GWT.create(ParticipantUnitUiBinder.class);
 

@@ -20,6 +20,10 @@
 					<b:LinkedGroup>
 						<b:LinkedGroupItem text="Summary" ui:field="summaryLink" />
 						<b:LinkedGroupItem text="File Name Mapping" ui:field="fileMapLink" />
+						<b:LinkedGroupItem text="Send Notification" ui:field="sendNotificationLink" />
+						<b:LinkedGroupItem text="Send Command" ui:field="sendCommandLink" />
+						<b:LinkedGroupItem text="Ping Statistics" ui:field="pingStatLink" />
+						<b:LinkedGroupItem text="File Object Statistics" ui:field="objectStatLink" />
 					</b:LinkedGroup>
 
 				</b:Panel>
