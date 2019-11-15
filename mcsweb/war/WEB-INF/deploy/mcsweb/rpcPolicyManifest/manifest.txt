@@ -1,2 +1,8 @@
 # Module mcsweb
 # RPC service class, partial path of RPC policy file
+mlab.mcsweb.client.services.ParticipantService, F83462921BE83F6A56A35353A1E2822C.gwt.rpc
+mlab.mcsweb.client.services.GreetingService, 958581AACA3315092B47EB78DA8FEB89.gwt.rpc
+mlab.mcsweb.client.services.SettingsService, FE32F53C8E4958B60B6265743A30D203.gwt.rpc
+mlab.mcsweb.client.services.DashboardService, 606EA95C35BC8AFA33F290846D43CFEB.gwt.rpc
+mlab.mcsweb.client.services.SensorService, C86B6A3129275425B73C5C2FE8045399.gwt.rpc
+mlab.mcsweb.client.services.SurveyService, 0B51F796289CFED01DEA4B2C4D6C558B.gwt.rpc

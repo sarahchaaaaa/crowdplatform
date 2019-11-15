@@ -19,7 +19,7 @@
 	<classpathentry kind="lib" path="lib/commons-io-2.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool2-2.5.0.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-visualization-1.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.18.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.47.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mail-1.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.55.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

@@ -40,9 +40,9 @@ import mlab.mcsweb.shared.Util;
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 
 	static String serverRoot = "";
-	//private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	
-	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	//private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static String dbUrl, dbUsername, dbPassword;
 
 	private static String gmailAccount, gmailUser, gmailPass;
@@ -95,62 +95,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		return null;
 	}
 	
-//	private Connection connect(){
-//		try {
-//			System.out.println("In the new connect method.....s");
-//			int lport=5656;
-//		    String rhost="mlab.crc.nd.edu";
-//		    String host="mlab.crc.nd.edu";
-//		    int rport=3306;
-//		    String sshUser="mlabguest";
-//		    String sshPassword="mL@bGuest11";
-//	        String url = "jdbc:mysql://mlab.crc.nd.edu:"+lport+"/mcs";
-//	        String driverName="com.mysql.jdbc.Driver";
-//	        Connection conn = null;
-//	        com.jcraft.jsch.Session session= null;
-//		    try{
-//		    	//Set StrictHostKeyChecking property to no to avoid UnknownHostKey issue
-//		    	java.util.Properties config = new java.util.Properties(); 
-//		    	config.put("StrictHostKeyChecking", "no");
-//		    	System.out.println("config has been updated......");
-//		    	JSch jsch = new JSch();
-//		    	System.out.println("JSch object created......");
-//		    	session=jsch.getSession(sshUser, host, 22);
-//		    	session.setPassword(sshPassword);
-//		    	session.setConfig(config);
-//		    	System.out.println("going to connect session.......");
-//		    	session.connect();
-//		    	System.out.println("Connected");
-//		    	int assinged_port=session.setPortForwardingL(lport, rhost, rport);
-//		        System.out.println("localhost:"+assinged_port+" -> "+rhost+":"+rport);
-//		    	System.out.println("Port Forwarded");
-//		    	
-//		    	//mysql database connectivity
-//	            Class.forName(driverName).newInstance();
-//	            conn = DriverManager.getConnection (url, dbUsername, dbPassword);
-//	            System.out.println ("Database connection established");
-//	            System.out.println("DONE");
-//	            return conn;
-//		    }catch(Exception e){
-//		    	e.printStackTrace();
-//		    	//System.out.println("Exception in database session connection " + e.getLocalizedMessage());
-//		    }finally{
-//		    	if(conn != null && !conn.isClosed()){
-//		    		System.out.println("Closing Database Connection");
-//		    		conn.close();
-//		    	}
-//		    	if(session !=null && session.isConnected()){
-//		    		System.out.println("Closing SSH Connection");
-//		    		session.disconnect();
-//		    	}
-//		    }
-//		
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//		return null;
-//	}
-
 
 	@Override
 	public Response signup(User user) {
