@@ -1,2 +1,0 @@
-serviceClass: mlab.mcsweb.client.services.GreetingService
-path: 958581AACA3315092B47EB78DA8FEB89.gwt.rpc

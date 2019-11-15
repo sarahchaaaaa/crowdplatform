@@ -1,2 +1,0 @@
-serviceClass: mlab.mcsweb.client.services.ParticipantService
-path: F83462921BE83F6A56A35353A1E2822C.gwt.rpc
