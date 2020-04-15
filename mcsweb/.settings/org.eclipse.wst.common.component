@@ -2,6 +2,7 @@
     <wb-module deploy-name="mcsweb">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <property name="context-root" value="mcsweb"/>
         <property name="java-output-path" value="/mcsweb/war/WEB-INF/classes"/>
     </wb-module>

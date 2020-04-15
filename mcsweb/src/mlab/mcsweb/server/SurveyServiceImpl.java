@@ -49,7 +49,7 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 
 		try {
 			properties.load(inputStream);
-			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema");
+			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema") + "?serverTimezone=UTC";
 			username = properties.getProperty("db_username");
 			password = properties.getProperty("db_password");
 			System.out.println("db prop, dburl:" + dbUrl + ", user:" + username + ", pass:" + password);

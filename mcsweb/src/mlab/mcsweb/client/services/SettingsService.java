@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import mlab.mcsweb.shared.AutoNotInfo;
 import mlab.mcsweb.shared.CloudStorageInfo;
+import mlab.mcsweb.shared.DataUploadInfo;
 import mlab.mcsweb.shared.MobileStorageInfo;
 import mlab.mcsweb.shared.Response;
 
@@ -26,5 +28,13 @@ public interface SettingsService extends RemoteService {
 	//mobile storage
 	MobileStorageInfo getMobileStorageSetting(long studyId);
 	Response updateMobileStorageSetting(MobileStorageInfo info);
+	
+	//data upload
+	DataUploadInfo getDataUploadSetting(long studyId);
+	Response updateDataUploadSetting(DataUploadInfo info);
+	
+	//auto notification
+	AutoNotInfo getAutoNotSetting(long studyId);
+	Response updateAutoNotInfoSetting(AutoNotInfo info);
 
 }

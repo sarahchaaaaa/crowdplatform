@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
@@ -15,9 +16,11 @@ import javax.servlet.ServletException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import mlab.mcsweb.client.services.ParticipantService;
+import mlab.mcsweb.shared.FileObjectInfo;
 import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.PingInfo;
 import mlab.mcsweb.shared.Response;
+import mlab.mcsweb.shared.Util;
 
 /**
  * The server-side implementation of the RPC service.
@@ -48,7 +51,8 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 
 		try {
 			properties.load(inputStream);
-			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema");
+			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema")
+					+ "?serverTimezone=UTC";
 			username = properties.getProperty("db_username");
 			password = properties.getProperty("db_password");
 			System.out.println("db prop, dburl:" + dbUrl + ", user:" + username + ", pass:" + password);
@@ -68,29 +72,29 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 		return null;
 	}
 
-
 	// participation
 	@Override
 	public Response addParticipant(Participant participant) {
 		Response response = new Response();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		
+
 		if (participant.getUserEmail() == null || participant.getUserEmail().isEmpty()) {
 			return response;
 		}
 		try {
 			connection = connect();
-			String query = "insert into mcs.enrollment (study_id, participant_email, state,"
-					+ " first_name, last_name) values (?,?,?,?,?) on duplicate key update state=?";
+			String query = "insert into mcs.enrollment (study_id, participant_email, device_uuid, state,"
+					+ " first_name, last_name) values (?,?,?,?,?,?) on duplicate key update state=?";
 			System.out.println("query " + query);
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, participant.getStudyId());
 			preparedStatement.setString(2, participant.getUserEmail());
-			preparedStatement.setInt(3, 1);
-			preparedStatement.setString(4, participant.getFirstName());
-			preparedStatement.setString(5, participant.getLastName());
-			preparedStatement.setInt(6, 1);
+			preparedStatement.setString(3, participant.getIdentifier());
+			preparedStatement.setInt(4, 1);
+			preparedStatement.setString(5, participant.getFirstName());
+			preparedStatement.setString(6, participant.getLastName());
+			preparedStatement.setInt(7, 1);
 			preparedStatement.execute();
 			response.setCode(0);
 
@@ -110,7 +114,7 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 	}
 
 	@Override
-	public Response editParticipant(String currentEmail, Participant participant) {
+	public Response editParticipant(String currentEmail, String currentIdentifier, Participant participant) {
 
 		Response response = new Response();
 		Connection connection = null;
@@ -120,16 +124,18 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 		}
 		try {
 			connection = connect();
-			String query = "update mcs.enrollment set participant_email=?, first_name=?, last_name=?, state=1"
-					+ " where study_id=? and participant_email=?";
+			String query = "update mcs.enrollment set participant_email=?, device_uuid=?, first_name=?, last_name=?, state=1"
+					+ " where study_id=? and participant_email=? and device_uuid=?";
 			System.out.println("query " + query);
 			long id = participant.getStudyId();
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, participant.getUserEmail());
-			preparedStatement.setString(2, participant.getFirstName());
-			preparedStatement.setString(3, participant.getLastName());
-			preparedStatement.setLong(4, id);
-			preparedStatement.setString(5, currentEmail);
+			preparedStatement.setString(2, participant.getIdentifier());
+			preparedStatement.setString(3, participant.getFirstName());
+			preparedStatement.setString(4, participant.getLastName());
+			preparedStatement.setLong(5, id);
+			preparedStatement.setString(6, currentEmail);
+			preparedStatement.setString(7, currentIdentifier);
 			preparedStatement.execute();
 			response.setCode(0);
 
@@ -148,8 +154,6 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 		return response;
 
 	}
-
-
 
 	@Override
 	public ArrayList<Participant> getAllParticipants(long studyId) {
@@ -172,6 +176,10 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 					String email = resultSet.getString("participant_email");
 					participant.setUserEmail(email);
 
+					String identifier = resultSet.getString("device_uuid");
+					participant.setIdentifier(identifier);
+					;
+
 					String firstName = resultSet.getString("first_name");
 					participant.setFirstName(firstName);
 
@@ -181,7 +189,7 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 					int state = resultSet.getInt("state");
 					if (state == 1) {
 						participant.setStatus("enrolled");
-					}else {
+					} else {
 						participant.setStatus("pending");
 					}
 					list.add(participant);
@@ -207,32 +215,34 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 	}
 
 	@Override
-	public Response deleteParticipants(long studyId, String list) {
-		
+	public Response deleteParticipants(List<Participant> participants) {
+
 		Response response = new Response();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		System.out.println("list:"+ list);
+		// System.out.println("list:"+ list);
 		try {
-			String[] participantList = list.trim().split("\\|");
+			// String[] participantList = list;//list.trim().split("\\|");
 			connection = connect();
-			String query = "delete from mcs.enrollment where study_id=? and participant_email=?";
+			String query = "delete from mcs.enrollment where study_id=? and participant_email=? and device_uuid=?";
 			System.out.println("query " + query);
 			preparedStatement = connection.prepareStatement(query);
-			for (String email : participantList) {
+			for (int i = 0; i < participants.size(); i++) {
 				try {
-					preparedStatement.setLong(1, studyId);;
-					preparedStatement.setString(2, email);
-					System.out.println("id:" + studyId + ", email:" + email);
+					preparedStatement.setLong(1, participants.get(i).getStudyId());
+					;
+					preparedStatement.setString(2, participants.get(i).getUserEmail());
+					preparedStatement.setString(3, participants.get(i).getIdentifier());
+					// System.out.println("id:" + studyId + ", email:" + email);
 					int deletedRows = preparedStatement.executeUpdate();
-					System.out.println("response from delete : "+ deletedRows);
+					System.out.println("response from delete : " + deletedRows);
 					if (deletedRows == 0) {
 						response.setCode(-1);
 					}
 
-				} catch(SQLException e){
+				} catch (SQLException e) {
 					System.out.println("sqlException in individual delete " + e.getMessage());
-				}catch (Exception e) {
+				} catch (Exception e) {
 					System.out.println("Exception in individual delete " + e.getMessage());
 					// TODO: handle exception
 				}
@@ -253,17 +263,34 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 		return response;
 
 	}
-	
-	private boolean isEnrolled(long studyId, String email){
+
+	private boolean isEnrolled(long studyId, String email, String uuid) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		if (Util.isEmptyString(email) && Util.isEmptyString(uuid)) {
+			return false;
+		}
 		try {
 			connection = connect();
-			String query = "select * from mcs.enrollment where study_id=? and participant_email = ?";
+			String query = "select * from mcs.enrollment where study_id=? ";
+			if (!Util.isEmptyString(email)) {
+				query += " and participant_email = ?";
+			}
+			if (!Util.isEmptyString(uuid)) {
+				query += " and device_uuid = ?";
+			}
+
 			System.out.println("query " + query);
 			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setLong(1, studyId);
-			preparedStatement.setString(2, email);
+			int counter = 1;
+			preparedStatement.setLong(counter++, studyId);
+			if (!Util.isEmptyString(email)) {
+				preparedStatement.setString(counter++, email);
+			}
+
+			if (!Util.isEmptyString(uuid)) {
+				preparedStatement.setString(counter++, uuid);
+			}
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				return true;
@@ -284,26 +311,41 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 
 	}
 
-
 	@Override
-	public ArrayList<PingInfo> getPingHistory(long studyId, String email, int days) {
+	public ArrayList<PingInfo> getPingHistory(long studyId, String email, String uuid, int days) {
 		ArrayList<PingInfo> list = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			if (email == null || email.isEmpty()) {
+			System.out.println("study Id: " + studyId + ", email:" + email + ", uuid:" + uuid + ", days:" + days);
+			if (Util.isEmptyString(email) && Util.isEmptyString(uuid)) {
 				return list;
 			}
-			
-			if (isEnrolled(studyId, email)) {
+
+			if (isEnrolled(studyId, email, uuid)) {
 				connection = connect();
-				
-				String query = "select *, from_unixtime(ping_time) as datetime from mcs.ping_history where user_email = ? "
-						+ "and from_unixtime(ping_time )  between (now() - interval ? day) and now() order by ping_time desc";
+
+				String query = "select *, from_unixtime(ping_time) as datetime from mcs.ping_history where ";
+				if (!Util.isEmptyString(email)) {
+					query += " user_email = ? and ";
+				}
+				if (!Util.isEmptyString(uuid)) {
+					query += " device_uuid = ? and ";
+				}
+
+				query += " from_unixtime(ping_time )  between (now() - interval ? day) and now() order by ping_time desc";
+
 				System.out.println("query: " + query);
 				preparedStatement = connection.prepareStatement(query);
-				preparedStatement.setString(1, email);
-				preparedStatement.setInt(2, days);
+				int counter = 1;
+				if (!Util.isEmptyString(email)) {
+					preparedStatement.setString(counter++, email);
+				}
+				if (!Util.isEmptyString(uuid)) {
+					preparedStatement.setString(counter++, uuid);
+				}
+
+				preparedStatement.setInt(counter++, days);
 				ResultSet resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
 
@@ -312,25 +354,25 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 
 						String userEmail = resultSet.getString("user_email");
 						info.setEmail(userEmail);
-						
-						String uuid = resultSet.getString("device_uuid");
-						info.setUuid(uuid);
-						
+
+						String deviceUuid = resultSet.getString("device_uuid");
+						info.setUuid(deviceUuid);
+
 						String time = resultSet.getString("datetime");
 						info.setTime(time);
-						
+
 						String network = resultSet.getString("network");
 						info.setNetwork(network);
-						
+
 						String osType = resultSet.getString("os_type");
 						info.setOsType(osType);
-						
+
 						String osVersion = resultSet.getString("os_version");
 						info.setOsVersion(osVersion);
-						
+
 						String appVersion = resultSet.getString("app_version");
 						info.setAppVersion(appVersion);
-						
+
 						String data = resultSet.getString("data");
 						info.setData(data);
 
@@ -342,6 +384,88 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 					}
 				}
 
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return list;
+	}
+
+	@Override
+	public ArrayList<FileObjectInfo> getObjectHistory(long studyId, String email, String uuid) {
+		ArrayList<FileObjectInfo> list = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			System.out.println("study Id: " + studyId + ", email:" + email + ", uuid:" + uuid);
+			if (Util.isEmptyString(email) && Util.isEmptyString(uuid)) {
+				return list;
+			}
+
+			connection = connect();
+
+			String query = "select * from mcs.object_history where study_id= "+ studyId;
+			if (!Util.isEmptyString(email)) {
+				query += " and user_email = ? ";
+			}
+			if (!Util.isEmptyString(uuid)) {
+				query += " and device_uuid = ? ";
+			}
+
+			query += " order by ready_to_upload_time desc";
+
+			System.out.println("query: " + query);
+			preparedStatement = connection.prepareStatement(query);
+			int counter = 1;
+			if (!Util.isEmptyString(email)) {
+				preparedStatement.setString(counter++, email);
+			}
+			if (!Util.isEmptyString(uuid)) {
+				preparedStatement.setString(counter++, uuid);
+			}
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+
+				try {
+					FileObjectInfo info = new FileObjectInfo();
+
+					info.setStudyId(studyId);
+					
+					String userEmail = resultSet.getString("user_email");
+					info.setEmail(userEmail);
+
+					String deviceUuid = resultSet.getString("device_uuid");
+					info.setUuid(deviceUuid);
+
+					String name = resultSet.getString("object_name");
+					info.setName(name);
+
+					String readyToUploadTime = resultSet.getString("ready_to_upload_time");
+					info.setReadyToUploadTime(readyToUploadTime);
+
+					String uploadTime = resultSet.getString("upload_time");
+					info.setUploadTime(uploadTime);
+
+					String deleteTime = resultSet.getString("delete_time");
+					info.setDeleteTime(deleteTime);
+
+
+					list.add(info);
+
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
 			}
 
 		} catch (Exception e) {

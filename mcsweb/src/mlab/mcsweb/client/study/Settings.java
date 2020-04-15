@@ -82,7 +82,7 @@ public class Settings extends Composite {
 		collaboratorsLink.setActive(false);
 		contentPanel.clear();
 		if (dataUpload == null) {
-			dataUpload = new DataUpload();
+			dataUpload = new DataUpload(study);
 		}
 		contentPanel.add(dataUpload);
 	}
@@ -96,7 +96,7 @@ public class Settings extends Composite {
 		collaboratorsLink.setActive(false);
 		contentPanel.clear();
 		if (autoNotification == null) {
-			autoNotification = new AutoNotification();
+			autoNotification = new AutoNotification(study);
 		}
 		contentPanel.add(autoNotification);
 	}

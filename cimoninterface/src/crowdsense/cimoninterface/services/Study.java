@@ -1,9 +1,11 @@
 package crowdsense.cimoninterface.services;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Study {
+public class Study implements Serializable{
 	
 	private long id;
 	private String name = "";

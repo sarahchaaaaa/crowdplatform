@@ -17,8 +17,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
@@ -68,7 +66,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 		try {
 			properties.load(inputStream);
-			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema");
+			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema") + "?serverTimezone=UTC";
 			dbUsername = properties.getProperty("db_username");
 			dbPassword = properties.getProperty("db_password");
 			System.out.println("db prop, dburl:" + dbUrl + ", user:" + dbUsername + ", pass:" + dbPassword);
@@ -187,7 +185,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 //			properties.load(propertiesInputStream);
 //			final String emailAccount = properties.getProperty("gmail_account");
 //			final String emailUser = properties.getProperty("gmail_user");
-//			final String emailPassword = properties.getProperty("gmail_password");
+			final String emailPassword = "mdwmmritkawvqcva";
 
 			Properties props = new Properties();
 			props.put("mail.smtp.host", "smtp.gmail.com");
@@ -198,7 +196,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(gmailUser, gmailPass);
+					return new PasswordAuthentication(gmailUser, emailPassword);
 					//return new PasswordAuthentication(emailUser, emailPassword);
 					// return new PasswordAuthentication("ndspeechrepo",
 					// "mcomlab2017");

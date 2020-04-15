@@ -22,7 +22,7 @@ import mlab.mcsweb.shared.Util;
 public class ParticipantUnit extends Composite {
 
 	@UiField
-	TextBox textEmail, textFName, textLName/* , textOrg */;
+	TextBox textEmail, textIdentifier, textFName, textLName/* , textOrg */;
 
 	@UiField
 	Button buttonSubmit, buttonCancel;
@@ -33,6 +33,7 @@ public class ParticipantUnit extends Composite {
 	private AllParticipants allParticipants;
 	private long studyId;
 	private String currentEmail;
+	private String currentIdentifier;
 	private boolean fromEdit = false;
 	private final ParticipantServiceAsync service = GWT.create(ParticipantService.class);
 
@@ -46,6 +47,7 @@ public class ParticipantUnit extends Composite {
 		this.allParticipants = allParticipants;
 		this.studyId = studyId;
 		currentEmail = "";
+		currentIdentifier = "";
 		fromEdit = false;
 		errorLabel.setText("");
 	}
@@ -56,7 +58,9 @@ public class ParticipantUnit extends Composite {
 		fromEdit = true;
 		studyId = participant.getStudyId();
 		currentEmail = participant.getUserEmail();
+		currentIdentifier = participant.getIdentifier();
 		textEmail.setText(participant.getUserEmail());
+		textIdentifier.setText(participant.getIdentifier());
 		textFName.setText(participant.getFirstName());
 		textLName.setText(participant.getLastName());
 		// textOrg.setText(participant.getOrganization());
@@ -67,6 +71,7 @@ public class ParticipantUnit extends Composite {
 	void cancelAction(ClickEvent event) {
 		errorLabel.setText("");
 		currentEmail = "";
+		currentIdentifier = "";
 		this.removeFromParent();
 	}
 
@@ -76,16 +81,18 @@ public class ParticipantUnit extends Composite {
 		Participant participant = new Participant();
 		participant.setStudyId(studyId);
 		String email = textEmail.getText().trim();
+		String identifier = textIdentifier.getText().trim();
 		String firstName = textFName.getText().trim();
 		String lastName = textLName.getText().trim();
 		participant.setUserEmail(email);
+		participant.setIdentifier(identifier);
 		participant.setFirstName(firstName);
 		participant.setLastName(lastName);
 		if (Util.isEmailFOrmatValid(email)) {
 
 			if (fromEdit) {
 				//update
-				service.editParticipant(currentEmail, participant, new AsyncCallback<Response>() {
+				service.editParticipant(currentEmail, currentIdentifier, participant, new AsyncCallback<Response>() {
 					@Override
 					public void onSuccess(Response result) {
 						// TODO Auto-generated method stub

@@ -2,9 +2,8 @@ package mlab.mcsweb.shared;
 
 import java.security.MessageDigest;
 
-public class Util {
-	
 
+public class Util {
 	
 	public static boolean isEmailFOrmatValid(Object value) {
 		if (value == null)
@@ -80,6 +79,7 @@ public class Util {
 		}
 	}
 	
+
 
 
 }

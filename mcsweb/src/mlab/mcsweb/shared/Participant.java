@@ -15,6 +15,7 @@ public class Participant implements Serializable, IsSerializable{
 	private static final long serialVersionUID = 1L;
 	private long studyId;
 	private String userEmail = "";
+	private String identifier = "";
 	private String firstName = "";
 	private String lastName = "";
 	private String organization = "";
@@ -23,13 +24,14 @@ public class Participant implements Serializable, IsSerializable{
 	public Participant() {
 		// TODO Auto-generated constructor stub
 	}
-
-
-	public Participant(long studyId, String userEmail, String firstName, String lastName, String organization,
-			String status) {
+	
+	
+	public Participant(long studyId, String userEmail, String identifier, String firstName, String lastName,
+			String organization, String status) {
 		super();
 		this.studyId = studyId;
 		this.userEmail = userEmail;
+		this.identifier = identifier;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.organization = organization;
@@ -49,6 +51,11 @@ public class Participant implements Serializable, IsSerializable{
 
 	public String getUserEmail() {
 		return userEmail;
+	}
+
+
+	public String getIdentifier() {
+		return identifier;
 	}
 
 
@@ -82,6 +89,11 @@ public class Participant implements Serializable, IsSerializable{
 	}
 
 
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -100,5 +112,7 @@ public class Participant implements Serializable, IsSerializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+
 	
 }

@@ -17,14 +17,25 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
-import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.DataView;
-import com.google.gwt.visualization.client.Selection;
-import com.google.gwt.visualization.client.events.SelectHandler;
-import com.google.gwt.visualization.client.visualizations.Table;
-import com.google.gwt.visualization.client.visualizations.Table.Options;
-import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
+import com.googlecode.gwt.charts.client.ColumnType;
+//import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+//import com.google.gwt.visualization.client.DataTable;
+//import com.google.gwt.visualization.client.DataView;
+//import com.google.gwt.visualization.client.Selection;
+//import com.google.gwt.visualization.client.events.SelectHandler;
+//import com.google.gwt.visualization.client.visualizations.Table;
+//import com.google.gwt.visualization.client.visualizations.Table.Options;
+//import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
+import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.DataView;
+import com.googlecode.gwt.charts.client.Selection;
+import com.googlecode.gwt.charts.client.event.SelectEvent;
+import com.googlecode.gwt.charts.client.event.SelectHandler;
+import com.googlecode.gwt.charts.client.options.Options;
+import com.googlecode.gwt.charts.client.table.Table;
+import com.googlecode.gwt.charts.client.table.TableOptions;
+import com.googlecode.gwt.charts.client.table.TablePage;
+import com.googlecode.gwt.charts.client.table.TableSort;
 
 import mlab.mcsweb.client.services.DashboardService;
 import mlab.mcsweb.client.services.DashboardServiceAsync;
@@ -105,17 +116,23 @@ public class EmailUUIDMappingList extends Composite {
 		}
 	}
 
-	protected Options getTableOptions() {
-		Options options = Options.create();
+	protected TableOptions getTableOptions() {
+		TableOptions options = (TableOptions) Options.create();
+	
 		options.setAllowHtml(true);
-		options.setSort(Policy.ENABLE);
-		options.setPage(Policy.ENABLE);
+		options.setSort(TableSort.ENABLE);
+		options.setPage(TablePage.ENABLE);
 		options.setPageSize(100);
-		//options.setStartPage(0);
-		//options.setWidth("100%");
-		//options.setHeight("100%");
-		options.setOption("startPage", 0);
-		options.setOption("width", "100%");
+		options.setStartPage(0);
+		options.setWidth(getParent().getOffsetWidth());
+//		options.setSort(Policy.ENABLE);
+//		options.setPage(Policy.ENABLE);
+//		//options.setWidth(width)
+//		//options.setStartPage(0);
+//		//options.setWidth("100%");
+//		//options.setHeight("100%");
+//		options.setOption("startPage", 0);
+//		options.setOption("width", "100%");
 		return options;
 	}
 
@@ -146,31 +163,16 @@ public class EmailUUIDMappingList extends Composite {
 
 			@Override
 			public void onSelect(SelectEvent event) {
-				// TODO Auto-generated method stub
-				// Window.alert("selected....");
-				// getColumnSelection();
 				String message = "";
-				JsArray<Selection> selections = table.getSelections();
+				JsArray<Selection> selections = table.getSelection();
 				for (int i = 0; i < selections.length(); i++) {
-					if (selections.get(i).isRow()) {
+//					if (selections.get(i).) {
 						String id = dataTable.getFormattedValue(
 								selections.get(i).getRow(), 1);
-						// Window.alert("row with id " + id +
-						// "has been selected:");
 						message += (id + " ");
-					}
+//					}
 
 				}
-				// Window.alert("message: "+ message);
-				/*
-				 * if(selections.length() == 1){ Selection selection =
-				 * selections.get(0); if(selection.isRow()){ String id =
-				 * dataTable.getFormattedValue(selection.getRow(), 1);
-				 * //Window.alert("row with id " + id + "has been selected:");
-				 * 
-				 * 
-				 * } }
-				 */
 
 			}
 		};

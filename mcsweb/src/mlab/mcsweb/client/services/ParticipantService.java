@@ -1,10 +1,12 @@
 package mlab.mcsweb.client.services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import mlab.mcsweb.shared.FileObjectInfo;
 import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.PingInfo;
 import mlab.mcsweb.shared.Response;
@@ -17,9 +19,9 @@ public interface ParticipantService extends RemoteService {
 
 	ArrayList<Participant> getAllParticipants(long studyId);
 	Response addParticipant(Participant participant);
-	Response editParticipant(String currentEmail, Participant detailsToUpdate);
-	Response deleteParticipants(long studyId, String list);
-	ArrayList<PingInfo> getPingHistory(long studyId, String email, int days);
-	
+	Response editParticipant(String currentEmail, String currentIdentifier, Participant detailsToUpdate);
+	Response deleteParticipants(List<Participant> participants);
+	ArrayList<PingInfo> getPingHistory(long studyId, String email, String uuid, int days);
+	ArrayList<FileObjectInfo> getObjectHistory(long studyId, String email, String uuid);
 	
 }

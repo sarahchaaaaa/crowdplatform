@@ -6,23 +6,29 @@
 	.important {
 		font-weight: bold;
 	}
-	.fit_image{
-		width:100%;
-		max-width: 100%;
-	}
 	</ui:style>
 	<g:HTMLPanel>
-		<!--b:Container fluid="true"-->
-			<b:Column size="MD_3" >
-				<g:HTMLPanel ui:field="leftColumn">
-				</g:HTMLPanel>
-				<!--g:Label>Create New Survey</g:Label-->
-				<!--b:ImageAnchor url="images/create_new.png" responsive="true" addStyleNames="{style.fit_image}" ></b:ImageAnchor-->
-			</b:Column>
+		<b:Row>
+		<b:Column size="MD_3">
+			<h:Br />
+			<h:Br />
+			<g:HTMLPanel addStyleNames="col-lg-10">
+				<b:Panel>
+					<b:LinkedGroup>
+						<b:LinkedGroupItem text="History" ui:field="historyLink" />
+						<b:LinkedGroupItem text="List" ui:field="listLink" />
+					</b:LinkedGroup>
 
-			<b:Column size="MD_9" ui:field="listColumn">
-				
-			</b:Column>
-		<!--  /b:Container-->
+				</b:Panel>
+
+			</g:HTMLPanel>
+
+		</b:Column>
+		<b:Column size="MD_9">
+			<g:HTMLPanel ui:field="contentPanel">
+
+			</g:HTMLPanel>
+		</b:Column>
+		</b:Row>
 	</g:HTMLPanel>
 </ui:UiBinder> 

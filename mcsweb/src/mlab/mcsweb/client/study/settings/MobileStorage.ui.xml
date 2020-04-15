@@ -15,44 +15,40 @@
 				<b:Heading size="H3" text="Mobile Storage Setting" />
 			</b:PanelHeader>
 			<b:PanelBody>
-				<g:Label>Work in progress. Here, you can set storage configuration of the client side. There are three setting- 1. File object size 2. Max number of files in the directory 3. Max size capacity</g:Label>
-				<h:Br></h:Br>
-						<b:Row>
-			<b:Column size="MD_6">
-				<b:TextBox placeholder="File Object Size" ui:field="textFileSize"></b:TextBox>
-			</b:Column>
-			<b:Column size="MD_6">
-				<b:TextBox placeholder="Max Number of Files" ui:field="textNumFiles"></b:TextBox>
-			</b:Column>
-		</b:Row>
-		<h:Br></h:Br>
-		<b:Row>
-			<b:Column size="MD_6">
-				<b:TextBox placeholder="Max Size Capacity" ui:field="textMaxCap"></b:TextBox>
-			</b:Column>
-			<b:Column size="MD_6">
-				<!--b:TextBox placeholder="Organization" ui:field="textOrg"></b:TextBox-->
-				<g:Label ui:field="errorLabel"></g:Label>
-			</b:Column>
-		</b:Row>
-		<h:Br></h:Br>
-		<b:Row>
-			<b:Column size="MD_3">
-				<b:Button text="Submit" ui:field="buttonSubmit"></b:Button>
-			</b:Column>
-			<b:Column size="MD_3">
-				<b:Button text="Cancel" ui:field="buttonCancel"></b:Button>
-			</b:Column>
-		</b:Row>
-				
+				<!-- <g:Label>Work in progress. Here, you can set storage configuration 
+					of the client side. There are three setting- 1. File object size 2. Max number 
+					of files in the directory 3. Max size capacity</g:Label> -->
+				<g:HTMLPanel>
+					<b:Row>
+						<b:Column size="MD_6">
+							<b:TextBox placeholder="File Object Size" ui:field="textFileSize"></b:TextBox>
+						</b:Column>
+						<b:Column size="MD_6">
+							<b:TextBox placeholder="Max Number of Files" ui:field="textNumFiles"></b:TextBox>
+						</b:Column>
+					</b:Row>
+					<h:Br></h:Br>
+					<b:Row>
+						<b:Column size="MD_6">
+							<b:TextBox placeholder="Max Size Capacity" ui:field="textMaxCap"></b:TextBox>
+						</b:Column>
+						<b:Column size="MD_6">
+							<!--b:TextBox placeholder="Organization" ui:field="textOrg"></b:TextBox -->
+							<g:Label ui:field="errorLabel"></g:Label>
+						</b:Column>
+					</b:Row>
+					<h:Br></h:Br>
+					<b:Row>
+						<b:Column size="MD_3">
+							<b:Button text="Submit" ui:field="buttonSubmit"></b:Button>
+						</b:Column>
+						<b:Column size="MD_3">
+							<b:Button text="Cancel" ui:field="buttonCancel"></b:Button>
+						</b:Column>
+					</b:Row>
+				</g:HTMLPanel>
+
 			</b:PanelBody>
 		</b:Panel>
-		
-		<g:HTMLPanel>
-	</g:HTMLPanel>
-		
-		
-		
-		
 	</g:HTMLPanel>
 </ui:UiBinder> 

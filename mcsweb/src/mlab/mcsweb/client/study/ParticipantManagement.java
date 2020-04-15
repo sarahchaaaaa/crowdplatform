@@ -85,7 +85,7 @@ public class ParticipantManagement extends Composite{
 		
 		contentPanel.clear();
 		if (fileHistory == null) {
-			fileHistory = new FileObjectHistory();
+			fileHistory = new FileObjectHistory(study.getId());
 		}
 		contentPanel.add(fileHistory);
 	}

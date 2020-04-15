@@ -10,20 +10,30 @@
 	<g:HTMLPanel>
 		<b:Row>
 			<b:Column size="MD_6">
-				<b:TextBox placeholder="First Name" ui:field="textFName"></b:TextBox>
-			</b:Column>
-			<b:Column size="MD_6">
-				<b:TextBox placeholder="Last Name" ui:field="textLName"></b:TextBox>
-			</b:Column>
-		</b:Row>
-		<h:Br></h:Br>
-		<b:Row>
-			<b:Column size="MD_6">
 				<b:TextBox placeholder="Email" ui:field="textEmail"></b:TextBox>
 			</b:Column>
 			<b:Column size="MD_6">
 				<!--b:TextBox placeholder="Organization" ui:field="textOrg"></b:TextBox-->
 				<g:Label ui:field="errorLabel"></g:Label>
+			</b:Column>
+		</b:Row>
+		<h:Br></h:Br>
+		<b:Row>
+			<b:Column size="MD_6">
+				<b:TextBox placeholder="Identifier" ui:field="textIdentifier"></b:TextBox>
+			</b:Column>
+			<b:Column size="MD_6">
+				<!--b:TextBox placeholder="Organization" ui:field="textOrg"></b:TextBox-->
+				<!--g:Label ui:field="errorLabel"></g:Label-->
+			</b:Column>
+		</b:Row>
+		<h:Br></h:Br>
+		<b:Row>
+			<b:Column size="MD_6">
+				<b:TextBox placeholder="First Name (Optional)" ui:field="textFName"></b:TextBox>
+			</b:Column>
+			<b:Column size="MD_6">
+				<b:TextBox placeholder="Last Name (Optional)" ui:field="textLName"></b:TextBox>
 			</b:Column>
 		</b:Row>
 		<h:Br></h:Br>

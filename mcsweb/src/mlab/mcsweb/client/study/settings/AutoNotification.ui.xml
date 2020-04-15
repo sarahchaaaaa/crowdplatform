@@ -10,12 +10,59 @@
 	<g:HTMLPanel>
 		<h:Br></h:Br>
 		<h:Br></h:Br>
+		<g:Label ui:field="globalErrorLabel" addStyleNames="label_error">Service not available, please try later!</g:Label>
 		<b:Panel type="SUCCESS">
 			<b:PanelHeader>
 				<b:Heading size="H3" text="Auto Notification Setting" />
 			</b:PanelHeader>
 			<b:PanelBody>
-				<g:Label>Work in progress. Setting for sending auto notification- 1. Send notification if ping is not recived in x days 2. repeat the check 3. notification msg</g:Label>
+				<!--  <g:Label>Work in progress. Setting for sending auto notification- 1. Send notification if ping is not recived in x days 2. repeat the check 3. notification msg</g:Label>
+-->				
+				<g:HTMLPanel ui:field="listPanel">
+					<b:Row styleName="col-lg-offset-1"> 
+						<g:Label>Notification Frequency - Send notification if ping is not received in ___ days</g:Label> 
+						<b:Row>
+							<b:Column size="MD_12">
+								<b:TextBox placeholder="Number of Days" ui:field="daysText"></b:TextBox>
+							</b:Column> 
+						</b:Row>
+						<g:Label ui:field="daysErrorLabel"></g:Label>
+						<h:Hr></h:Hr>
+					</b:Row> 
+
+					
+					<b:Row styleName="col-lg-offset-1">
+						<g:Label>Repeat Notification</g:Label> 
+						<b:Row>
+							<b:Column size="MD_4">
+							<b:Radio name="repeatRadio" ui:field="yesRadio">Yes</b:Radio>
+							</b:Column> 
+							<b:Column size="MD_4">
+							<b:Radio name="repeatRadio" ui:field="noRadio">No</b:Radio>
+							</b:Column> 
+						</b:Row>
+						<g:Label ui:field="repeatErrorLabel"></g:Label>
+						<h:Hr></h:Hr>
+					</b:Row>
+
+					
+					<b:Row styleName="col-lg-offset-1">
+						<g:Label>Notification Message</g:Label>
+						<b:Row>
+							<b:Column size="MD_12">
+								<b:TextBox placeholder="Notification Message" ui:field="notMsgText"></b:TextBox>
+							</b:Column> 
+						</b:Row>
+						<g:Label ui:field="MsgErrorLabel"></g:Label>
+						<h:Hr></h:Hr>
+					</b:Row>
+					<b:Row styleName="col-lg-offset-1">
+						<b:Button ui:field="updateButton">Update</b:Button>
+					</b:Row>
+			
+			
+			</g:HTMLPanel>
+			
 			</b:PanelBody>
 		</b:Panel>
 	</g:HTMLPanel>

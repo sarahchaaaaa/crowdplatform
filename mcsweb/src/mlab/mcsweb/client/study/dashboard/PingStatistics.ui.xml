@@ -8,8 +8,73 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<h:Br/>
-		<h:Br/>
-		<g:Label>Work in progress. Daywise graph on ping data from all participants</g:Label>
+		<h:Br />
+		<h:Br />
+		<g:Label>Work in progress. Daywise graph on ping data from all
+			participants</g:Label>
+		<h:Br />
+		<h:Br />
+
+
+		<g:HTMLPanel ui:field="chartPanel">
+			<b:Row>
+				<g:Label>User Data</g:Label>
+				<b:Row ui:field="dataRow">
+					<b:Column size="MD_3">
+						<b:TextBox placeholder="Email" ui:field="emailText"></b:TextBox>
+					</b:Column>
+					<b:Column size="MD_3">
+						<b:TextBox placeholder="Start Date" ui:field="startText"></b:TextBox>
+					</b:Column>
+					<b:Column size="MD_3">
+						<b:TextBox placeholder="End Date" ui:field="endText"></b:TextBox>
+					</b:Column>
+					<b:Column size="MD_3">
+						<b:Button ui:field="searchButton">Search</b:Button>
+					</b:Column>
+
+				</b:Row>
+				<g:Label ui:field="userDataErrorLabel"></g:Label>
+				<h:Hr></h:Hr>
+			</b:Row>
+
+
+
+			<b:Row>
+				<g:Label>Compliance</g:Label>
+				<b:Row ui:field="CompChartRow">
+
+				</b:Row>
+				<g:Label ui:field="CompErrorLabel"></g:Label>
+				<h:Hr></h:Hr>
+			</b:Row>
+
+
+			<b:Row>
+				<g:Label>Sleep Time</g:Label>
+				<b:Row ui:field="SleepChartRow">
+
+				</b:Row>
+				<g:Label ui:field="SleepErrorLabel"></g:Label>
+				<h:Hr></h:Hr>
+			</b:Row>
+
+
+			<b:Row>
+				<g:Label>Heartrate</g:Label>
+				<b:Row ui:field="HRChartRow">
+
+				</b:Row>
+				<g:Label ui:field="HRErrorLabel"></g:Label>
+				<h:Hr></h:Hr>
+			</b:Row>
+
+
+		</g:HTMLPanel>
+
+
+
+
+
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -24,9 +24,13 @@
   <inherits name="org.gwtbootstrap3.extras.datepicker.DatePicker"/>
   <inherits name="org.gwtbootstrap3.extras.notify.Notify"/>
   <inherits name="org.gwtbootstrap3.extras.select.Select"/>
-  <inherits name='com.google.gwt.visualization.Visualization'/>
+  <!--inherits name='com.google.gwt.visualization.Visualization'/-->
   
-  
+  <inherits name = "com.googlecode.gwt.charts.Charts"/>
+  <!--inherits name="io.github.freddyboucher.gwt.oauth2.OAuth2"/-->
+  <inherits name="com.google.gwt.json.JSON"/>
+  <!--inherits name="com.google.gwt.http.HTTP"/-->
+  <!--inherits name="com.google.api.gwt.oauth2.OAuth2" /-->
 
   <!-- drag and drop -->
   <inherits name='com.allen_sauer.gwt.dnd.gwt-dnd'/>

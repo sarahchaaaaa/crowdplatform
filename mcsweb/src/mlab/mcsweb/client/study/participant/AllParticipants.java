@@ -1,5 +1,6 @@
 package mlab.mcsweb.client.study.participant;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,14 +25,25 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
-import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.DataView;
-import com.google.gwt.visualization.client.Selection;
-import com.google.gwt.visualization.client.events.SelectHandler;
-import com.google.gwt.visualization.client.visualizations.Table;
-import com.google.gwt.visualization.client.visualizations.Table.Options;
-import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
+import com.googlecode.gwt.charts.client.ColumnType;
+import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.DataView;
+import com.googlecode.gwt.charts.client.Selection;
+import com.googlecode.gwt.charts.client.event.SelectEvent;
+import com.googlecode.gwt.charts.client.event.SelectHandler;
+import com.googlecode.gwt.charts.client.options.Options;
+//import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+//import com.google.gwt.visualization.client.DataTable;
+//import com.google.gwt.visualization.client.DataView;
+//import com.google.gwt.visualization.client.Selection;
+//import com.google.gwt.visualization.client.events.SelectHandler;
+//import com.google.gwt.visualization.client.visualizations.Table;
+//import com.google.gwt.visualization.client.visualizations.Table.Options;
+//import com.google.gwt.visualization.client.visualizations.Table.Options.Policy;
+import com.googlecode.gwt.charts.client.table.Table;
+import com.googlecode.gwt.charts.client.table.TableOptions;
+import com.googlecode.gwt.charts.client.table.TablePage;
+import com.googlecode.gwt.charts.client.table.TableSort;
 
 import mlab.mcsweb.client.services.ParticipantService;
 import mlab.mcsweb.client.services.ParticipantServiceAsync;
@@ -145,13 +157,13 @@ public class AllParticipants extends Composite {
 	@UiHandler("buttonEdit")
 	void editParticipant(ClickEvent event){
 		subPanel.clear();
-		ArrayList<String> checkedUsers = getCheckedUsers();
+		ArrayList<MyPair<String, String>> checkedUsers = getCheckedUsers();
 		if (checkedUsers.size() == 0) {
 			Notify.notify("Select a participant to edit", NotifyType.WARNING);
 		} else if(checkedUsers.size() > 1){
 			Notify.notify("Select a participant to edit", NotifyType.WARNING);
 		} else {
-			Participant editParticipant = getCheckedParticipant(checkedUsers.get(0));
+			Participant editParticipant = getCheckedParticipant(checkedUsers.get(0).left, checkedUsers.get(0).right);
 			subPanel.add(new ParticipantUnit(this, editParticipant));
 		}
 	}
@@ -161,18 +173,20 @@ public class AllParticipants extends Composite {
 		// for instant let's say a string appended with |
 		String list = "";
 		// get id's of selected list
-		ArrayList<String> checkedUsers = getCheckedUsers();
+		ArrayList<MyPair<String, String>> checkedUsers = getCheckedUsers();
 		if (checkedUsers.size() == 0) {
 			Notify.notify("Select a participant to delete", NotifyType.WARNING);
 		} else {
+			ArrayList<Participant> participantsToDelete = new ArrayList<>();
 			for (int i = 0; i < checkedUsers.size(); i++) {
 				list += (checkedUsers.get(i) + "|");
-				Participant toRemove = getCheckedParticipant(checkedUsers.get(i));
+				Participant toRemove = getCheckedParticipant(checkedUsers.get(0).left, checkedUsers.get(0).right);
 				participantList.remove(toRemove);
+				participantsToDelete.add(toRemove);
 			}
 			list = list.substring(0, list.length() - 1);
 //			Window.alert("checked users "+ list);
-			service.deleteParticipants(studyId, list, new AsyncCallback<Response>() {
+			service.deleteParticipants(participantsToDelete, new AsyncCallback<Response>() {
 				@Override
 				public void onSuccess(Response result) {
 					if(result.getCode() == 0){
@@ -184,7 +198,7 @@ public class AllParticipants extends Composite {
 				
 				@Override
 				public void onFailure(Throwable caught) {
-					
+					Window.alert("Service failure, please try later");
 				}
 			});
 
@@ -192,21 +206,23 @@ public class AllParticipants extends Composite {
 
 	}
 	
-	private ArrayList<String> getCheckedUsers() {
+	private ArrayList<MyPair<String, String>> getCheckedUsers() {
 		NodeList<Element> nodelist = querySelector("[id^=allcheck]");
-		ArrayList<String> checkedUsers = new ArrayList<>();
+		ArrayList<MyPair<String, String>> checkedUsers = new ArrayList<>();
 		for (int i = 0; i < nodelist.getLength(); i++) {
 			boolean checked = nodelist.getItem(i).getPropertyBoolean("checked");
 			if (checked) {
-				checkedUsers.add(nodelist.getItem(i).getId().split("-")[1]);
+				String [] splits = nodelist.getItem(i).getId().split("--");
+				MyPair<String, String> myPair = new MyPair<String, String>(splits[1], splits[2]==null?"":splits[2]);
+				checkedUsers.add(myPair);
 			}
 		}
 		return checkedUsers;
 	}
 	
-	private Participant getCheckedParticipant(String email){
+	private Participant getCheckedParticipant(String email, String identifier){
 		for(int i=0;i<participantList.size();i++){
-			if(email.equalsIgnoreCase(participantList.get(i).getUserEmail())){
+			if(email.equalsIgnoreCase(participantList.get(i).getUserEmail()) && identifier.equalsIgnoreCase(participantList.get(i).getIdentifier())){
 				return participantList.get(i);
 			}
 		}
@@ -231,17 +247,24 @@ public class AllParticipants extends Composite {
 		}
 	}
 
-	protected Options getTableOptions() {
-		Options options = Options.create();
+	protected TableOptions getTableOptions() {
+		TableOptions options = (TableOptions) Options.create();
+	
 		options.setAllowHtml(true);
-		options.setSort(Policy.ENABLE);
-		options.setPage(Policy.ENABLE);
+		options.setSort(TableSort.ENABLE);
+		options.setPage(TablePage.ENABLE);
 		options.setPageSize(100);
-		//options.setStartPage(0);
-		//options.setWidth("100%");
-		//options.setHeight("100%");
-		options.setOption("startPage", 0);
-		options.setOption("width", "100%");
+		options.setStartPage(0);
+		options.setWidth(getParent().getOffsetWidth());
+
+//		options.setSort(Policy.ENABLE);
+//		options.setPage(Policy.ENABLE);
+//		//options.setWidth(width)
+//		//options.setStartPage(0);
+//		//options.setWidth("100%");
+//		//options.setHeight("100%");
+//		options.setOption("startPage", 0);
+//		options.setOption("width", "100%");
 		return options;
 	}
 
@@ -249,6 +272,7 @@ public class AllParticipants extends Composite {
 		DataTable dataTable = DataTable.create();
 		dataTable.addColumn(ColumnType.STRING, "");
 		dataTable.addColumn(ColumnType.STRING, "Email");
+		dataTable.addColumn(ColumnType.STRING, "Identifier");
 		dataTable.addColumn(ColumnType.STRING, "First Name");
 		dataTable.addColumn(ColumnType.STRING, "Last Name");
 //		dataTable.addColumn(ColumnType.STRING, "Organization");
@@ -260,10 +284,11 @@ public class AllParticipants extends Composite {
 		Iterator<Participant> it = participantList.iterator();
 		while (it.hasNext()) {
 			Participant participant = (Participant) it.next();
-			String checkbox = "<input type=\"checkbox\" text-align=\"center\"id=\"allcheck-"
-					+ participant.getUserEmail() + "\">";
+			String checkbox = "<input type=\"checkbox\" text-align=\"center\"id=\"allcheck--"
+					+ participant.getUserEmail() + "--" + participant.getIdentifier() + "\">";
 			dataTable.setValue(rowIndex, columnIndex++, checkbox);
 			dataTable.setValue(rowIndex, columnIndex++, participant.getUserEmail());
+			dataTable.setValue(rowIndex, columnIndex++, participant.getIdentifier());
 			dataTable.setValue(rowIndex, columnIndex++, participant.getFirstName());
 			dataTable.setValue(rowIndex, columnIndex++, participant.getLastName());
 //			dataTable.setValue(rowIndex, columnIndex++, participant.getOrganization());
@@ -280,31 +305,16 @@ public class AllParticipants extends Composite {
 
 			@Override
 			public void onSelect(SelectEvent event) {
-				// TODO Auto-generated method stub
-				// Window.alert("selected....");
-				// getColumnSelection();
 				String message = "";
-				JsArray<Selection> selections = table.getSelections();
+				JsArray<Selection> selections = table.getSelection();
 				for (int i = 0; i < selections.length(); i++) {
-					if (selections.get(i).isRow()) {
+//					if (selections.get(i).) {
 						String id = dataTable.getFormattedValue(
 								selections.get(i).getRow(), 1);
-						// Window.alert("row with id " + id +
-						// "has been selected:");
 						message += (id + " ");
-					}
+//					}
 
 				}
-				// Window.alert("message: "+ message);
-				/*
-				 * if(selections.length() == 1){ Selection selection =
-				 * selections.get(0); if(selection.isRow()){ String id =
-				 * dataTable.getFormattedValue(selection.getRow(), 1);
-				 * //Window.alert("row with id " + id + "has been selected:");
-				 * 
-				 * 
-				 * } }
-				 */
 
 			}
 		};
@@ -323,3 +333,22 @@ public class AllParticipants extends Composite {
 	}-*/;
 
 }
+
+
+class MyPair<T1, T2>{
+	T1 left;
+	T2 right;
+	
+	public MyPair(T1 left, T2 right){
+		this.left = left;
+		this.right = right;
+	}
+	
+	public T1 getLeft() {
+		return left;
+	}
+	public T2 getRight() {
+		return right;
+	}
+}
+
