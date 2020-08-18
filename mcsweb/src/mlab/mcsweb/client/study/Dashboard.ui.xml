@@ -9,7 +9,7 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<b:Row>
-		<b:Column size="MD_4">
+		<b:Column size="MD_3">
 			<h:Br />
 			<h:Br />
 			<g:HTMLPanel addStyleNames="col-lg-10">
@@ -22,8 +22,6 @@
 						<b:LinkedGroupItem text="File Name Mapping" ui:field="fileMapLink" />
 						<b:LinkedGroupItem text="Send Notification" ui:field="sendNotificationLink" />
 						<b:LinkedGroupItem text="Send Command" ui:field="sendCommandLink" />
-						<b:LinkedGroupItem text="Ping Statistics" ui:field="pingStatLink" />
-						<b:LinkedGroupItem text="File Object Statistics" ui:field="objectStatLink" />
 					</b:LinkedGroup>
 
 				</b:Panel>
@@ -31,7 +29,7 @@
 			</g:HTMLPanel>
 
 		</b:Column>
-		<b:Column size="MD_8">
+		<b:Column size="MD_9">
 			<g:HTMLPanel ui:field="contentPanel">
 
 			</g:HTMLPanel>

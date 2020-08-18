@@ -16,7 +16,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import mlab.mcsweb.client.services.LabelingService;
 import mlab.mcsweb.shared.LabelingInfo;
-import mlab.mcsweb.shared.PingInfo;
 import mlab.mcsweb.shared.Util;
 
 /**
@@ -83,7 +82,7 @@ public class LabelingServiceImpl extends RemoteServiceServlet implements Labelin
 			
 			System.out.println("get labeling history study id:"+ studyId + ", email:" + email + ", uuid:"+ uuid);
 
-			String query = "select * from mcs.labeling_history where study_id = ? and (user_email = ? or device_uuid = ?) order by label_time desc";
+			String query = "select *, from_unixtime(label_time, '%Y-%m-%d %H:%i:%s') as dt from mcs.labeling_history where study_id = ? and (user_email = ? or device_uuid = ?) order by label_time desc";
 			System.out.println("query: " + query);
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setLong(1, studyId);
@@ -99,7 +98,7 @@ public class LabelingServiceImpl extends RemoteServiceServlet implements Labelin
 					info.setUuid(uuid);
 
 
-					String time = resultSet.getString("label_time");
+					String time = resultSet.getString("dt");
 					info.setTime(time);
 
 					String label = resultSet.getString("label");

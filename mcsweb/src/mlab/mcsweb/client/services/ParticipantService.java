@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import mlab.mcsweb.shared.DaywiseCount;
 import mlab.mcsweb.shared.FileObjectInfo;
 import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.PingInfo;
@@ -21,7 +22,10 @@ public interface ParticipantService extends RemoteService {
 	Response addParticipant(Participant participant);
 	Response editParticipant(String currentEmail, String currentIdentifier, Participant detailsToUpdate);
 	Response deleteParticipants(List<Participant> participants);
+	
+	ArrayList<DaywiseCount> getDaywisePingHistory(long studyId, String email, String uuid, int days);
 	ArrayList<PingInfo> getPingHistory(long studyId, String email, String uuid, int days);
+
 	ArrayList<FileObjectInfo> getObjectHistory(long studyId, String email, String uuid);
 	
 }

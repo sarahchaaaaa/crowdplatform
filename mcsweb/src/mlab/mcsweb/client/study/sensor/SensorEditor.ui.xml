@@ -39,8 +39,8 @@
 						<b:Heading size="H4" text="Manage Participation" />
 					</b:PanelHeader/-->
 					<b:LinkedGroup>
-						<b:LinkedGroupItem text="Action" ui:field="actionLink"/>
-						<b:LinkedGroupItem text="Trigger" ui:field="triggerLink"/>
+						<b:LinkedGroupItem text="Form" ui:field="formLink"/>
+						<b:LinkedGroupItem text="Trigger-Action" ui:field="triggerLink"/>
 					</b:LinkedGroup>
 				</b:Panel>
 

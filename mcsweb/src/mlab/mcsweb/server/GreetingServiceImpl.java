@@ -185,7 +185,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 //			properties.load(propertiesInputStream);
 //			final String emailAccount = properties.getProperty("gmail_account");
 //			final String emailUser = properties.getProperty("gmail_user");
-			final String emailPassword = "mdwmmritkawvqcva";
 
 			Properties props = new Properties();
 			props.put("mail.smtp.host", "smtp.gmail.com");
@@ -196,7 +195,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(gmailUser, emailPassword);
+					return new PasswordAuthentication(gmailUser, gmailPass);
 					//return new PasswordAuthentication(emailUser, emailPassword);
 					// return new PasswordAuthentication("ndspeechrepo",
 					// "mcomlab2017");
@@ -412,18 +411,4 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	}
 
-	/**
-	 * Escape an html string. Escaping data received from the client helps to
-	 * prevent cross-site script vulnerabilities.
-	 * 
-	 * @param html
-	 *            the html string to escape
-	 * @return the escaped string
-	 */
-	private String escapeHtml(String html) {
-		if (html == null) {
-			return null;
-		}
-		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-	}
 }

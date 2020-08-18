@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import mlab.mcsweb.client.services.ParticipantService;
+import mlab.mcsweb.shared.DaywiseCount;
 import mlab.mcsweb.shared.FileObjectInfo;
 import mlab.mcsweb.shared.Participant;
 import mlab.mcsweb.shared.PingInfo;
@@ -310,6 +311,73 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 		return false;
 
 	}
+	
+	
+	@Override
+	public ArrayList<DaywiseCount> getDaywisePingHistory(long studyId, String email, String uuid, int days) {
+		ArrayList<DaywiseCount> list = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			System.out.println("study Id: " + studyId + ", email:" + email + ", uuid:" + uuid + ", days:" + days);
+			if (Util.isEmptyString(email) && Util.isEmptyString(uuid)) {
+				return list;
+			}
+
+			if (isEnrolled(studyId, email, uuid)) {
+				connection = connect();
+
+				String query = "select count(*) as cn, from_unixtime(ping_time , '%b %d') as dwise from mcs.ping_history where ";
+				if (!Util.isEmptyString(email)) {
+					query += " user_email = ? and ";
+				}
+				if (!Util.isEmptyString(uuid)) {
+					query += " device_uuid = ? and ";
+				}
+
+				query += " (unix_timestamp(now()) - ping_time) <  " + days + " * 24 * 3600  group by dwise";
+
+				System.out.println("query: " + query);
+				preparedStatement = connection.prepareStatement(query);
+				int counter = 1;
+				if (!Util.isEmptyString(email)) {
+					preparedStatement.setString(counter++, email);
+				}
+				if (!Util.isEmptyString(uuid)) {
+					preparedStatement.setString(counter++, uuid);
+				}
+
+//				preparedStatement.setInt(counter++, days);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+
+					try {
+						int count = resultSet.getInt("cn");
+						String date = resultSet.getString("dwise");
+
+						list.add(new DaywiseCount(date, count));
+
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+				}
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
+		return list;
+	}
 
 	@Override
 	public ArrayList<PingInfo> getPingHistory(long studyId, String email, String uuid, int days) {
@@ -413,7 +481,9 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 
 			connection = connect();
 
-			String query = "select * from mcs.object_history where study_id= "+ studyId;
+			String query = "select object_name, from_unixtime(ready_to_upload_time) as rtut, from_unixtime(upload_time) as ut, "
+					+ "from_unixtime(delete_time) as dt from mcs.object_history where study_id= "+ studyId;
+			
 			if (!Util.isEmptyString(email)) {
 				query += " and user_email = ? ";
 			}
@@ -441,22 +511,20 @@ public class ParticipantServiceImpl extends RemoteServiceServlet implements Part
 
 					info.setStudyId(studyId);
 					
-					String userEmail = resultSet.getString("user_email");
-					info.setEmail(userEmail);
+					info.setEmail(email);
 
-					String deviceUuid = resultSet.getString("device_uuid");
-					info.setUuid(deviceUuid);
+					info.setUuid(uuid);
 
 					String name = resultSet.getString("object_name");
 					info.setName(name);
 
-					String readyToUploadTime = resultSet.getString("ready_to_upload_time");
+					String readyToUploadTime = resultSet.getString("rtut");
 					info.setReadyToUploadTime(readyToUploadTime);
 
-					String uploadTime = resultSet.getString("upload_time");
+					String uploadTime = resultSet.getString("ut");
 					info.setUploadTime(uploadTime);
 
-					String deleteTime = resultSet.getString("delete_time");
+					String deleteTime = resultSet.getString("dt");
 					info.setDeleteTime(deleteTime);
 
 

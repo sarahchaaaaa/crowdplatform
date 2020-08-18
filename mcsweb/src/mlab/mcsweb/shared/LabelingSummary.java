@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 @XmlRootElement
-public class LabelSummary implements Serializable, IsSerializable{
+public class LabelingSummary implements Serializable, IsSerializable{
 	
 	/**
 	 * 
@@ -33,11 +33,11 @@ public class LabelSummary implements Serializable, IsSerializable{
 	private String endTimeZone = "";
 	private String schedule = "";
 	
-	public LabelSummary() {
+	public LabelingSummary() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LabelSummary(long id, long studyId, String name, String description, String createdBy, String creationTime,
+	public LabelingSummary(long id, long studyId, String name, String description, String createdBy, String creationTime,
 			String creationTimeZone, String modificationTime, String modificationTimeZone, String publishTime,
 			String publishTimeZone, int publishedVersion, int state, int responseCount, String startTime,
 			String startTimeZone, String endTime, String endTimeZone, String schedule) {

@@ -22,24 +22,34 @@
 						</b:Column>
 						<b:Column size="MD_5">
 							<b:TextBox placeholder="Identifier" ui:field="textIdentifier"></b:TextBox>
-						</b:Column>	
+						</b:Column>
 					</b:Row>
 					<h:Br></h:Br>
 					<b:Row>
 						<b:Column size="MD_4">
 							<b:TextBox placeholder="In Last X Days" ui:field="textDays"></b:TextBox>
-						</b:Column>						
+						</b:Column>
 						<b:Column size="MD_4">
 							<b:Button ui:field="searchButton">Search</b:Button>
 						</b:Column>
 					</b:Row>
-					<h:Br></h:Br>					
+					<h:Br></h:Br>
 					<b:Row>
 						<b:Column size="MD_7">
-							<g:Label ui:field="errorLabel">Number of days must be a positive integer less than 100</g:Label>
-						</b:Column>						
+							<g:Label ui:field="errorLabel">Number of days must be a positive
+								integer less than 100</g:Label>
+						</b:Column>
 					</b:Row>
 					<h:Br></h:Br>
+					<b:Row>
+						<!-->b:Column size="MD_1"></b:Column-->
+						<b:Column size="MD_12">
+							<g:HTMLPanel ui:field="graphPanel">
+							</g:HTMLPanel>
+						</b:Column>
+						<!-->b:Column size="MD_1"></b:Column-->
+					</b:Row>
+					<h:Br></h:Br><h:Br></h:Br>
 					<g:HTMLPanel ui:field="pinglistPanel">
 					</g:HTMLPanel>
 				</g:HTMLPanel>

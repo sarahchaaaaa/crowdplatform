@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import mlab.mcsweb.shared.AutoNotInfo;
+import mlab.mcsweb.shared.AutoNotificationInfo;
 import mlab.mcsweb.shared.CloudStorageInfo;
 import mlab.mcsweb.shared.DataUploadInfo;
 import mlab.mcsweb.shared.MobileStorageInfo;
@@ -34,7 +34,14 @@ public interface SettingsService extends RemoteService {
 	Response updateDataUploadSetting(DataUploadInfo info);
 	
 	//auto notification
-	AutoNotInfo getAutoNotSetting(long studyId);
-	Response updateAutoNotInfoSetting(AutoNotInfo info);
+	AutoNotificationInfo getAutoNotificationSetting(long studyId);
+	Response updateAutoNotificationSetting(AutoNotificationInfo info);
+	Response updateAutoNotificationState(long studyId, int active);
 
+	ArrayList<String> getAllNotificationAdmin(long studyId);
+	Response addNotificationAdmin(long studyId, String adminEmail);
+	Response editNotificationAdmin(long studyId, String currentEmail, String newEmail);
+	Response deleteNotificationAdmins(long studyId, String adminEmails);
+
+	
 }

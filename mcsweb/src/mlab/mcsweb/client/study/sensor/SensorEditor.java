@@ -40,7 +40,7 @@ public class SensorEditor extends Composite {
 	Button saveButton, publishButton, backButton;
 	
 	@UiField
-	LinkedGroupItem triggerLink, actionLink;
+	LinkedGroupItem triggerLink, formLink;
 	
 	@UiField
 	HTMLPanel contentPanel;
@@ -50,7 +50,8 @@ public class SensorEditor extends Composite {
 	
 	
 	private SensorSummary sensorSummary;
-	private SensorActionEditor actionEditor;
+	private SensorFormEditor formEditor;
+	private TriggerActionEditor triggerActionEditor; 
 	
 	private final SensorServiceAsync service = GWT.create(SensorService.class);
 
@@ -75,7 +76,7 @@ public class SensorEditor extends Composite {
 		publishButton.setIconPosition(IconPosition.RIGHT);
 		
 		
-		loadActionEditor(null);
+		loadFormEditor(null);
 
 	}
 	
@@ -97,7 +98,7 @@ public class SensorEditor extends Composite {
 		
 		editorError.setText("");
 		
-		if(actionEditor!=null && actionEditor.isValid()){
+		if(formEditor!=null && formEditor.isValid()){
 			final SensorSummary finalSensorSummary = this.sensorSummary == null ? new SensorSummary() : this.sensorSummary;
 			if(finalSensorSummary.getId()<=0){
 				//temporary give name
@@ -111,7 +112,7 @@ public class SensorEditor extends Composite {
 			finalSensorSummary.setModificationTime(JSUtil.getUnixtime());
 			finalSensorSummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
 			
-			SensorConfiguration sensorConfiguration = new SensorConfiguration(finalSensorSummary, actionEditor.getActionList());
+			SensorConfiguration sensorConfiguration = new SensorConfiguration(finalSensorSummary, formEditor.getActionList());
 			service.saveSensorConfiguration(sensorConfiguration, new AsyncCallback<Response>() {
 				
 				@Override
@@ -133,7 +134,7 @@ public class SensorEditor extends Composite {
 	void publishSensorConfig(ClickEvent event){
 		boolean atLeastOneError = false;
 		editorError.setText("");
-		if(actionEditor != null && actionEditor.isValid()){
+		if(formEditor != null && formEditor.isValid()){
 			
 		}else{
 			editorError.setText("Error in configuration, please review!");
@@ -162,7 +163,7 @@ public class SensorEditor extends Composite {
 		finalSensorSummary.setState(2);
 		
 		//Window.alert("save clicked "+ JSUtil.getUnixtime());
-		SensorConfiguration sensorConfig = new SensorConfiguration(finalSensorSummary, actionEditor.getActionList());
+		SensorConfiguration sensorConfig = new SensorConfiguration(finalSensorSummary, formEditor.getActionList());
 		service.publishSensorConfiguration(sensorConfig, new AsyncCallback<Response>() {
 			@Override
 			public void onSuccess(Response result) {
@@ -181,22 +182,26 @@ public class SensorEditor extends Composite {
 	@UiHandler("triggerLink")
 	void laodTriggerEditor(ClickEvent event){
 		triggerLink.setActive(true);
-		actionLink.setActive(false);
+		formLink.setActive(false);
 		contentPanel.clear();
 		
+		if (triggerActionEditor == null) {
+			triggerActionEditor = new TriggerActionEditor();
+		}
+		contentPanel.add(triggerActionEditor);		
 	}
 	
-	@UiHandler("actionLink")
-	void loadActionEditor(ClickEvent event){
+	@UiHandler("formLink")
+	void loadFormEditor(ClickEvent event){
 		triggerLink.setActive(false);
-		actionLink.setActive(true);
+		formLink.setActive(true);
 		
 		contentPanel.clear();
 		
-		if(actionEditor == null){
-			actionEditor = new SensorActionEditor(this.sensorSummary);
+		if(formEditor == null){
+			formEditor = new SensorFormEditor(this.sensorSummary);
 		}
-		contentPanel.add(actionEditor);
+		contentPanel.add(formEditor);
 	}
 
 }

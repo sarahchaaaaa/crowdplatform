@@ -12,8 +12,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import mlab.mcsweb.client.study.dashboard.EmailUUIDMappingList;
-import mlab.mcsweb.client.study.dashboard.ObjectStatistics;
-import mlab.mcsweb.client.study.dashboard.PingStatistics;
 import mlab.mcsweb.client.study.dashboard.SendCommand;
 import mlab.mcsweb.client.study.dashboard.SendNotification;
 import mlab.mcsweb.client.study.dashboard.StudySummary;
@@ -25,15 +23,13 @@ public class Dashboard extends Composite {
 	HTMLPanel contentPanel;
 	
 	@UiField
-	LinkedGroupItem summaryLink, fileMapLink, sendNotificationLink, sendCommandLink, pingStatLink, objectStatLink;
+	LinkedGroupItem summaryLink, fileMapLink, sendNotificationLink, sendCommandLink;
 
 	private Study study;
 	private StudySummary studySummary;
 	private EmailUUIDMappingList mappingList;
 	private SendNotification sendNotification;
 	private SendCommand sendCommand;
-	private PingStatistics pingStatistics;
-	private ObjectStatistics objectStatistics;
 	
 	private static DashboardUiBinder uiBinder = GWT.create(DashboardUiBinder.class);
 
@@ -53,11 +49,9 @@ public class Dashboard extends Composite {
 		fileMapLink.setActive(false);
 		sendNotificationLink.setActive(false);
 		sendCommandLink.setActive(false);
-		pingStatLink.setActive(false);
-		objectStatLink.setActive(false);
 		contentPanel.clear();
 		if (studySummary == null) {
-			studySummary = new StudySummary();
+			studySummary = new StudySummary(this.study.getId());
 		}
 		contentPanel.add(studySummary);
 	}
@@ -69,9 +63,6 @@ public class Dashboard extends Composite {
 		summaryLink.setActive(false);
 		sendNotificationLink.setActive(false);
 		sendCommandLink.setActive(false);
-		pingStatLink.setActive(false);
-		objectStatLink.setActive(false);
-		
 		contentPanel.clear();
 		if (mappingList == null) {
 			try {
@@ -89,8 +80,6 @@ public class Dashboard extends Composite {
 		fileMapLink.setActive(false);
 		sendNotificationLink.setActive(true);
 		sendCommandLink.setActive(false);
-		pingStatLink.setActive(false);
-		objectStatLink.setActive(false);
 		contentPanel.clear();
 		if (sendNotification == null) {
 			sendNotification = new SendNotification();
@@ -104,8 +93,6 @@ public class Dashboard extends Composite {
 		fileMapLink.setActive(false);
 		sendNotificationLink.setActive(false);
 		sendCommandLink.setActive(true);
-		pingStatLink.setActive(false);
-		objectStatLink.setActive(false);
 		contentPanel.clear();
 		if (sendCommand == null) {
 			sendCommand = new SendCommand();
@@ -113,34 +100,4 @@ public class Dashboard extends Composite {
 		contentPanel.add(sendCommand);
 	}
 	
-	@UiHandler("pingStatLink")
-	void showPingGraph(ClickEvent event){
-		summaryLink.setActive(false);
-		fileMapLink.setActive(false);
-		sendNotificationLink.setActive(false);
-		sendCommandLink.setActive(false);
-		pingStatLink.setActive(true);
-		objectStatLink.setActive(false);
-		contentPanel.clear();
-
-		if (pingStatistics == null) {
-			pingStatistics = new PingStatistics();
-		}
-		contentPanel.add(pingStatistics);
-	}
-
-	@UiHandler("objectStatLink")
-	void shoeObjectGraph(ClickEvent event){
-		summaryLink.setActive(false);
-		fileMapLink.setActive(false);
-		sendNotificationLink.setActive(false);
-		sendCommandLink.setActive(false);
-		pingStatLink.setActive(false);
-		objectStatLink.setActive(true);
-		contentPanel.clear();
-		if (objectStatistics == null) {
-			objectStatistics = new ObjectStatistics();
-		}
-		contentPanel.add(objectStatistics);
-	}
 }

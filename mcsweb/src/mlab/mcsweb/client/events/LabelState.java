@@ -1,6 +1,6 @@
 package mlab.mcsweb.client.events;
 
-import mlab.mcsweb.shared.LabelSummary;
+import mlab.mcsweb.shared.LabelingSummary;
 
 public class LabelState {
 	public enum LabelSpecificState {
@@ -9,14 +9,14 @@ public class LabelState {
 
 	// private Study study;
 	// private String surveyId;
-	private LabelSummary labelSummary;
+	private LabelingSummary labelingSummary;
 	private LabelSpecificState labelSpecificState;
 
-	public LabelState(LabelSummary labelSummary, LabelSpecificState labelSpecificState) {
+	public LabelState(LabelingSummary labelingSummary, LabelSpecificState labelSpecificState) {
 		super();
 		// this.study = study;
 		// this.surveyId = surveyId;
-		this.labelSummary = labelSummary;
+		this.labelingSummary = labelingSummary;
 		this.labelSpecificState = labelSpecificState;
 	}
 
@@ -24,8 +24,8 @@ public class LabelState {
 		return labelSpecificState;
 	}
 
-	public LabelSummary getLabelSummary() {
-		return labelSummary;
+	public LabelingSummary getLabelSummary() {
+		return labelingSummary;
 	}
 
 }

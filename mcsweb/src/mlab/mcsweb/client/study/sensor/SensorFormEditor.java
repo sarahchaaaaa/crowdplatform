@@ -18,7 +18,7 @@ import mlab.mcsweb.client.services.SensorServiceAsync;
 import mlab.mcsweb.shared.SensorAction;
 import mlab.mcsweb.shared.SensorSummary;
 
-public class SensorActionEditor extends Composite {
+public class SensorFormEditor extends Composite {
 
 	@UiField
 	HTMLPanel phoneSensorPanel, phoneEventPanel;
@@ -32,12 +32,12 @@ public class SensorActionEditor extends Composite {
 	private final SensorServiceAsync service = GWT.create(SensorService.class);
 
 
-	private static SensorActionEditorUiBinder uiBinder = GWT.create(SensorActionEditorUiBinder.class);
+	private static SensorFormEditorUiBinder uiBinder = GWT.create(SensorFormEditorUiBinder.class);
 
-	interface SensorActionEditorUiBinder extends UiBinder<Widget, SensorActionEditor> {
+	interface SensorFormEditorUiBinder extends UiBinder<Widget, SensorFormEditor> {
 	}
 
-	public SensorActionEditor(SensorSummary sensorSummary) {
+	public SensorFormEditor(SensorSummary sensorSummary) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		this.sensorSummary = sensorSummary;
