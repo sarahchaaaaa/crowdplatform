@@ -2,9 +2,7 @@ package mlab.mcsweb.shared;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
+//@XmlRootElement
 public class Response implements Serializable{
 	/**
 	 * 
