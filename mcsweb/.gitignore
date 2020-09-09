@@ -2,7 +2,11 @@
 
 # Package Files #
 *.jar
+!lib/*.jar
+
 *.war
+
+
 
 # gwt caches and compiled units #
 war/gwt_bree/

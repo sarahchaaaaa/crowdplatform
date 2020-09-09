@@ -2,11 +2,9 @@ package mlab.mcsweb.shared;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-@XmlRootElement
+//@XmlRootElement
 public class DataUploadInfo implements Serializable, IsSerializable{
 	private static final long serialVersionUID = 1L;
 	private long studyId;

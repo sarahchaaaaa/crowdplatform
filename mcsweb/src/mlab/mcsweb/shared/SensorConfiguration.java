@@ -3,11 +3,9 @@ package mlab.mcsweb.shared;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-@XmlRootElement
+//@XmlRootElement
 public class SensorConfiguration implements Serializable, IsSerializable{
 	
 	/**

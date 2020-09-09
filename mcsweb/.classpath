@@ -8,40 +8,20 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.7.0"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.10.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.3.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtbootstrap3-0.9.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtbootstrap3-extras-0.9.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dnd-3.3.4.jar"/>
-	<classpathentry kind="lib" path="lib/commons-dbcp2-2.2.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.5.jar"/>
-	<classpathentry kind="lib" path="lib/commons-pool2-2.5.0.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.47.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mail-1.4.7.jar"/>
-	<classpathentry kind="lib" path="lib/jsch-0.1.55.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/activation-1.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/asm-3.3.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jackson-core-asl-1.9.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jackson-jaxrs-1.9.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jackson-mapper-asl-1.9.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jackson-xc-1.9.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jaxb-api-2.2.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jaxb-impl-2.2.3-1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-bundle-1.19.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-core-1.19.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-json-1.19.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jersey-multipart-1.19.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jettison-1.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/jsr311-api-1.1.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mimepull-1.9.3.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/stax-api-1.0-2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-charts-0.9.10.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-dbcp-1.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-pool-1.5.4.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/json-20140107.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mysql-connector-java-5.1.47.jar"/>
+	<classpathentry kind="lib" path="lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-charts-0.9.10.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-dnd-3.3.4.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
+	<classpathentry kind="lib" path="lib/gwtbootstrap3-0.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/gwtbootstrap3-extras-0.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/mail-1.4.7.jar"/>
+	<classpathentry kind="lib" path="lib/mimepull-1.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.18.jar"/>
+	<classpathentry kind="lib" path="lib/asm-5.2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
