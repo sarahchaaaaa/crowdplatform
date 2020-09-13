@@ -29,6 +29,9 @@
 			<b:Column size="MD_4">
 				<b:CheckBox text="Allow Multiple Selection" ui:field="allowMutipleCheckbox"></b:CheckBox>
 			</b:Column>
+			<b:Column size="MD_4">
+				<b:CheckBox text="Additional Comment" ui:field="commentCheckbox"></b:CheckBox>
+			</b:Column>
 		</b:Row>
 	</g:HTMLPanel>
 </ui:UiBinder> 

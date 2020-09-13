@@ -19,6 +19,7 @@ public interface SurveyServiceAsync {
 	void publishSurveyConfiguration(SurveyConfiguration surveyConfiguration, AsyncCallback<Response> callback);
 	void getSurveyList(long studyId, AsyncCallback<ArrayList<SurveySummary>> callback);
 	void getSurveyTaskList(long studyId, long surveyId, AsyncCallback<ArrayList<SurveyTask>> callback);
+	void changeLifecycle(SurveySummary survey, AsyncCallback<Response> callback);
 	
 	//Task
 	//void getTaskGroupList(long studyId, AsyncCallback<ArrayList<TaskGroupSummary>> callback);

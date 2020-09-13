@@ -20,4 +20,5 @@ public interface SensorService extends RemoteService {
 	Response publishSensorConfiguration(SensorConfiguration sensorConfiguration);
 	ArrayList<SensorSummary> getSensorConfigList(long studyId);
 	ArrayList<SensorAction> getSensorActionList(long studyId, long sensorConfigId);
+	Response changeLifecycle(SensorSummary sensorSummary);
 }

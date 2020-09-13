@@ -15,13 +15,16 @@ public class SurveyResponse {
 	private String submissionTimeZone;
 	private String answerType;
 	private String answer;
+	private String comment;
+	private String objectUrl;
 
 	public SurveyResponse() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public SurveyResponse(String userEmail, String deviceUuid, long studyId, long surveyId, int taskId, int version,
-			String submissionTime, String submissionTimeZone, String answerType, String answer) {
+			String submissionTime, String submissionTimeZone, String answerType, String answer, String comment,
+			String objectUrl) {
 		super();
 		this.userEmail = userEmail;
 		this.deviceUuid = deviceUuid;
@@ -33,6 +36,8 @@ public class SurveyResponse {
 		this.submissionTimeZone = submissionTimeZone;
 		this.answerType = answerType;
 		this.answer = answer;
+		this.comment = comment;
+		this.objectUrl = objectUrl;
 	}
 
 	public String getUserEmail() {
@@ -75,6 +80,14 @@ public class SurveyResponse {
 		return answer;
 	}
 
+	public String getComment() {
+		return comment;
+	}
+
+	public String getObjectUrl() {
+		return objectUrl;
+	}
+
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
@@ -114,5 +127,15 @@ public class SurveyResponse {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public void setObjectUrl(String objectUrl) {
+		this.objectUrl = objectUrl;
+	}
+
+
 
 }

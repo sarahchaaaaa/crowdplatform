@@ -24,6 +24,7 @@ public class SurveySummary {
 	private String endTime = "";
 	private String endTimeZone = "";
 	private String schedule = "";
+	private int lifecycle;
 	
 	public SurveySummary() {
 		// TODO Auto-generated constructor stub
@@ -32,7 +33,7 @@ public class SurveySummary {
 	public SurveySummary(long id, long studyId, String name, String description, String createdBy, String creationTime,
 			String creationTimeZone, String modificationTime, String modificationTimeZone, String publishTime,
 			String publishTimeZone, int publishedVersion, int state, int responseCount, String startTime,
-			String startTimeZone, String endTime, String endTimeZone, String schedule) {
+			String startTimeZone, String endTime, String endTimeZone, String schedule, int lifecycle) {
 		super();
 		this.id = id;
 		this.studyId = studyId;
@@ -53,6 +54,7 @@ public class SurveySummary {
 		this.endTime = endTime;
 		this.endTimeZone = endTimeZone;
 		this.schedule = schedule;
+		this.lifecycle = lifecycle;
 	}
 
 	public long getId() {
@@ -131,6 +133,10 @@ public class SurveySummary {
 		return schedule;
 	}
 
+	public int getLifecycle() {
+		return lifecycle;
+	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -207,5 +213,7 @@ public class SurveySummary {
 		this.schedule = schedule;
 	}
 
-	
+	public void setLifecycle(int lifecycle) {
+		this.lifecycle = lifecycle;
+	}
 }

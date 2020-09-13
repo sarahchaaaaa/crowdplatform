@@ -3,7 +3,8 @@ package mlab.mcsweb.client.study.survey;
 import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.CheckBox;
+import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.extras.select.client.ui.Select;
@@ -37,10 +38,13 @@ public class TaskComponent extends Composite {
 	Button dragObject, dropButton;
 	
 	@UiField
-	TextBox questionBox;
+	TextArea questionBox;
 	
 	@UiField
 	Select optionSelect;
+	
+	@UiField
+	CheckBox requiredCheckbox;
 	
 	@UiField
 	Label errorLabel;
@@ -68,7 +72,10 @@ public class TaskComponent extends Composite {
 			
 			try {
 				questionBox.setText(surveyTask.getTaskText());
+				final boolean isRequired = surveyTask.getIsRequired()==0 ? false : true;
+				requiredCheckbox.setValue(isRequired);
 				final String option = surveyTask.getType().toLowerCase();
+				final boolean isCommentEnabled = surveyTask.getHasComment()==0 ? false : true;
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 					
 					@Override
@@ -76,12 +83,14 @@ public class TaskComponent extends Composite {
 						if(option.equals("text")){
 							//Window.alert("this is a text");
 							optionSelect.setValue("text", true);
+						}else if(option.equals("textarea")){
+							optionSelect.setValue("textarea", true);
 						}else if(option.equals("choice")){
 							optionSelect.setValue("choice", false);
-							dynamicPanel.add(new MultipleChoiceView(surveyTask.getPossibleInput(), true));
+							dynamicPanel.add(new MultipleChoiceView(surveyTask.getPossibleInput(), true, isCommentEnabled));
 						}else if(option.equals("selection")){
 							optionSelect.setValue("choice", false);
-							dynamicPanel.add(new MultipleChoiceView(surveyTask.getPossibleInput(), false));							
+							dynamicPanel.add(new MultipleChoiceView(surveyTask.getPossibleInput(), false, isCommentEnabled));							
 						}else if(option.equals("date")){
 							optionSelect.setValue("date", true);
 						}/*else if(option.startsWith("mt0")){
@@ -118,6 +127,8 @@ public class TaskComponent extends Composite {
 		String selection = optionSelect.getValue().toLowerCase();
 		if(selection.equals("text")){
 			type = "text";
+		}else if(selection.equals("textarea")){
+			type = "textarea";
 		}else if(selection.equals("choice")){
 			
 			if(dynamicPanel.getWidgetCount()>0 && dynamicPanel.getWidget(0) instanceof MultipleChoiceView){
@@ -128,6 +139,10 @@ public class TaskComponent extends Composite {
 				}else {
 					type = "selection";
 				}
+				
+				if (choiceView.isCommentEnabled()) {
+					surveyTask.setHasComment(1);
+				}
 			}
 		}else if(selection.equals("date")){
 			type = "date";
@@ -137,7 +152,11 @@ public class TaskComponent extends Composite {
 			}			
 		}*/
 		surveyTask.setType(type);
-		
+		if (requiredCheckbox.getValue()) {
+			surveyTask.setIsRequired(1);
+		}else{
+			surveyTask.setIsRequired(0);
+		}
 		taskList.add(surveyTask);
 		
 		return taskList;
@@ -157,6 +176,8 @@ public class TaskComponent extends Composite {
 		dynamicPanel.clear();
 		
 		if(value.contains("text")){
+			dynamicPanel.add(new TextAnswerView());
+		}else if(value.contains("textarea")){
 			dynamicPanel.add(new TextAnswerView());
 		}else if(value.contains("choice")){
 			dynamicPanel.add(new MultipleChoiceView());

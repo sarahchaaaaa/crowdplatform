@@ -1,4 +1,4 @@
-package crowdsense.cimoninterface.services;
+	package crowdsense.cimoninterface.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,7 +30,7 @@ public class SignupService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response signup(@QueryParam("uuid") String uuid, @QueryParam("email") String email){
 		Response response = new Response();
-		if(Util.isEmptyString(uuid) || Util.isEmptyString(email)){
+		if(Util.isEmptyString(email)){
 			response.setMessage("Invalid input");
 			return response;
 		}
@@ -50,7 +50,7 @@ public class SignupService {
 			preparedStatement.execute();
 			response.setCode(0);
 			
-			String subject = "Cimon Verification Token";
+			String subject = "Koios Verification Token";
 			String name = "User";
 			String emailBody = 	"\n\nThank you for registering with the University of Notre Dame Crowd Sensing Initiative.\n"
 								+ "\nVerification Token:"

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
+import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,6 +26,7 @@ import mlab.mcsweb.client.events.SurveyState;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
 import mlab.mcsweb.client.services.SurveyService;
 import mlab.mcsweb.client.services.SurveyServiceAsync;
+import mlab.mcsweb.shared.Response;
 import mlab.mcsweb.shared.Study;
 import mlab.mcsweb.shared.SurveySummary;
 
@@ -60,32 +64,11 @@ public class SurveyManagement extends Composite {
 	
 	@Override
 	protected void onLoad() {
-		// TODO Auto-generated method stub
+
 		super.onLoad();
 		if(isLoaded){
 			//do nothing
-		}else {
-			// TODO load survey for the first time
-			/*imageAnchor.setUrl("images/create_new_256.png");
-			imageAnchor.setResponsive(true);
-			imageAnchor.setAsMediaObject(true);
-			imageAnchor.setAlt("Create New Survey");
-			//imageAnchor.setType(ImageType.THUMBNAIL);
-			imageAnchor.addClickHandler(new ClickHandler() {
-				
-				@Override
-				public void onClick(ClickEvent event) {
-					// TODO Auto-generated method stub
-					SurveySummary surveySummary = new SurveySummary();
-					surveySummary.setStudyId(study.getId());
-					Mcsweb.getEventBus().fireEvent(new SurveyEvent(new SurveyState(surveySummary, SurveySpecificState.NEW)));
-				}
-			});
-			
-			leftColumn.add(new Br());
-			leftColumn.add(new Br());
-			leftColumn.add(imageAnchor);*/
-			
+		}else {			
 			buttonCreate.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -102,8 +85,10 @@ public class SurveyManagement extends Composite {
 				public void onSuccess(ArrayList<SurveySummary> result) {
 					// TODO Auto-generated method stub
 					for(int i=0;i<result.size();i++){
-						surveyList.add(new SurveyOverview(result.get(i)));
-						//Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());
+						if (result.get(i).getLifecycle()>=0) {
+							surveyList.add(new SurveyOverview(result.get(i), surveyService));
+							//Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());		
+						}
 
 					}
 					
@@ -116,7 +101,7 @@ public class SurveyManagement extends Composite {
 				@Override
 				public void onFailure(Throwable caught) {
 					// TODO Auto-generated method stub
-					Window.alert("service not available");
+//					Window.alert("service not available");
 				}
 			});
 						
@@ -133,7 +118,9 @@ class SurveyOverview extends BaseOverview{
 
 	SurveySummary surveySummary;
 	
-	public SurveyOverview(final SurveySummary surveySummary) {
+//	Button detailsButton, activateButton, deactivateButton, deleteButton;
+	
+	public SurveyOverview(final SurveySummary surveySummary, final SurveyServiceAsync service) {
 		
 		this.surveySummary = surveySummary;
 		
@@ -149,71 +136,133 @@ class SurveyOverview extends BaseOverview{
 		}
 		String description = "Saved at  "+ lastSaveTime;
 	
-		super.setOverviewPanel(name, description);
-		addClickAction();
+		setOverviewPanel(name, description);
 		
-		/*
-		heading = new Heading(HeadingSize.H3, name);
-		paragraph = new Paragraph(description);
-		htmlPanel = new HTMLPanel("");
-		htmlPanel.addStyleName("panel_border");
-		htmlPanel.getElement().getStyle().setMargin(5, Unit.PCT);;
-		htmlPanel.add(new Br());
-		Row r1 = new Row();
-		r1.addStyleName("col-lg-offset-1 col-md-offset-1 col-xs-offset-1");
-		r1.add(heading);
-		htmlPanel.add(r1);
-		htmlPanel.add(new Br());
-		Row r2 = new Row();
-		r2.addStyleName("col-lg-offset-2 col-md-offset-2 col-xs-offset-2");
-		r2.add(paragraph);
-		htmlPanel.add(r2);
-		htmlPanel.add(new Br());
-		htmlPanel.addDomHandler(new ClickHandler() {
+		if (surveySummary.getLifecycle()==0) {
+			activateButton.setEnabled(true);
+			deactivateButton.setEnabled(false);
+			activateButton.setType(ButtonType.PRIMARY);
+			deactivateButton.setType(ButtonType.DEFAULT);
+		}else if(surveySummary.getLifecycle()==1){
+			deactivateButton.setEnabled(true);
+			activateButton.setEnabled(false);
+			activateButton.setType(ButtonType.DEFAULT);
+			deactivateButton.setType(ButtonType.PRIMARY);
+		}
+		
+		detailsButton.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				Mcsweb.getEventBus().fireEvent(new SurveyEvent(new SurveyState(surveySummary, SurveySpecificState.NEW)));
+				HTMLPanel htmlPanel = getOverviewPanel();
+				htmlPanel.addDomHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						Mcsweb.getEventBus().fireEvent(new SurveyEvent(new SurveyState(surveySummary, SurveySpecificState.NEW)));
+					}
+				}, ClickEvent.getType());
 			}
-		}, ClickEvent.getType());
+		});
 		
-		htmlPanel.addDomHandler(new MouseOverHandler() {
+		activateButton.addClickHandler(new ClickHandler() {
 			
 			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				// TODO Auto-generated method stub
-				htmlPanel.getElement().getStyle().setBackgroundColor("#9fc69f");
-				htmlPanel.getElement().getStyle().setCursor(Cursor.POINTER);
+			public void onClick(ClickEvent event) {
+				surveySummary.setModificationTime(JSUtil.getUnixtime());
+				surveySummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
+				surveySummary.setLifecycle(1);//1=active
+				service.changeLifecycle(surveySummary, new AsyncCallback<Response>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+					}
+
+					@Override
+					public void onSuccess(Response result) {
+						if (result.getCode()==0) {
+							activateButton.setEnabled(false);
+							deactivateButton.setEnabled(true);
+							activateButton.setType(ButtonType.DEFAULT);
+							deactivateButton.setType(ButtonType.PRIMARY);
+
+							Notify.notify("The survey is active now.", NotifyType.SUCCESS);		
+						}else{
+							Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+						}
+					}
+					
+				});
 			}
-		}, MouseOverEvent.getType());
+		});
 		
-		htmlPanel.addDomHandler(new MouseOutHandler() {
+		deactivateButton.addClickHandler(new ClickHandler() {
 			
 			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				// TODO Auto-generated method stub
- 				htmlPanel.getElement().getStyle().setBackgroundColor("white");
- 				htmlPanel.getElement().getStyle().setCursor(Cursor.DEFAULT);
+			public void onClick(ClickEvent event) {
+				surveySummary.setModificationTime(JSUtil.getUnixtime());
+				surveySummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
+				surveySummary.setLifecycle(0);//0=deactive
+				service.changeLifecycle(surveySummary, new AsyncCallback<Response>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+					}
+
+					@Override
+					public void onSuccess(Response result) {
+						if (result.getCode()==0) {
+							activateButton.setEnabled(true);
+							deactivateButton.setEnabled(false);
+							activateButton.setType(ButtonType.PRIMARY);
+							deactivateButton.setType(ButtonType.DEFAULT);
+							Notify.notify("The survey is not active anymore.", NotifyType.SUCCESS);		
+						}else{
+							Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+						}
+					}
+					
+				});
 			}
-		}, MouseOutEvent.getType());
+		});
 		
-		initWidget(htmlPanel);*/
+		
+		
+		deleteButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				surveySummary.setModificationTime(JSUtil.getUnixtime());
+				surveySummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
+				surveySummary.setLifecycle(-1);//-1=delete
+				
+				
+				service.changeLifecycle(surveySummary, new AsyncCallback<Response>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+					}
+
+					@Override
+					public void onSuccess(Response result) {
+						if (result.getCode()==0) {
+							removeFromParent();
+							Notify.notify("The survey has been deleted successfully", NotifyType.SUCCESS);		
+						}else{
+							Notify.notify("Service not available. Please try later.", NotifyType.DANGER);									
+						}
+					}
+					
+				});
+			}
+		});
+		
+		
+		
 	}
 	
-	@Override
-	void addClickAction() {
-		// TODO Auto-generated method stub
-		HTMLPanel htmlPanel = super.getOverviewPanel();
-		htmlPanel.addDomHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				Mcsweb.getEventBus().fireEvent(new SurveyEvent(new SurveyState(surveySummary, SurveySpecificState.NEW)));
-			}
-		}, ClickEvent.getType());
-
-	}
-
 }

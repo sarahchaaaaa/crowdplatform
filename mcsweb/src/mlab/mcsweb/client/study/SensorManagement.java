@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
+import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,6 +26,7 @@ import mlab.mcsweb.client.events.SensorState;
 import mlab.mcsweb.client.events.SensorState.SensorSpecificState;
 import mlab.mcsweb.client.services.SensorService;
 import mlab.mcsweb.client.services.SensorServiceAsync;
+import mlab.mcsweb.shared.Response;
 import mlab.mcsweb.shared.SensorSummary;
 import mlab.mcsweb.shared.Study;
 
@@ -79,9 +83,10 @@ public class SensorManagement extends Composite {
 				@Override
 				public void onSuccess(ArrayList<SensorSummary> result) {
 					for(int i=0;i<result.size();i++){
-						sensorConfigList.add(new SensorOverview(result.get(i)));
-						//Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());
-
+						if (result.get(i).getLifecycle()>=0) {
+							sensorConfigList.add(new SensorOverview(result.get(i), service));
+//							Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());	
+						}
 					}
 					
 					for(int i=0;i<sensorConfigList.size();i++){
@@ -95,30 +100,6 @@ public class SensorManagement extends Composite {
 					Window.alert("service not available");
 				}
 			});
-			
-			/*service.getSensorConfigList(study.getId(), new AsyncCallback<ArrayList<SensorSummary>>() {
-				
-				@Override
-				public void onSuccess(ArrayList<SensorSummary> result) {
-					// TODO Auto-generated method stub
-					for(int i=0;i<result.size();i++){
-						sensorConfigList.add(new SensorOverview(result.get(i)));
-						//Window.alert("survey id :"+ result.get(i).getId() + " study id:"+ result.get(i).getStudyId());
-
-					}
-					
-					for(int i=0;i<sensorConfigList.size();i++){
-						listColumn.add(sensorConfigList.get(i));
-					}
-
-				}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					Window.alert("service not available");
-				}
-			});*/
 						
 			
 			isLoaded = true;
@@ -132,7 +113,7 @@ class SensorOverview extends BaseOverview{
 
 	SensorSummary sensorSummary;
 	
-	public SensorOverview(final SensorSummary sensorSummary) {
+	public SensorOverview(final SensorSummary sensorSummary, final SensorServiceAsync service) {
 		
 		this.sensorSummary = sensorSummary;
 		
@@ -148,23 +129,131 @@ class SensorOverview extends BaseOverview{
 		}
 		String description = "Saved at  "+ lastSaveTime;
 	
-		super.setOverviewPanel(name, description);
-		addClickAction();
-		
-	}
-	
-	@Override
-	void addClickAction() {
-		// TODO Auto-generated method stub
-		HTMLPanel htmlPanel = super.getOverviewPanel();
-		htmlPanel.addDomHandler(new ClickHandler() {
+		setOverviewPanel(name, description);
+		if (sensorSummary.getLifecycle()==0) {
+			activateButton.setEnabled(true);
+			deactivateButton.setEnabled(false);
+			activateButton.setType(ButtonType.PRIMARY);
+			deactivateButton.setType(ButtonType.DEFAULT);
+		}else if(sensorSummary.getLifecycle()==1){
+			deactivateButton.setEnabled(true);
+			activateButton.setEnabled(false);
+			activateButton.setType(ButtonType.DEFAULT);
+			deactivateButton.setType(ButtonType.PRIMARY);
+		}
+
+		detailsButton.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Mcsweb.getEventBus().fireEvent(new SensorEvent(new SensorState(sensorSummary, SensorSpecificState.NEW)));
+				HTMLPanel htmlPanel = getOverviewPanel();
+				htmlPanel.addDomHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						Mcsweb.getEventBus().fireEvent(new SensorEvent(new SensorState(sensorSummary, SensorSpecificState.NEW)));
+					}
+				}, ClickEvent.getType());				
 			}
-		}, ClickEvent.getType());
+		});
 
+		
+		activateButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				sensorSummary.setModificationTime(JSUtil.getUnixtime());
+				sensorSummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
+				sensorSummary.setLifecycle(1);//1=active
+				service.changeLifecycle(sensorSummary, new AsyncCallback<Response>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+					}
+
+					@Override
+					public void onSuccess(Response result) {
+						if (result.getCode()==0) {
+							activateButton.setEnabled(false);
+							deactivateButton.setEnabled(true);		
+							activateButton.setType(ButtonType.DEFAULT);
+							deactivateButton.setType(ButtonType.PRIMARY);
+							Notify.notify("The sensor configuration is active now.", NotifyType.SUCCESS);		
+						}else{
+							Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+						}
+					}
+					
+				});
+			}
+		});
+		
+		deactivateButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				sensorSummary.setModificationTime(JSUtil.getUnixtime());
+				sensorSummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
+				sensorSummary.setLifecycle(0);//0=deactive
+				service.changeLifecycle(sensorSummary, new AsyncCallback<Response>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+					}
+
+					@Override
+					public void onSuccess(Response result) {
+						if (result.getCode()==0) {
+							activateButton.setEnabled(true);
+							deactivateButton.setEnabled(false);
+							activateButton.setType(ButtonType.PRIMARY);
+							deactivateButton.setType(ButtonType.DEFAULT);
+							Notify.notify("The sensor configuration is not active anymore.", NotifyType.SUCCESS);		
+						}else{
+							Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+						}
+					}
+					
+				});
+			}
+		});
+		
+		
+		
+		deleteButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				sensorSummary.setModificationTime(JSUtil.getUnixtime());
+				sensorSummary.setModificationTimeZone(JSUtil.getTimezoneOffset());
+				sensorSummary.setLifecycle(-1);//-1=delete
+				
+				
+				service.changeLifecycle(sensorSummary, new AsyncCallback<Response>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Notify.notify("Service not available. Please try later.", NotifyType.DANGER);		
+					}
+
+					@Override
+					public void onSuccess(Response result) {
+						if (result.getCode()==0) {
+							removeFromParent();
+							Notify.notify("The sensor configuration has been deleted successfully", NotifyType.SUCCESS);		
+						}else{
+							Notify.notify("Service not available. Please try later.", NotifyType.DANGER);									
+						}
+					}
+					
+				});
+			}
+		});
+		
+		
+		
 	}
 
 }

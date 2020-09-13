@@ -15,6 +15,8 @@ public class SurveyTask {
 	private int orderId;
 	private int isActive;
 	private int isRequired;
+	private int hasComment;
+	private int hasUrl;
 	private int parentTaskId;
 	private int hasChild;
 	private String childTriggeringInput = "";
@@ -25,8 +27,8 @@ public class SurveyTask {
 	}
 
 	public SurveyTask(long studyId, long surveyId, int version, int taskId, String taskText, String type,
-			String possibleInput, int orderId, int isActive, int isRequired, int parentTaskId, int hasChild,
-			String childTriggeringInput, String defaultInput) {
+			String possibleInput, int orderId, int isActive, int isRequired, int hasComment, int hasUrl,
+			int parentTaskId, int hasChild, String childTriggeringInput, String defaultInput) {
 		super();
 		this.studyId = studyId;
 		this.surveyId = surveyId;
@@ -38,6 +40,8 @@ public class SurveyTask {
 		this.orderId = orderId;
 		this.isActive = isActive;
 		this.isRequired = isRequired;
+		this.hasComment = hasComment;
+		this.hasUrl = hasUrl;
 		this.parentTaskId = parentTaskId;
 		this.hasChild = hasChild;
 		this.childTriggeringInput = childTriggeringInput;
@@ -82,6 +86,14 @@ public class SurveyTask {
 
 	public int getIsRequired() {
 		return isRequired;
+	}
+
+	public int getHasComment() {
+		return hasComment;
+	}
+
+	public int getHasUrl() {
+		return hasUrl;
 	}
 
 	public int getParentTaskId() {
@@ -140,6 +152,14 @@ public class SurveyTask {
 		this.isRequired = isRequired;
 	}
 
+	public void setHasComment(int hasComment) {
+		this.hasComment = hasComment;
+	}
+
+	public void setHasUrl(int hasUrl) {
+		this.hasUrl = hasUrl;
+	}
+
 	public void setParentTaskId(int parentTaskId) {
 		this.parentTaskId = parentTaskId;
 	}
@@ -156,5 +176,4 @@ public class SurveyTask {
 		this.defaultInput = defaultInput;
 	}
 
-	
 }

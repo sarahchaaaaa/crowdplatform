@@ -21,6 +21,7 @@ public interface SurveyService extends RemoteService {
 	Response publishSurveyConfiguration(SurveyConfiguration surveyConfiguration);
 	ArrayList<SurveySummary> getSurveyList(long studyId);
 	ArrayList<SurveyTask> getSurveyTaskList(long studyId, long surveyId);
+	Response changeLifecycle(SurveySummary survey);
 	
 	//Task
 //	ArrayList<TaskGroupSummary> getTaskGroupList(long studyId);
