@@ -622,9 +622,9 @@ public class DashboardServiceImpl extends RemoteServiceServlet implements Dashbo
 	}
 	
 	@Override
-	public Response sendNotification(ArrayList<Participant> participants) {
+	public Response sendNotification(ArrayList<Participant> participants, String title, String msg) {
 		Response response = new Response(0, "success");
 		return response;
 	}
-
+	
 }

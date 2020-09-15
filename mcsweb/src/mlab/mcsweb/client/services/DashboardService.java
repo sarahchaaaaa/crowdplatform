@@ -39,7 +39,7 @@ public interface DashboardService extends RemoteService {
 	
 	
 	//notification
-	Response sendNotification(ArrayList<Participant> participants);
+	Response sendNotification(ArrayList<Participant> participants, String title, String msg);
 	
 	
 }

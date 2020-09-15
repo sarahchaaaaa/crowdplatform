@@ -34,7 +34,6 @@ public interface DashboardServiceAsync {
 	
 	void getFileIdentifiers(long studyId, AsyncCallback<ArrayList<FileIdentifier>> callback);
 	
-	//notification
-	void sendNotification(ArrayList<Participant> participants, AsyncCallback<Response> callback);
+	void sendNotification(ArrayList<Participant> participants, String title, String msg, AsyncCallback<Response> callback);
 		
 }

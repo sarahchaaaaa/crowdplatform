@@ -40,7 +40,7 @@ public class SendNotification extends Composite {
 	@UiHandler("testButton")
 	void testService(ClickEvent event){
 		ArrayList<Participant> participants = new ArrayList<>();
-		service.sendNotification(participants, new AsyncCallback<Response>() {
+		service.sendNotification(participants, "Test Title", "Test Message", new AsyncCallback<Response>() {
 			
 			@Override
 			public void onSuccess(Response result) {
