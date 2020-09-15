@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import mlab.mcsweb.shared.DaywiseCount;
 import mlab.mcsweb.shared.FileIdentifier;
 import mlab.mcsweb.shared.Participant;
+import mlab.mcsweb.shared.Response;
 
 /**
  * The async counterpart of <code>DashboardService</code>.
@@ -32,5 +33,8 @@ public interface DashboardServiceAsync {
 
 	
 	void getFileIdentifiers(long studyId, AsyncCallback<ArrayList<FileIdentifier>> callback);
+	
+	//notification
+	void sendNotification(ArrayList<Participant> participants, AsyncCallback<Response> callback);
 		
 }

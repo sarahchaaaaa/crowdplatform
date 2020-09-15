@@ -8,8 +8,17 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<h:Br/>
-		<h:Br/>
-		<g:Label>Work in progress. This section allows you to send push notification to selected devices participating in the study.</g:Label>
+		<h:Br></h:Br>
+		<h:Br></h:Br>
+		<b:Panel type="SUCCESS">
+			<b:PanelHeader>
+				<b:Heading size="H3" text="List of Participants" />
+			</b:PanelHeader>
+			<b:PanelBody>
+				<g:HTMLPanel ui:field="listPanel">
+					<b:Button ui:field="testButton">Test Service</b:Button>
+				</g:HTMLPanel>
+			</b:PanelBody>
+		</b:Panel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

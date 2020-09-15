@@ -18,6 +18,7 @@ import mlab.mcsweb.client.services.DashboardService;
 import mlab.mcsweb.shared.DaywiseCount;
 import mlab.mcsweb.shared.FileIdentifier;
 import mlab.mcsweb.shared.Participant;
+import mlab.mcsweb.shared.Response;
 
 /**
  * The server-side implementation of the RPC service.
@@ -618,6 +619,12 @@ public class DashboardServiceImpl extends RemoteServiceServlet implements Dashbo
 		}
 		return list;
 
+	}
+	
+	@Override
+	public Response sendNotification(ArrayList<Participant> participants) {
+		Response response = new Response(0, "success");
+		return response;
 	}
 
 }
