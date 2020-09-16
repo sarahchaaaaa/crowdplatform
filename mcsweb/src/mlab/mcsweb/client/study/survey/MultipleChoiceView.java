@@ -36,7 +36,7 @@ public class MultipleChoiceView extends Composite {
 	Button addOptionButton;
 	
 	@UiField
-	CheckBox allowMutipleCheckbox;
+	CheckBox allowMutipleCheckbox, commentCheckbox;
 	
 
 	private static MultipleChoiceViewUiBinder uiBinder = GWT.create(MultipleChoiceViewUiBinder.class);
@@ -51,7 +51,7 @@ public class MultipleChoiceView extends Composite {
 		verticalPanel.add(new AdditionalOption("", false));
 	}
 	
-	public MultipleChoiceView(String possibleInput, boolean isMutipleAllowed) {
+	public MultipleChoiceView(String possibleInput, boolean isMutipleAllowed, boolean isCommentEnabled) {
 		initWidget(uiBinder.createAndBindUi(this));
 		verticalPanel.setWidth("80%");
 		String[] inputs = JSUtil.split(possibleInput, "|");
@@ -69,7 +69,7 @@ public class MultipleChoiceView extends Composite {
 			verticalPanel.add(new AdditionalOption("", false));
 		}
 		allowMutipleCheckbox.setValue(isMutipleAllowed);
-		
+		commentCheckbox.setValue(isCommentEnabled);
 	}
 
 	@UiHandler("addOptionButton")
@@ -107,6 +107,10 @@ public class MultipleChoiceView extends Composite {
 	
 	public boolean isMultipleAllowed(){
 		return allowMutipleCheckbox.getValue();
+	}
+	
+	public boolean isCommentEnabled(){
+		return commentCheckbox.getValue();
 	}
 }
 

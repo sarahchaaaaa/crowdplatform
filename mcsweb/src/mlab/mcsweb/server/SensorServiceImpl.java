@@ -83,7 +83,7 @@ public class SensorServiceImpl extends RemoteServiceServlet implements SensorSer
 			if (sensorSummary.getId() > 0) {
 				query = "update mcs.sensor_summary set name=?, description=?, modification_time=?, modification_time_zone=?, "
 						+ " publish_time=?, publish_time_zone=?, published_version=?, state=?, start_time=?, start_time_zone=?, end_time=?, end_time_zone=?, "
-						+ " schedule=? where id=? and study_id=?";
+						+ " schedule=?, lifecycle=? where id=? and study_id=?";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, sensorSummary.getName());
 				preparedStatement.setString(2, sensorSummary.getDescription());
@@ -98,16 +98,17 @@ public class SensorServiceImpl extends RemoteServiceServlet implements SensorSer
 				preparedStatement.setString(11, sensorSummary.getEndTime());
 				preparedStatement.setString(12, sensorSummary.getEndTimeZone());
 				preparedStatement.setString(13, sensorSummary.getSchedule());
+				preparedStatement.setInt(14, sensorSummary.getLifecycle());
 
-				preparedStatement.setLong(14, sensorSummary.getId());
-				preparedStatement.setLong(15, sensorSummary.getStudyId());
+				preparedStatement.setLong(15, sensorSummary.getId());
+				preparedStatement.setLong(16, sensorSummary.getStudyId());
 
 				preparedStatement.execute();
 
 			} else {
 				query = "insert into mcs.sensor_summary (study_id, name, description, created_by, creation_time, creation_time_zone,"
 						+ " modification_time, modification_time_zone, publish_time, publish_time_zone, published_version, state, start_time, start_time_zone,"
-						+ " end_time, end_time_zone, schedule) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " end_time, end_time_zone, schedule, lifecycle) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setLong(1, sensorSummary.getStudyId());
 				//TODO:temporary hard coding name
@@ -128,6 +129,7 @@ public class SensorServiceImpl extends RemoteServiceServlet implements SensorSer
 				preparedStatement.setString(15, sensorSummary.getEndTime());
 				preparedStatement.setString(16, sensorSummary.getEndTimeZone());
 				preparedStatement.setString(17, sensorSummary.getSchedule());
+				preparedStatement.setInt(18, sensorSummary.getLifecycle());
 
 				preparedStatement.execute();
 
@@ -228,6 +230,7 @@ public class SensorServiceImpl extends RemoteServiceServlet implements SensorSer
 			connection = connect();
 			String query = "select * from mcs.sensor_summary where study_id=" + studyId + " order by modification_time desc";
 			preparedStatement = connection.prepareStatement(query);
+			System.out.println("query:" + preparedStatement);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				try {
@@ -248,6 +251,7 @@ public class SensorServiceImpl extends RemoteServiceServlet implements SensorSer
 					String endTime = resultSet.getString("end_time");
 					String endTimeZone = resultSet.getString("end_time_zone");
 					String schedule = resultSet.getString("schedule");
+					int lifecycle = resultSet.getInt("lifecycle");
 
 					sensorSummary.setId(id);
 					sensorSummary.setStudyId(studyId);
@@ -265,15 +269,18 @@ public class SensorServiceImpl extends RemoteServiceServlet implements SensorSer
 					sensorSummary.setEndTime(endTime);
 					sensorSummary.setEndTimeZone(endTimeZone);
 					sensorSummary.setSchedule(schedule);
+					sensorSummary.setLifecycle(lifecycle);
 
 					sensorConfigList.add(sensorSummary);
 				} catch (Exception e) {
 					// TODO: handle exception
+					e.printStackTrace();
 				}
 			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			System.out.println("Closing the connection.");
 			if (connection != null)
@@ -358,6 +365,57 @@ public class SensorServiceImpl extends RemoteServiceServlet implements SensorSer
 
 		}
 		return actionList;
+	}
+	
+	
+	@Override
+	public Response changeLifecycle(SensorSummary sensorSummary) {
+		Response response = new Response();
+		Connection connection = null;
+		try {
+
+			connection = connect();
+			PreparedStatement preparedStatement = null;
+
+			String query = "update mcs.sensor_summary set modification_time=?, modification_time_zone=?, lifecycle=? where id=? and study_id=?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, sensorSummary.getModificationTime());
+			preparedStatement.setString(2, sensorSummary.getModificationTimeZone());
+			preparedStatement.setInt(3, sensorSummary.getLifecycle());
+
+			preparedStatement.setLong(4, sensorSummary.getId());
+			preparedStatement.setLong(5, sensorSummary.getStudyId());
+
+//			System.out.println("statement:" + preparedStatement + ", mod time" + survey.getModificationTime() + ", zone:" + survey.getModificationTimeZone()
+//			+ ", lifecycle:" + survey.getLifecycle() + ", id:"+ survey.getId() + ", study id:" + survey.getStudyId());
+			preparedStatement.execute();
+
+			try {
+				query = "update mcs.study set modification_time = ? where id=?";
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, sensorSummary.getModificationTime());
+				preparedStatement.setString(2, sensorSummary.getStudyId() + "");
+
+				preparedStatement.execute();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			response.setCode(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+
+		return response;
+
 	}
 
 }

@@ -21,6 +21,7 @@ import mlab.mcsweb.client.events.SurveyEvent;
 import mlab.mcsweb.client.events.SurveyEventHandler;
 import mlab.mcsweb.client.events.SurveyState.SurveySpecificState;
 import mlab.mcsweb.client.study.StudyDetails;
+import mlab.mcsweb.client.study.StudyDetails.DetailsTab;
 import mlab.mcsweb.client.study.sensor.SensorEditor;
 import mlab.mcsweb.client.study.survey.SurveyEditor;
 import mlab.mcsweb.shared.SensorSummary;
@@ -57,7 +58,7 @@ public class MainPage extends Composite {
 			public void actionAfterStudyEvent(StudyEvent event) {
 				// TODO Auto-generated method stub
 				if(event.getState().getStudySpecificState() == StudySpecificState.GETDETAILS){
-					loadStudyDetails(event.getState().getStudy());
+					loadStudyDetails(event.getState().getStudy(), DetailsTab.DASHBOARD);
 				}else if(event.getState().getStudySpecificState() == StudySpecificState.HOME){
 					loadUserHome();
 				}
@@ -75,7 +76,7 @@ public class MainPage extends Composite {
 				}else if(sensorEvent.getState().getSensorSpecificState() == SensorSpecificState.EXIT){
 					Study study = new Study();
 					study.setId(sensorEvent.getState().getSensorSummary().getStudyId());
-					loadStudyDetails(study);					
+					loadStudyDetails(study, DetailsTab.SENSOR);					
 				}
 			}
 		});
@@ -91,7 +92,7 @@ public class MainPage extends Composite {
 				}else if (surveyEvent.getState().getSurveySpecificState() == SurveySpecificState.EXIT) {
 					Study study = new Study();
 					study.setId(surveyEvent.getState().getSurveySummary().getStudyId());
-					loadStudyDetails(study);
+					loadStudyDetails(study, DetailsTab.SURVEY);
 				}
 			}
 		});
@@ -107,9 +108,9 @@ public class MainPage extends Composite {
 		mainPageContentPanel.add(userHomePage);
 	}
 	
-	public void loadStudyDetails(Study study){
+	public void loadStudyDetails(Study study, DetailsTab tabIndex){
 		mainPageContentPanel.clear();
-		mainPageContentPanel.add(new StudyDetails(study));
+		mainPageContentPanel.add(new StudyDetails(study, tabIndex));
 	}
 	
 	protected void loadSensorEditor(SensorSummary sensorSummary) {

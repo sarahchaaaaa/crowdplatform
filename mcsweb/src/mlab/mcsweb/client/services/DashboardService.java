@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import mlab.mcsweb.shared.DaywiseCount;
 import mlab.mcsweb.shared.FileIdentifier;
 import mlab.mcsweb.shared.Participant;
+import mlab.mcsweb.shared.Response;
 
 /**
  * The client-side stub for the RPC service.
@@ -36,6 +37,9 @@ public interface DashboardService extends RemoteService {
 	
 	ArrayList<FileIdentifier> getFileIdentifiers(long studyId);
 	
+	
+	//notification
+	Response sendNotification(ArrayList<Participant> participants, String title, String msg);
 	
 	
 }

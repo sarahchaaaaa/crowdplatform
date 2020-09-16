@@ -35,8 +35,8 @@ public class StudyDetails extends Composite {
 	private NavTabs tabNavigation;
 	private TabContent tabContent;
 
-	private TabListItem dashboardTab, participantTab, phoneSensingTab, surveyTab, taskTab, labelingTab, wearableTab, settingsTab;
-	private TabPane dashboardPane, participantPane, phoneSensingPane, surveyPane, taskPane, labelingPane, wearablePane, settingsPane;
+	private TabListItem dashboardTab, participantTab, sensingTab, surveyTab, taskTab, labelingTab, wearableTab, settingsTab;
+	private TabPane dashboardPane, participantPane, sensingPane, surveyPane, taskPane, labelingPane, wearablePane, settingsPane;
 
 	private Dashboard dashboard;
 	private ParticipantManagement participantManagement;
@@ -44,7 +44,9 @@ public class StudyDetails extends Composite {
 	private SurveyManagement surveyManagement;
 	private LabelingManagement labelManagement;
 	private WearableManagement wearableManagement;
-	private Settings settings; 
+	private Settings settings;
+	
+	public enum DetailsTab{DASHBOARD, PARTICIPANT, SENSOR, SURVEY, TASK, LABELING, WEARABLE, SETTING};
 
 	// private boolean isParticipantClicked = false, isSurveyClicked = false,
 	// isSensingClicked = false, isTaskClicked = false, isLabellingClicked =
@@ -56,7 +58,7 @@ public class StudyDetails extends Composite {
 	interface StudyDetailsUiBinder extends UiBinder<Widget, StudyDetails> {
 	}
 
-	public StudyDetails(Study study) {
+	public StudyDetails(Study study, DetailsTab tabIndex) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.study = study;
 
@@ -100,15 +102,15 @@ public class StudyDetails extends Composite {
 			}
 		});
 
-		phoneSensingTab = new TabListItem("Phone Sensor");
-		phoneSensingPane = new TabPane();
-		phoneSensingTab.setDataTargetWidget(phoneSensingPane);
-		phoneSensingTab.addClickHandler(new ClickHandler() {
+		sensingTab = new TabListItem("Phone Sensor");
+		sensingPane = new TabPane();
+		sensingTab.setDataTargetWidget(sensingPane);
+		sensingTab.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				phoneSensingPane.clear();
-				phoneSensingPane.add(sensorManagement);
+				sensingPane.clear();
+				sensingPane.add(sensorManagement);
 			}
 		});
 
@@ -176,8 +178,8 @@ public class StudyDetails extends Composite {
 		tabNavigation.add(participantTab);
 		tabContent.add(participantPane);
 		
-		tabNavigation.add(phoneSensingTab);
-		tabContent.add(phoneSensingPane);
+		tabNavigation.add(sensingTab);
+		tabContent.add(sensingPane);
 		
 		tabNavigation.add(surveyTab);
 		tabContent.add(surveyPane);
@@ -207,21 +209,50 @@ public class StudyDetails extends Composite {
 				Mcsweb.getEventBus().fireEvent(new StudyEvent(new StudyState(null, StudySpecificState.HOME)));
 			}
 		});
-
-	}
-	
-	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-		super.onLoad();
-		if (dashboardTab!=null && dashboardPane != null && dashboard != null) {
+		
+		if (tabIndex==DetailsTab.DASHBOARD && dashboardTab!=null && dashboardPane != null && dashboard != null) {
 			dashboardTab.setActive(true);
 			dashboardPane.setActive(true);
 			dashboardPane.clear();
-			dashboardPane.add(dashboard);
-			
+			dashboardPane.add(dashboard);			
+		}else if(tabIndex==DetailsTab.PARTICIPANT && participantTab!=null && participantPane!=null && participantManagement!=null){
+			participantTab.setActive(true);
+			participantPane.setActive(true);
+			participantPane.clear();
+			participantPane.add(participantManagement);
+		}else if(tabIndex==DetailsTab.SENSOR && sensingTab!=null && sensingPane!=null && sensorManagement!=null){
+			sensingTab.setActive(true);
+			sensingPane.setActive(true);
+			sensingPane.clear();
+			sensingPane.add(sensorManagement);
+		}else if(tabIndex==DetailsTab.SURVEY && surveyTab!=null && surveyPane!=null && surveyManagement!=null){
+			surveyTab.setActive(true);
+			surveyPane.setActive(true);
+			surveyPane.clear();
+			surveyPane.add(surveyManagement);
+		}else if(tabIndex==DetailsTab.LABELING && labelingTab!=null && labelingPane!=null && labelManagement!=null){
+			labelingTab.setActive(true);
+			labelingPane.setActive(true);
+			labelingPane.clear();
+			labelingPane.add(labelManagement);
+		}else if(tabIndex==DetailsTab.WEARABLE && labelingTab!=null && labelingPane!=null && labelManagement!=null){
+			labelingTab.setActive(true);
+			labelingPane.setActive(true);
+			labelingPane.clear();
+			labelingPane.add(labelManagement);
+		}else if(tabIndex==DetailsTab.SETTING && settingsTab!=null && settingsPane!=null && settings!=null){
+			settingsTab.setActive(true);
+			settingsPane.setActive(true);
+			settingsPane.clear();
+			settingsPane.add(settings);
+		}else{
+			dashboardTab.setActive(true);
+			dashboardPane.setActive(true);
+			dashboardPane.clear();
+			dashboardPane.add(dashboard);						
 		}
 
 	}
+
 
 }

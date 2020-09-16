@@ -18,5 +18,5 @@ public interface SensorServiceAsync {
 	void publishSensorConfiguration(SensorConfiguration sensorConfiguration, AsyncCallback<Response> callback);
 	void getSensorConfigList(long studyId, AsyncCallback<ArrayList<SensorSummary>> callback);
 	void getSensorActionList(long studyId, long sensorConfigId, AsyncCallback<ArrayList<SensorAction>> callback);
-		
+	void changeLifecycle(SensorSummary sensorSummary, AsyncCallback<Response> callback);
 }

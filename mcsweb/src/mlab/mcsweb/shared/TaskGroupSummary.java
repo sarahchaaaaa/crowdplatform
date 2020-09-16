@@ -30,17 +30,17 @@ public class TaskGroupSummary implements Serializable, IsSerializable{
 	private String endTime = "";
 	private String endTimeZone = "";
 	private String schedule = "";
+	private int lifecycle;
 	
 	public TaskGroupSummary() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
 	public TaskGroupSummary(long taskGroupId, long studyId, String name, String description, String createdBy,
 			String creationTime, String creationTimeZone, String modificationTime, String modificationTimeZone,
 			String publishTime, String publishTimeZone, int publishedVersion, int state, int responseCount,
-			String startTime, String startTimeZone, String endTime, String endTimeZone, String schedule) {
+			String startTime, String startTimeZone, String endTime, String endTimeZone, String schedule,
+			int lifecycle) {
 		super();
 		this.taskGroupId = taskGroupId;
 		this.studyId = studyId;
@@ -61,9 +61,8 @@ public class TaskGroupSummary implements Serializable, IsSerializable{
 		this.endTime = endTime;
 		this.endTimeZone = endTimeZone;
 		this.schedule = schedule;
+		this.lifecycle = lifecycle;
 	}
-
-
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -145,6 +144,10 @@ public class TaskGroupSummary implements Serializable, IsSerializable{
 		return schedule;
 	}
 
+	public int getLifecycle() {
+		return lifecycle;
+	}
+
 	public void setTaskGroupId(long taskGroupId) {
 		this.taskGroupId = taskGroupId;
 	}
@@ -221,5 +224,8 @@ public class TaskGroupSummary implements Serializable, IsSerializable{
 		this.schedule = schedule;
 	}
 
-	
+	public void setLifecycle(int lifecycle) {
+		this.lifecycle = lifecycle;
+	}
+
 }

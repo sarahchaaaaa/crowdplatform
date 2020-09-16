@@ -143,7 +143,7 @@ public class SurveyEditor extends Composite {
 		if(surveyTaskEditor!=null){
 			if(!surveyTaskEditor.isValidToPublish()){
 				taskEditorHeading.setSubText("Error in one of the component");
-				Window.alert("sub text "+ taskEditorHeading.getWidgetCount());
+//				Window.alert("sub text "+ taskEditorHeading.getWidgetCount());
 				taskEditorHeading.getWidget(1).getElement().getStyle().setColor("red");
 				atLeastOneError = true;
 			}

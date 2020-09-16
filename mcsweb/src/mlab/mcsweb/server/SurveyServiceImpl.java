@@ -49,7 +49,8 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 
 		try {
 			properties.load(inputStream);
-			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema") + "?serverTimezone=UTC";
+			dbUrl = properties.getProperty("db_host") + "/" + properties.getProperty("db_schema")
+					+ "?serverTimezone=UTC";
 			username = properties.getProperty("db_username");
 			password = properties.getProperty("db_password");
 			System.out.println("db prop, dburl:" + dbUrl + ", user:" + username + ", pass:" + password);
@@ -69,8 +70,6 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 		return null;
 	}
 
-	
-
 	// survey
 	private Response updateSurvey(SurveyConfiguration surveyConfig, int workingVersion) {
 		Response response = new Response();
@@ -86,7 +85,7 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 			if (survey.getId() > 0) {
 				query = "update mcs.survey_summary set name=?, description=?, modification_time=?, modification_time_zone=?, "
 						+ " publish_time=?, publish_time_zone=?, published_version=?, state=?, start_time=?, start_time_zone=?, end_time=?, end_time_zone=?, "
-						+ " schedule=? where id=? and study_id=?";
+						+ " schedule=?, lifecycle=? where id=? and study_id=?";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, survey.getName());
 				preparedStatement.setString(2, survey.getDescription());
@@ -101,16 +100,17 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 				preparedStatement.setString(11, survey.getEndTime());
 				preparedStatement.setString(12, survey.getEndTimeZone());
 				preparedStatement.setString(13, survey.getSchedule());
+				preparedStatement.setInt(14, survey.getLifecycle());
 
-				preparedStatement.setLong(14, survey.getId());
-				preparedStatement.setLong(15, survey.getStudyId());
+				preparedStatement.setLong(15, survey.getId());
+				preparedStatement.setLong(16, survey.getStudyId());
 
 				preparedStatement.execute();
 
 			} else {
 				query = "insert into mcs.survey_summary (study_id, name, description, created_by, creation_time, creation_time_zone,"
 						+ " modification_time, modification_time_zone, publish_time, publish_time_zone, published_version, state, start_time, start_time_zone,"
-						+ " end_time, end_time_zone, schedule) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " end_time, end_time_zone, schedule, lifecycle) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setLong(1, survey.getStudyId());
 				preparedStatement.setString(2, survey.getName());
@@ -129,6 +129,7 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 				preparedStatement.setString(15, survey.getEndTime());
 				preparedStatement.setString(16, survey.getEndTimeZone());
 				preparedStatement.setString(17, survey.getSchedule());
+				preparedStatement.setInt(18, survey.getLifecycle());
 
 				preparedStatement.execute();
 
@@ -152,8 +153,8 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 			}
 
 			if (taskList.size() > 0) {
-				query = "insert into mcs.survey_task (study_id, survey_id, version, task_id, task_text, type, possible_input, order_id)"
-						+ " values(?,?,?,?,?,?,?,?)";
+				query = "insert into mcs.survey_task (study_id, survey_id, version, task_id, task_text, type, possible_input, order_id, is_required, has_comment, has_url)"
+						+ " values(?,?,?,?,?,?,?,?,?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
 				for (int i = 0; i < taskList.size(); i++) {
 					System.out.println("insert a task " + i + ", task id:" + taskList.get(i).getTaskId() + ", type:"
@@ -166,17 +167,19 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 					preparedStatement.setString(6, taskList.get(i).getType());
 					preparedStatement.setString(7, taskList.get(i).getPossibleInput());
 					preparedStatement.setInt(8, taskList.get(i).getOrderId());
-
+					preparedStatement.setInt(9, taskList.get(i).getIsRequired());
+					preparedStatement.setInt(10, taskList.get(i).getHasComment());
+					preparedStatement.setInt(11, taskList.get(i).getHasUrl());
 					preparedStatement.execute();
 				}
 			}
-			
+
 			try {
 				query = "update mcs.study set modification_time = ? where id=?";
 				preparedStatement = connection.prepareStatement(query);
 				preparedStatement.setString(1, survey.getModificationTime());
-				preparedStatement.setString(2, survey.getStudyId()+"");
-				
+				preparedStatement.setString(2, survey.getStudyId() + "");
+
 				preparedStatement.execute();
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -199,7 +202,6 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 
 	}
 
-	
 	@Override
 	public Response saveSurveyConfiguration(SurveyConfiguration surveyConfig) {
 		int workingVersion = surveyConfig.getSurveySummary().getPublishedVersion() + 1;
@@ -213,8 +215,6 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 		System.out.println("working version :" + workingVersion);
 		return updateSurvey(surveyConfig, workingVersion);
 	}
-
-
 
 	// survey
 
@@ -247,6 +247,7 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 					String endTime = resultSet.getString("end_time");
 					String endTimeZone = resultSet.getString("end_time_zone");
 					String schedule = resultSet.getString("schedule");
+					int lifecycle = resultSet.getInt("lifecycle");
 
 					surveySummary.setId(id);
 					surveySummary.setStudyId(studyId);
@@ -264,15 +265,18 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 					surveySummary.setEndTime(endTime);
 					surveySummary.setEndTimeZone(endTimeZone);
 					surveySummary.setSchedule(schedule);
+					surveySummary.setLifecycle(lifecycle);
 
 					surveyList.add(surveySummary);
 				} catch (Exception e) {
 					// TODO: handle exception
+					e.printStackTrace();
 				}
 			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			System.out.println("Closing the connection.");
 			if (connection != null)
@@ -292,14 +296,16 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 		try {
 			System.out.println("study id:" + studyId + ", survey id:" + surveyId);
 			connection = connect();
-			
-			String query = "select max(version) as max_version from mcs.survey_task where study_id=" + studyId + " and survey_id=" + surveyId;
+
+			String query = "select max(version) as max_version from mcs.survey_task where study_id=" + studyId
+					+ " and survey_id=" + surveyId;
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			if(resultSet.next()){
-				System.out.println("current max version "+ resultSet.getString("max_version"));
-				int version  = resultSet.getInt("max_version");
-				query = "select * from mcs.survey_task where study_id=" + studyId + " and survey_id=" + surveyId +" and version="+ version +" order by task_id";
+			if (resultSet.next()) {
+				System.out.println("current max version " + resultSet.getString("max_version"));
+				int version = resultSet.getInt("max_version");
+				query = "select * from mcs.survey_task where study_id=" + studyId + " and survey_id=" + surveyId
+						+ " and version=" + version + " order by task_id";
 				preparedStatement = connection.prepareStatement(query);
 				resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
@@ -324,6 +330,15 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 						int orderId = resultSet.getInt("order_id");
 						task.setOrderId(orderId);
 
+						int isRequired = resultSet.getInt("is_required");
+						task.setIsRequired(isRequired);
+
+						int hasComment = resultSet.getInt("has_comment");
+						task.setHasComment(hasComment);
+
+						int hasUrl = resultSet.getInt("has_url");
+						task.setHasUrl(hasUrl);
+
 						taskList.add(task);
 
 					} catch (Exception e) {
@@ -346,14 +361,63 @@ public class SurveyServiceImpl extends RemoteServiceServlet implements SurveySer
 		return taskList;
 	}
 
-//	@Override
-//	public ArrayList<TaskGroupSummary> getTaskGroupList(long studyId) {
-//		String url = serverRoot + "/taskgroup/list/" + studyId;
-//		String response = genericGetMethod(url);
-//		ArrayList<TaskGroupSummary> taskGroupList = new Gson().fromJson(response,
-//				new TypeToken<ArrayList<TaskGroupSummary>>() {
-//				}.getType());
-//		return taskGroupList;
-//	}
+	@Override
+	public Response changeLifecycle(SurveySummary survey) {
+		Response response = new Response();
+		Connection connection = null;
+		try {
+
+			connection = connect();
+			PreparedStatement preparedStatement = null;
+
+			String query = "update mcs.survey_summary set modification_time=?, modification_time_zone=?, lifecycle=? where id=? and study_id=?";
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, survey.getModificationTime());
+			preparedStatement.setString(2, survey.getModificationTimeZone());
+			preparedStatement.setInt(3, survey.getLifecycle());
+
+			preparedStatement.setLong(4, survey.getId());
+			preparedStatement.setLong(5, survey.getStudyId());
+
+//			System.out.println("statement:" + preparedStatement + ", mod time" + survey.getModificationTime() + ", zone:" + survey.getModificationTimeZone()
+//			+ ", lifecycle:" + survey.getLifecycle() + ", id:"+ survey.getId() + ", study id:" + survey.getStudyId());
+			preparedStatement.execute();
+
+			try {
+				query = "update mcs.study set modification_time = ? where id=?";
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, survey.getModificationTime());
+				preparedStatement.setString(2, survey.getStudyId() + "");
+
+				preparedStatement.execute();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			response.setCode(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			System.out.println("Closing the connection.");
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+		}
+
+		return response;
+	}
+
+	// @Override
+	// public ArrayList<TaskGroupSummary> getTaskGroupList(long studyId) {
+	// String url = serverRoot + "/taskgroup/list/" + studyId;
+	// String response = genericGetMethod(url);
+	// ArrayList<TaskGroupSummary> taskGroupList = new Gson().fromJson(response,
+	// new TypeToken<ArrayList<TaskGroupSummary>>() {
+	// }.getType());
+	// return taskGroupList;
+	// }
 
 }

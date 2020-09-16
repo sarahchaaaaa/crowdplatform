@@ -54,6 +54,12 @@ public class DeviceService {
 			
 			preparedStatement.execute();
 			response.setCode(0);
+			
+			try {
+				resetNotificationProfile(email, uuid);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -67,6 +73,40 @@ public class DeviceService {
 		}
 		return response;
 
+	}
+	
+	private  void resetNotificationProfile(String email, String uuid){
+		Connection connection = null;
+		try {
+			connection = Util.connectToDatabase();
+			String query = "";
+			//device defined identifier
+			if(uuid.length()>30){
+				query = "update mcs.auto_notification_profile set current_count=0, total_count=0, last_push_time='', admin_notified=0"
+						+ " where user_email=?";
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, email);
+			}else{
+				query = "update mcs.auto_notification_profile set current_count=0, total_count=0, last_push_time='', admin_notified=0"
+						+ " where user_email=? and device_uuid=?";
+				preparedStatement = connection.prepareStatement(query);
+				preparedStatement.setString(1, email);
+				preparedStatement.setString(2, uuid);
+	
+			}
+			
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (SQLException ignore) {
+				}
+
+		}
 	}
 
 	

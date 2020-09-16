@@ -24,12 +24,15 @@
 			<b:Button ui:field="dragObject"></b:Button>
 			<b:Row>
 				<b:Column size="MD_9">
-					<b:TextBox placeholder="Type your question" size="LARGE" ui:field="questionBox"></b:TextBox> 
+					<b:TextArea placeholder="Type your question" size="LARGE" ui:field="questionBox"></b:TextArea> 
 				</b:Column>
 				<b:Column size="MD_3">
 					<ex:Select title="Select One...." ui:field="optionSelect">
 						<ex:OptGroup>
-							<ex:Option text="Text Answer" value="text"></ex:Option>
+							<ex:Option text="Text Box" value="text"></ex:Option>
+						</ex:OptGroup>
+						<ex:OptGroup>
+							<ex:Option text="Text Area" value="textarea"></ex:Option>
 						</ex:OptGroup>
 						<ex:OptGroup>
 							<ex:Option text="Multiple Choice" value="choice"></ex:Option>
@@ -55,7 +58,7 @@
 					<b:Button  pull="RIGHT" size="SMALL" ui:field="dropButton" type="DANGER">Drop</b:Button>
 				</b:Column>
 				<b:Column size="MD_2">
-					<b:CheckBox text="Required"></b:CheckBox>
+					<b:CheckBox text="Required" ui:field="requiredCheckbox"></b:CheckBox>
 				</b:Column>
 				
 			</b:Row>

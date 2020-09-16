@@ -97,24 +97,10 @@ class labelingOverview extends BaseOverview{
 		}
 		String description = "Saved at  "+ lastSaveTime;
 	
-		super.setOverviewPanel(name, description);
-		addClickAction();
+		setOverviewPanel(name, description);
 		
 	}
 	
-	@Override
-	void addClickAction() {
-		// TODO Auto-generated method stub
-		HTMLPanel htmlPanel = super.getOverviewPanel();
-		htmlPanel.addDomHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				Mcsweb.getEventBus().fireEvent(new LabelEvent(new LabelState(labelingSummary, LabelSpecificState.NEW)));
-			}
-		}, ClickEvent.getType());
-
-	}
 
 }
 

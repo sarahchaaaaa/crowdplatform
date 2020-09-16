@@ -30,15 +30,17 @@ public class LabelingSummary implements Serializable, IsSerializable{
 	private String endTime = "";
 	private String endTimeZone = "";
 	private String schedule = "";
+	private int lifecycle;
 	
 	public LabelingSummary() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LabelingSummary(long id, long studyId, String name, String description, String createdBy, String creationTime,
-			String creationTimeZone, String modificationTime, String modificationTimeZone, String publishTime,
-			String publishTimeZone, int publishedVersion, int state, int responseCount, String startTime,
-			String startTimeZone, String endTime, String endTimeZone, String schedule) {
+	public LabelingSummary(long id, long studyId, String name, String description, String createdBy,
+			String creationTime, String creationTimeZone, String modificationTime, String modificationTimeZone,
+			String publishTime, String publishTimeZone, int publishedVersion, int state, int responseCount,
+			String startTime, String startTimeZone, String endTime, String endTimeZone, String schedule,
+			int lifecycle) {
 		super();
 		this.id = id;
 		this.studyId = studyId;
@@ -59,6 +61,7 @@ public class LabelingSummary implements Serializable, IsSerializable{
 		this.endTime = endTime;
 		this.endTimeZone = endTimeZone;
 		this.schedule = schedule;
+		this.lifecycle = lifecycle;
 	}
 
 	public static long getSerialversionuid() {
@@ -141,6 +144,10 @@ public class LabelingSummary implements Serializable, IsSerializable{
 		return schedule;
 	}
 
+	public int getLifecycle() {
+		return lifecycle;
+	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -217,5 +224,7 @@ public class LabelingSummary implements Serializable, IsSerializable{
 		this.schedule = schedule;
 	}
 
-	
+	public void setLifecycle(int lifecycle) {
+		this.lifecycle = lifecycle;
+	}
 }

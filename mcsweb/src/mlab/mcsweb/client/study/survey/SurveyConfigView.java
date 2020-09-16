@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -205,8 +204,8 @@ public class SurveyConfigView extends Composite {
 			}
 			JsDate jsStartDate = JsDate.create(startDatePicker.getValue().toString());
 			JsDate jsEndDate = JsDate.create(endDatePicker.getValue().toString());
-			Window.alert("start date: " + startDatePicker.getValue().getTime() + ", js: " + jsStartDate.getTime()
-					+ ", offset:" + jsStartDate.getTimezoneOffset());
+//			Window.alert("start date: " + startDatePicker.getValue().getTime() + ", js: " + jsStartDate.getTime()
+//					+ ", offset:" + jsStartDate.getTimezoneOffset());
 		}
 
 		errorLabel.setText("");
