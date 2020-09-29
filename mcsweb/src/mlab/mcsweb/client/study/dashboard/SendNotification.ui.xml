@@ -12,11 +12,44 @@
 		<h:Br></h:Br>
 		<b:Panel type="SUCCESS">
 			<b:PanelHeader>
-				<b:Heading size="H3" text="List of Participants" />
+				<b:Heading size="H3" text="Select Participants" />
 			</b:PanelHeader>
 			<b:PanelBody>
 				<g:HTMLPanel ui:field="listPanel">
-					<b:Button ui:field="testButton">Test Service</b:Button>
+					<b:Row>
+						<b:Column size="MD_3">
+							<b:Button text="Select All" ui:field="buttonSelect"></b:Button>
+						</b:Column>
+						<b:Column size="MD_3">
+							<b:Button text="Deselect All" ui:field="buttonDeselect"></b:Button>
+						</b:Column>
+					</b:Row>
+					<b:Row>
+						<b:Column size="MD_6">
+							<b:TextBox placeholder="Title (40 Char Max)" ui:field="textTitle"></b:TextBox>
+						</b:Column>
+						<b:Column size="MD_6">
+							<g:Label ui:field="errorLabel"></g:Label>
+						</b:Column>
+					</b:Row>
+					<b:Row>
+						<b:Column size="MD_6">
+							<b:TextBox placeholder="Message (160 Char Max)" ui:field="textNotif"></b:TextBox>
+						</b:Column>
+					</b:Row>
+					<b:Row>
+						<b:Column size="MD_3">
+							<b:Button text="Submit" ui:field="buttonSubmit"></b:Button>
+						</b:Column>
+						<b:Column size="MD_3">
+							<b:Button text="Cancel" ui:field="buttonCancel"></b:Button>
+						</b:Column>
+						<b:Column size="MD_3">
+							<b:Button ui:field="testButton">Test Service</b:Button>
+						</b:Column>
+					</b:Row>
+<!-- 					<b:Button ui:field="submitButton">Submit</b:Button>
+					<b:Button ui:field="testButton">Test Service</b:Button> -->
 				</g:HTMLPanel>
 			</b:PanelBody>
 		</b:Panel>

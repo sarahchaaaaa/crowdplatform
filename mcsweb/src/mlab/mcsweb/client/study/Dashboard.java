@@ -82,7 +82,7 @@ public class Dashboard extends Composite {
 		sendCommandLink.setActive(false);
 		contentPanel.clear();
 		if (sendNotification == null) {
-			sendNotification = new SendNotification();
+			sendNotification = new SendNotification(this.study.getId()); // TODO: changed here
 		}
 		contentPanel.add(sendNotification);
 	}

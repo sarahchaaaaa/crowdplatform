@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 1978223C42962C0712E93B454ADC8E7A.cache.js
 user.agent safari
 
@@ -13,4 +14,21 @@ user.agent gecko1_8
 C5C2169102CC8733A280891ACCAC7C29.cache.js
 user.agent ie9
 
+=======
+22C191B33DD725DE86A82ED128045C30.cache.js
+user.agent ie10
+
+2BE301761B1E9623AF9E420B330D94BD.cache.js
+user.agent ie9
+
+6471C52D0238FE4700D37F5E0B399142.cache.js
+user.agent safari
+
+B9A29A06AF4E32072405F5A12EBA5AA8.cache.js
+user.agent gecko1_8
+
+BD83C570CE1EED42E972C4228D45D9E2.cache.js
+user.agent ie8
+
+>>>>>>> Stashed changes
 Devmode:devmode.js
